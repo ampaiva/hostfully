@@ -21,22 +21,17 @@ public class HostfullyIntegrationTest {
 
     public static final String API_GUEST = "/api/guest/";
     public static final String API_PROPERTY = "/api/property/";
+    public static final String API_BOOKING = "/api/booking";
     @LocalServerPort
     int randomServerPort;
 
     @Value("${server.servlet.context-path}")
     String contextPath;
 
-    int propertyId;
-
-    int guestId;
-
     @BeforeEach
     public void setUp() {
         RestAssured.port = randomServerPort;
         RestAssured.basePath = contextPath;
-        propertyId = getPropertyId();
-        guestId = getGuestId();
     }
 
 
@@ -88,6 +83,7 @@ public class HostfullyIntegrationTest {
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("city", equalTo("Miami"));
+
         // Patch
         given()
                 .contentType(ContentType.JSON)
@@ -97,6 +93,7 @@ public class HostfullyIntegrationTest {
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("country", equalTo("France"));
+
         // Delete
         given()
                 .contentType(ContentType.JSON)
@@ -105,8 +102,8 @@ public class HostfullyIntegrationTest {
                 .delete(API_PROPERTY + propertyId)
                 .then()
                 .statusCode(HttpStatus.OK.value());
-        // Retrieve Failed
 
+        // Retrieve Failed
         given()
                 .contentType(ContentType.JSON)
                 .when()
@@ -118,49 +115,51 @@ public class HostfullyIntegrationTest {
     @Test
     public void testCRUDGuest() {
         // Create
-        int guestId1 = getGuestId();
+        int guestId = getGuestId();
 
         // Retrieve
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get(API_GUEST + guestId1)
+                .get(API_GUEST + guestId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
-                .body("id", equalTo(guestId1));
+                .body("id", equalTo(guestId));
 
         // Update
         given()
                 .contentType(ContentType.JSON)
                 .body("{ \"city\": \"Miami\"}")
                 .when()
-                .put(API_GUEST + guestId1)
+                .put(API_GUEST + guestId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("city", equalTo("Miami"));
+
         // Patch
         given()
                 .contentType(ContentType.JSON)
                 .body("{ \"country\": \"France\"}")
                 .when()
-                .patch(API_GUEST + guestId1)
+                .patch(API_GUEST + guestId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("country", equalTo("France"));
+
         // Delete
         given()
                 .contentType(ContentType.JSON)
                 .body("{ \"country\": \"France\"}")
                 .when()
-                .delete(API_GUEST + guestId1)
+                .delete(API_GUEST + guestId)
                 .then()
                 .statusCode(HttpStatus.OK.value());
-        // Retrieve Failed
 
+        // Retrieve Failed
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get(API_GUEST + guestId1)
+                .get(API_GUEST + guestId)
                 .then()
                 .statusCode(HttpStatus.NOT_FOUND.value());
     }
@@ -168,15 +167,19 @@ public class HostfullyIntegrationTest {
     @Test
     public void testCreateBooking() {
 
+        int propertyId = getPropertyId();
+
+        int guestId = getGuestId();
+
+        // Create
         int bookingId = given()
                 .contentType(ContentType.JSON)
-                .body("{ \"start\": \"2024-01-11\", \"end\": \"2024-01-12\", \"guest\": { \"id\": 1 }, \"property\": { \"id\": 1 } }")
+                .body("{ \"start\": \"2024-01-11\", \"end\": \"2024-01-12\", \"guest\": { \"id\": " + guestId + " }, \"property\": { \"id\": "+ propertyId + " } }")
                 .when()
-                .post("/api/booking")
+                .post(API_BOOKING)
                 .then()
                 .statusCode(201)
                 .extract()
                 .path("id");
-
     }
 }
