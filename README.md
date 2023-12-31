@@ -21,7 +21,14 @@ cd hostfully
 ./gradlew bootRun
 ```
 
-## REST API Documentation
+## Running the tests
+
+```
+./gradlew test
+```
+
+
+## REST API
 
 The REST API allow users to:
 - Create a booking
