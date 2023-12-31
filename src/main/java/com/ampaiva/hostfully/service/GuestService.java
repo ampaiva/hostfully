@@ -10,10 +10,6 @@ import java.util.Map;
 public class GuestService extends BaseService<Guest> {
 
     public GuestService(GuestRepository entityRepository) {
-        super(entityRepository);
-    }
-
-    protected Guest applyPatch(Guest Guest, Map<String, Object> updates) {
-        return Guest;
+        super(Guest.class, entityRepository);
     }
 }

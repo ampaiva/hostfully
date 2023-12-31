@@ -25,7 +25,7 @@ public class BookingService extends BaseService<Booking> {
     private final BlockRepository blockRepository;
 
     public BookingService(BookingRepository bookingRepository, PropertyRepository propertyRepository, GuestRepository guestRepository, BlockRepository blockRepository) {
-        super(bookingRepository);
+        super(Booking.class, bookingRepository);
         this.bookingRepository = bookingRepository;
         this.propertyRepository = propertyRepository;
         this.guestRepository = guestRepository;
@@ -54,18 +54,5 @@ public class BookingService extends BaseService<Booking> {
         List<Block> bookings = blockRepository.findBlocksBy(property, booking.getStart(), booking.getEnd());
         if (!bookings.isEmpty())
             throw new ConflictException("There are blocks for this property between " + booking.getStart() + " and " + booking.getEnd());
-    }
-
-    protected Booking applyPatch(Booking booking, Map<String, Object> updates) {
-        if (updates.containsKey("start")) {
-            booking.setStart(LocalDate.parse((String) updates.get("start")));
-        }
-        if (updates.containsKey("end")) {
-            booking.setEnd(LocalDate.parse((String) updates.get("end")));
-        }
-        if (updates.containsKey("canceled")) {
-            booking.setCanceled((Boolean) updates.get("canceled"));
-        }
-        return booking;
     }
 }

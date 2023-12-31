@@ -9,8 +9,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.transaction.annotation.Transactional;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
@@ -36,8 +36,59 @@ public class HostfullyIntegrationTest {
         propertyId = getPropertyId();
         guestId = getGuestId();
     }
+
     @Test
-    public void testGetRequest() {
+    public void testCRUDProperty() {
+        // Create
+        int propertyId = getPropertyId();
+
+        // Retrieve
+        given()
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/property/" + propertyId)
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("id", equalTo(propertyId));
+
+        // Update
+        given()
+                .contentType(ContentType.JSON)
+                .body("{ \"city\": \"Miami\"}")
+                .when()
+                .put("/api/property/" + propertyId)
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("city", equalTo("Miami"));
+        // Patch
+        given()
+                .contentType(ContentType.JSON)
+                .body("{ \"country\": \"France\"}")
+                .when()
+                .patch("/api/property/" + propertyId)
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("country", equalTo("France"));
+        // Delete
+        given()
+                .contentType(ContentType.JSON)
+                .body("{ \"country\": \"France\"}")
+                .when()
+                .delete("/api/property/" + propertyId)
+                .then()
+                .statusCode(HttpStatus.OK.value());
+        // Retrieve Failed
+
+        given()
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/property/" + propertyId)
+                .then()
+                .statusCode(HttpStatus.NOT_FOUND.value());
+    }
+
+    @Test
+    public void testCreateBooking() {
 
         int bookingId = given()
                 .contentType(ContentType.JSON)

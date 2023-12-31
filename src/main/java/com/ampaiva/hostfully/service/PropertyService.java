@@ -10,10 +10,6 @@ import java.util.Map;
 public class PropertyService extends BaseService<Property> {
 
     public PropertyService(PropertyRepository entityRepository) {
-        super(entityRepository);
-    }
-
-    protected Property applyPatch(Property Property, Map<String, Object> updates) {
-        return Property;
+        super(Property.class, entityRepository);
     }
 }
