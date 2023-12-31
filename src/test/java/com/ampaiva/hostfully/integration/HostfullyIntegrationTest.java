@@ -234,13 +234,23 @@ public class HostfullyIntegrationTest {
         // Create
         int bookingId = given()
                 .contentType(ContentType.JSON)
-                .body("{ \"start\": \"2024-01-11\", \"end\": \"2024-01-12\", \"guest\": { \"id\": " + guestId + " }, \"property\": { \"id\": " + propertyId + " } }")
+                .body("{ \"start\": \"2024-01-11\", \"end\": \"2024-01-19\", \"guest\": { \"id\": " + guestId + " }, \"property\": { \"id\": " + propertyId + " } }")
                 .when()
                 .post(API_BOOKING)
                 .then()
                 .statusCode(HttpStatus.CREATED.value())
                 .extract()
                 .path("id");
+
+        // Conflict if there is a booking conflicting with the dates
+        given()
+                .contentType(ContentType.JSON)
+                .body("{ \"start\": \"2024-01-12\", \"end\": \"2024-01-14\", \"guest\": { \"id\": " + guestId + " }, \"property\": { \"id\": " + propertyId + " } }")
+                .when()
+                .post(API_BOOKING)
+                .then()
+                .statusCode(HttpStatus.CONFLICT.value());
+
         // Retrieve
         given()
                 .contentType(ContentType.JSON)
