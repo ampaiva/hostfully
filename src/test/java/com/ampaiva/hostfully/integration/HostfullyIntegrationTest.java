@@ -39,6 +39,32 @@ public class HostfullyIntegrationTest {
         guestId = getGuestId();
     }
 
+
+    private static int getGuestId() {
+        return given()
+                .contentType(ContentType.JSON)
+                .body("{ \"name\": \"Mrs. Lydia Cassin\", \"email\": \"Kaylah.Mueller92@raegan.name\", \"phone\": \"961-258-9402\", \"address\": \"Copacabana Beach, 1000\", \"city\": \"Rio de Janeiro\", \"state\": \"RJ\", \"country\": \"Brazil\" }")
+                .when()
+                .post("/api/guest")
+                .then()
+                .statusCode(201)
+                .extract()
+                .path("id");
+    }
+
+    private static int getPropertyId() {
+        return given()
+                .contentType(ContentType.JSON)
+                .body("{ \"address\": \"Disney Road, 2024\", \"city\": \"Orlando\", \"state\": \"FL\", \"country\": \"USA\" }")
+                .when()
+                .post("/api/property")
+                .then()
+                .statusCode(201)
+                .extract()
+                .path("id");
+    }
+
+
     @Test
     public void testCRUDProperty() {
         // Create
@@ -153,32 +179,4 @@ public class HostfullyIntegrationTest {
                 .path("id");
 
     }
-
-    private static int getGuestId() {
-        int guestId = given()
-                .contentType(ContentType.JSON)
-                .body("{ \"name\": \"Mrs. Lydia Cassin\", \"email\": \"Kaylah.Mueller92@raegan.name\", \"phone\": \"961-258-9402\", \"address\": \"Copacabana Beach, 1000\", \"city\": \"Rio de Janeiro\", \"state\": \"RJ\", \"country\": \"Brazil\" }")
-                .when()
-                .post("/api/guest")
-                .then()
-                .statusCode(201)
-                .extract()
-                .path("id");
-        return guestId;
-    }
-
-    private static int getPropertyId() {
-        int propertyId = given()
-                .contentType(ContentType.JSON)
-                .body("{ \"address\": \"Disney Road, 2024\", \"city\": \"Orlando\", \"state\": \"FL\", \"country\": \"USA\" }")
-                .when()
-                .post("/api/property")
-                .then()
-                .statusCode(201)
-                .extract()
-                .path("id");
-        return propertyId;
-    }
-
-
 }
