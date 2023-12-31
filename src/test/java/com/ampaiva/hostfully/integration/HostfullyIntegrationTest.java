@@ -19,6 +19,8 @@ import static org.hamcrest.Matchers.equalTo;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class HostfullyIntegrationTest {
 
+    public static final String API_GUEST = "/api/guest/";
+    public static final String API_PROPERTY = "/api/property/";
     @LocalServerPort
     int randomServerPort;
 
@@ -46,7 +48,7 @@ public class HostfullyIntegrationTest {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/property/" + propertyId)
+                .get(API_PROPERTY + propertyId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("id", equalTo(propertyId));
@@ -56,7 +58,7 @@ public class HostfullyIntegrationTest {
                 .contentType(ContentType.JSON)
                 .body("{ \"city\": \"Miami\"}")
                 .when()
-                .put("/api/property/" + propertyId)
+                .put(API_PROPERTY + propertyId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("city", equalTo("Miami"));
@@ -65,7 +67,7 @@ public class HostfullyIntegrationTest {
                 .contentType(ContentType.JSON)
                 .body("{ \"country\": \"France\"}")
                 .when()
-                .patch("/api/property/" + propertyId)
+                .patch(API_PROPERTY + propertyId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("country", equalTo("France"));
@@ -74,7 +76,7 @@ public class HostfullyIntegrationTest {
                 .contentType(ContentType.JSON)
                 .body("{ \"country\": \"France\"}")
                 .when()
-                .delete("/api/property/" + propertyId)
+                .delete(API_PROPERTY + propertyId)
                 .then()
                 .statusCode(HttpStatus.OK.value());
         // Retrieve Failed
@@ -82,7 +84,57 @@ public class HostfullyIntegrationTest {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/property/" + propertyId)
+                .get(API_PROPERTY + propertyId)
+                .then()
+                .statusCode(HttpStatus.NOT_FOUND.value());
+    }
+
+    @Test
+    public void testCRUDGuest() {
+        // Create
+        int guestId1 = getGuestId();
+
+        // Retrieve
+        given()
+                .contentType(ContentType.JSON)
+                .when()
+                .get(API_GUEST + guestId1)
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("id", equalTo(guestId1));
+
+        // Update
+        given()
+                .contentType(ContentType.JSON)
+                .body("{ \"city\": \"Miami\"}")
+                .when()
+                .put(API_GUEST + guestId1)
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("city", equalTo("Miami"));
+        // Patch
+        given()
+                .contentType(ContentType.JSON)
+                .body("{ \"country\": \"France\"}")
+                .when()
+                .patch(API_GUEST + guestId1)
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("country", equalTo("France"));
+        // Delete
+        given()
+                .contentType(ContentType.JSON)
+                .body("{ \"country\": \"France\"}")
+                .when()
+                .delete(API_GUEST + guestId1)
+                .then()
+                .statusCode(HttpStatus.OK.value());
+        // Retrieve Failed
+
+        given()
+                .contentType(ContentType.JSON)
+                .when()
+                .get(API_GUEST + guestId1)
                 .then()
                 .statusCode(HttpStatus.NOT_FOUND.value());
     }
