@@ -203,7 +203,7 @@ public class HostfullyIntegrationTest {
                 .contentType(ContentType.JSON)
                 .body("{ \"start\": \"2024-01-12\"}")
                 .when()
-                .patch(API_BLOCK + blockId)
+                .patch(API_BLOCK + "/" +  blockId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("start", equalTo("2024-01-12"));
@@ -211,9 +211,8 @@ public class HostfullyIntegrationTest {
         // Delete
         given()
                 .contentType(ContentType.JSON)
-                .body("{ \"country\": \"France\"}")
                 .when()
-                .delete(API_BLOCK + blockId)
+                .delete(API_BLOCK + "/" +  blockId)
                 .then()
                 .statusCode(HttpStatus.OK.value());
 
@@ -221,7 +220,7 @@ public class HostfullyIntegrationTest {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get(API_BLOCK + blockId)
+                .get(API_BLOCK + "/" +  blockId)
                 .then()
                 .statusCode(HttpStatus.NOT_FOUND.value());
     }
