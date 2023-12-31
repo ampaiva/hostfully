@@ -19,8 +19,9 @@ import static org.hamcrest.Matchers.equalTo;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class HostfullyIntegrationTest {
 
-    public static final String API_GUEST = "/api/guest/";
-    public static final String API_PROPERTY = "/api/property/";
+    public static final String API_GUEST = "/api/guest";
+    public static final String API_PROPERTY = "/api/property";
+    public static final String API_BLOCK = "/api/block";
     public static final String API_BOOKING = "/api/booking";
     @LocalServerPort
     int randomServerPort;
@@ -40,9 +41,9 @@ public class HostfullyIntegrationTest {
                 .contentType(ContentType.JSON)
                 .body("{ \"name\": \"Mrs. Lydia Cassin\", \"email\": \"Kaylah.Mueller92@raegan.name\", \"phone\": \"961-258-9402\", \"address\": \"Copacabana Beach, 1000\", \"city\": \"Rio de Janeiro\", \"state\": \"RJ\", \"country\": \"Brazil\" }")
                 .when()
-                .post("/api/guest")
+                .post(API_GUEST)
                 .then()
-                .statusCode(201)
+                .statusCode(HttpStatus.CREATED.value())
                 .extract()
                 .path("id");
     }
@@ -52,9 +53,9 @@ public class HostfullyIntegrationTest {
                 .contentType(ContentType.JSON)
                 .body("{ \"address\": \"Disney Road, 2024\", \"city\": \"Orlando\", \"state\": \"FL\", \"country\": \"USA\" }")
                 .when()
-                .post("/api/property")
+                .post(API_PROPERTY)
                 .then()
-                .statusCode(201)
+                .statusCode(HttpStatus.CREATED.value())
                 .extract()
                 .path("id");
     }
@@ -69,7 +70,7 @@ public class HostfullyIntegrationTest {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get(API_PROPERTY + propertyId)
+                .get(API_PROPERTY + "/" +  propertyId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("id", equalTo(propertyId));
@@ -79,7 +80,7 @@ public class HostfullyIntegrationTest {
                 .contentType(ContentType.JSON)
                 .body("{ \"city\": \"Miami\"}")
                 .when()
-                .put(API_PROPERTY + propertyId)
+                .put(API_PROPERTY + "/" +  propertyId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("city", equalTo("Miami"));
@@ -89,7 +90,7 @@ public class HostfullyIntegrationTest {
                 .contentType(ContentType.JSON)
                 .body("{ \"country\": \"France\"}")
                 .when()
-                .patch(API_PROPERTY + propertyId)
+                .patch(API_PROPERTY + "/" +  propertyId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("country", equalTo("France"));
@@ -97,9 +98,8 @@ public class HostfullyIntegrationTest {
         // Delete
         given()
                 .contentType(ContentType.JSON)
-                .body("{ \"country\": \"France\"}")
                 .when()
-                .delete(API_PROPERTY + propertyId)
+                .delete(API_PROPERTY + "/" +  propertyId)
                 .then()
                 .statusCode(HttpStatus.OK.value());
 
@@ -107,10 +107,11 @@ public class HostfullyIntegrationTest {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get(API_PROPERTY + propertyId)
+                .get(API_PROPERTY + "/" +  propertyId)
                 .then()
                 .statusCode(HttpStatus.NOT_FOUND.value());
     }
+
 
     @Test
     public void testCRUDGuest() {
@@ -121,7 +122,7 @@ public class HostfullyIntegrationTest {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get(API_GUEST + guestId)
+                .get(API_GUEST + "/" +  guestId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("id", equalTo(guestId));
@@ -131,7 +132,7 @@ public class HostfullyIntegrationTest {
                 .contentType(ContentType.JSON)
                 .body("{ \"city\": \"Miami\"}")
                 .when()
-                .put(API_GUEST + guestId)
+                .put(API_GUEST + "/" +  guestId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("city", equalTo("Miami"));
@@ -141,7 +142,7 @@ public class HostfullyIntegrationTest {
                 .contentType(ContentType.JSON)
                 .body("{ \"country\": \"France\"}")
                 .when()
-                .patch(API_GUEST + guestId)
+                .patch(API_GUEST + "/" +  guestId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("country", equalTo("France"));
@@ -149,9 +150,8 @@ public class HostfullyIntegrationTest {
         // Delete
         given()
                 .contentType(ContentType.JSON)
-                .body("{ \"country\": \"France\"}")
                 .when()
-                .delete(API_GUEST + guestId)
+                .delete(API_GUEST + "/" +  guestId)
                 .then()
                 .statusCode(HttpStatus.OK.value());
 
@@ -159,11 +159,72 @@ public class HostfullyIntegrationTest {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get(API_GUEST + guestId)
+                .get(API_GUEST + "/" +  guestId)
                 .then()
                 .statusCode(HttpStatus.NOT_FOUND.value());
     }
 
+    @Test
+    public void testCRUDBlock() {
+        int propertyId = getPropertyId();
+
+        // Create
+        int blockId = given()
+                .contentType(ContentType.JSON)
+                .body("{ \"start\": \"2024-01-13\", \"end\": \"2024-01-20\", \"property\": { \"id\": " + propertyId + " } }")
+                .when()
+                .post(API_BLOCK)
+                .then()
+                .statusCode(HttpStatus.CREATED.value())
+                .extract()
+                .path("id");
+
+        // Retrieve
+        given()
+                .contentType(ContentType.JSON)
+                .when()
+                .get(API_BLOCK + "/" + blockId)
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("id", equalTo(blockId));
+
+        // Update
+        given()
+                .contentType(ContentType.JSON)
+                .body("{ \"end\": \"2024-01-19\"}")
+                .when()
+                .put(API_BLOCK + "/" +  blockId)
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("end", equalTo("2024-01-19"));
+
+        // Patch
+        given()
+                .contentType(ContentType.JSON)
+                .body("{ \"start\": \"2024-01-12\"}")
+                .when()
+                .patch(API_BLOCK + blockId)
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("start", equalTo("2024-01-12"));
+
+        // Delete
+        given()
+                .contentType(ContentType.JSON)
+                .body("{ \"country\": \"France\"}")
+                .when()
+                .delete(API_BLOCK + blockId)
+                .then()
+                .statusCode(HttpStatus.OK.value());
+
+        // Retrieve Failed
+        given()
+                .contentType(ContentType.JSON)
+                .when()
+                .get(API_BLOCK + blockId)
+                .then()
+                .statusCode(HttpStatus.NOT_FOUND.value());
+    }
     @Test
     public void testCreateBooking() {
 
@@ -174,12 +235,56 @@ public class HostfullyIntegrationTest {
         // Create
         int bookingId = given()
                 .contentType(ContentType.JSON)
-                .body("{ \"start\": \"2024-01-11\", \"end\": \"2024-01-12\", \"guest\": { \"id\": " + guestId + " }, \"property\": { \"id\": "+ propertyId + " } }")
+                .body("{ \"start\": \"2024-01-11\", \"end\": \"2024-01-12\", \"guest\": { \"id\": " + guestId + " }, \"property\": { \"id\": " + propertyId + " } }")
                 .when()
                 .post(API_BOOKING)
                 .then()
-                .statusCode(201)
+                .statusCode(HttpStatus.CREATED.value())
                 .extract()
                 .path("id");
+        // Retrieve
+        given()
+                .contentType(ContentType.JSON)
+                .when()
+                .get(API_BOOKING + "/" +  bookingId)
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("id", equalTo(bookingId));
+
+        // Update
+        given()
+                .contentType(ContentType.JSON)
+                .body("{ \"end\": \"2024-01-13\"}")
+                .when()
+                .put(API_BOOKING + "/" +  bookingId)
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("end", equalTo("2024-01-13"));
+
+        // Patch
+        given()
+                .contentType(ContentType.JSON)
+                .body("{ \"start\": \"2024-01-09\"}")
+                .when()
+                .patch(API_BOOKING + "/" +  bookingId)
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("start", equalTo("2024-01-09"));
+
+        // Delete
+        given()
+                .contentType(ContentType.JSON)
+                .when()
+                .delete(API_BOOKING + "/" +  bookingId)
+                .then()
+                .statusCode(HttpStatus.OK.value());
+
+        // Retrieve Failed
+        given()
+                .contentType(ContentType.JSON)
+                .when()
+                .get(API_BOOKING + "/" +  bookingId)
+                .then()
+                .statusCode(HttpStatus.NOT_FOUND.value());
     }
 }

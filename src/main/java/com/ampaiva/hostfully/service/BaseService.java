@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Field;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,12 +84,20 @@ public abstract class BaseService<T> {
 
                 field.setAccessible(true);
 
+                fieldValue = getConvertedValue(field, fieldValue);
+
                 field.set(entity, fieldValue);
             } catch (NoSuchFieldException | IllegalAccessException e) {
                 throw new PatchException("Error applying patch: " + e.getMessage());
             }
         }
         return entity;
+    }
+
+    private static Object getConvertedValue(Field field, Object fieldValue) {
+        if (field.getType() == LocalDate.class && fieldValue != null)
+            fieldValue = LocalDate.parse(fieldValue.toString());
+        return fieldValue;
     }
 
     @Transactional
