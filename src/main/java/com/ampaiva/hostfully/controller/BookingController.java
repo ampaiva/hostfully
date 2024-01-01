@@ -3,13 +3,14 @@ package com.ampaiva.hostfully.controller;
 import com.ampaiva.hostfully.model.Booking;
 import com.ampaiva.hostfully.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/booking")
@@ -23,6 +24,7 @@ public class BookingController extends BaseController<Booking> {
     public ResponseEntity<?> cancel(@PathVariable Long id) {
         return updateCanceled(id, true);
     }
+
     @PatchMapping("/rebook/{id}")
     public ResponseEntity<?> rebook(@PathVariable Long id) {
         return updateCanceled(id, false);

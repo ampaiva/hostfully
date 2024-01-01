@@ -29,13 +29,6 @@ public class HostfullyIntegrationTest {
     @Value("${server.servlet.context-path}")
     String contextPath;
 
-    @BeforeEach
-    public void setUp() {
-        RestAssured.port = randomServerPort;
-        RestAssured.basePath = contextPath;
-    }
-
-
     private static int getGuestId() {
         return given()
                 .contentType(ContentType.JSON)
@@ -77,6 +70,11 @@ public class HostfullyIntegrationTest {
                 .path("id");
     }
 
+    @BeforeEach
+    public void setUp() {
+        RestAssured.port = randomServerPort;
+        RestAssured.basePath = contextPath;
+    }
 
     @Test
     public void testCRUDProperty() {
@@ -373,6 +371,7 @@ public class HostfullyIntegrationTest {
                 .body("canceled", equalTo(false));
 
     }
+
     @Test
     public void testBookWhenPreviousBookingWasCanceled() {
         int propertyId = getPropertyId();
@@ -388,7 +387,8 @@ public class HostfullyIntegrationTest {
                 .then()
                 .statusCode(HttpStatus.CREATED.value())
                 .extract()
-                .path("id");;
+                .path("id");
+        ;
 
         // Conflict if there is a booking conflicting with the dates
         given()

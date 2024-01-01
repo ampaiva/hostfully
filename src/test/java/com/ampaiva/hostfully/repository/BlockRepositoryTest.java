@@ -20,7 +20,7 @@ class BlockRepositoryTest {
     private PropertyRepository propertyRepository;
 
     @ParameterizedTest
-    @CsvSource({"11, 12, 0", "11, 13, 1", "13, 13, 1", "13, 19, 1", "13, 20, 1", "14, 19, 1", "14, 20, 1", "14, 21, 1", "20, 20, 1", "20, 21, 1","21, 21, 0", "21, 22, 0"})
+    @CsvSource({"11, 12, 0", "11, 13, 1", "13, 13, 1", "13, 19, 1", "13, 20, 1", "14, 19, 1", "14, 20, 1", "14, 21, 1", "20, 20, 1", "20, 21, 1", "21, 21, 0", "21, 22, 0"})
     void findBlocksByWhenCanceledIsFalse(String start, String end, int expected) {
         Property property = new Property();
         Property otherProperty = new Property();
@@ -37,7 +37,7 @@ class BlockRepositoryTest {
         result = blockRepository.findBlocksBy(property, LocalDate.parse("2024-01-" + start), LocalDate.parse("2024-01-" + end));
         assertEquals(expected, result.size());
 
-        result = blockRepository.findBlocksBy(otherProperty,  LocalDate.parse("2024-01-" + start), LocalDate.parse("2024-01-" + end));
+        result = blockRepository.findBlocksBy(otherProperty, LocalDate.parse("2024-01-" + start), LocalDate.parse("2024-01-" + end));
         // if it is a different property doesn't cause conflicts
         assertEquals(0, result.size());
     }

@@ -11,9 +11,7 @@ import com.ampaiva.hostfully.repository.GuestRepository;
 import com.ampaiva.hostfully.repository.PropertyRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 @Service
@@ -50,6 +48,7 @@ public class BookingService extends BaseService<Booking> {
         if (!bookings.isEmpty())
             throw new ConflictException("There are bookings for this property between " + booking.getStart() + " and " + booking.getEnd());
     }
+
     private void checkConflictingBlock(Booking booking, Property property) {
         List<Block> bookings = blockRepository.findBlocksBy(property, booking.getStart(), booking.getEnd());
         if (!bookings.isEmpty())

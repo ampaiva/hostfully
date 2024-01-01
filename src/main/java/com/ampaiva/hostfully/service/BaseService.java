@@ -23,6 +23,12 @@ public abstract class BaseService<T> {
         this.entityRepository = entityRepository;
     }
 
+    private static Object getConvertedValue(Field field, Object fieldValue) {
+        if (field.getType() == LocalDate.class && fieldValue != null)
+            fieldValue = LocalDate.parse(fieldValue.toString());
+        return fieldValue;
+    }
+
     public List<T> getAllEntities() {
         return entityRepository.findAll();
     }
@@ -92,12 +98,6 @@ public abstract class BaseService<T> {
             }
         }
         return entity;
-    }
-
-    private static Object getConvertedValue(Field field, Object fieldValue) {
-        if (field.getType() == LocalDate.class && fieldValue != null)
-            fieldValue = LocalDate.parse(fieldValue.toString());
-        return fieldValue;
     }
 
     @Transactional

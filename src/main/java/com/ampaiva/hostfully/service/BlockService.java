@@ -5,9 +5,6 @@ import com.ampaiva.hostfully.repository.BlockRepository;
 import com.ampaiva.hostfully.repository.PropertyRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.Map;
-
 @Service
 public class BlockService extends BaseService<Block> {
     private final PropertyRepository propertyRepository;
