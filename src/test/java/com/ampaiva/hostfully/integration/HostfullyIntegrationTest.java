@@ -60,6 +60,23 @@ public class HostfullyIntegrationTest {
                 .path("id");
     }
 
+    private static int getBookingId() {
+        int propertyId = getPropertyId();
+
+        int guestId = getGuestId();
+
+        // Create
+        return given()
+                .contentType(ContentType.JSON)
+                .body("{ \"start\": \"2024-01-11\", \"end\": \"2024-01-19\", \"guest\": { \"id\": " + guestId + " }, \"property\": { \"id\": " + propertyId + " } }")
+                .when()
+                .post(API_BOOKING)
+                .then()
+                .statusCode(HttpStatus.CREATED.value())
+                .extract()
+                .path("id");
+    }
+
 
     @Test
     public void testCRUDProperty() {
@@ -225,31 +242,10 @@ public class HostfullyIntegrationTest {
                 .statusCode(HttpStatus.NOT_FOUND.value());
     }
     @Test
-    public void testCreateBooking() {
-
-        int propertyId = getPropertyId();
-
-        int guestId = getGuestId();
+    public void testCRUDBooking() {
 
         // Create
-        int bookingId = given()
-                .contentType(ContentType.JSON)
-                .body("{ \"start\": \"2024-01-11\", \"end\": \"2024-01-19\", \"guest\": { \"id\": " + guestId + " }, \"property\": { \"id\": " + propertyId + " } }")
-                .when()
-                .post(API_BOOKING)
-                .then()
-                .statusCode(HttpStatus.CREATED.value())
-                .extract()
-                .path("id");
-
-        // Conflict if there is a booking conflicting with the dates
-        given()
-                .contentType(ContentType.JSON)
-                .body("{ \"start\": \"2024-01-12\", \"end\": \"2024-01-14\", \"guest\": { \"id\": " + guestId + " }, \"property\": { \"id\": " + propertyId + " } }")
-                .when()
-                .post(API_BOOKING)
-                .then()
-                .statusCode(HttpStatus.CONFLICT.value());
+        int bookingId = getBookingId();
 
         // Retrieve
         given()
@@ -295,5 +291,30 @@ public class HostfullyIntegrationTest {
                 .get(API_BOOKING + "/" +  bookingId)
                 .then()
                 .statusCode(HttpStatus.NOT_FOUND.value());
+    }
+    @Test
+    public void testConflictWithIntersectingBooking() {
+
+        int propertyId = getPropertyId();
+
+        int guestId = getGuestId();
+
+        // Create
+        given()
+                .contentType(ContentType.JSON)
+                .body("{ \"start\": \"2024-01-11\", \"end\": \"2024-01-19\", \"guest\": { \"id\": " + guestId + " }, \"property\": { \"id\": " + propertyId + " } }")
+                .when()
+                .post(API_BOOKING)
+                .then()
+                .statusCode(HttpStatus.CREATED.value());
+
+        // Conflict if there is a booking conflicting with the dates
+        given()
+                .contentType(ContentType.JSON)
+                .body("{ \"start\": \"2024-01-12\", \"end\": \"2024-01-14\", \"guest\": { \"id\": " + guestId + " }, \"property\": { \"id\": " + propertyId + " } }")
+                .when()
+                .post(API_BOOKING)
+                .then()
+                .statusCode(HttpStatus.CONFLICT.value());
     }
 }
