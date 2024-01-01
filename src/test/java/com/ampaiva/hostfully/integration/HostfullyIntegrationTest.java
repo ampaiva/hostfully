@@ -373,4 +373,49 @@ public class HostfullyIntegrationTest {
                 .body("canceled", equalTo(false));
 
     }
+    @Test
+    public void testBookWhenPreviousBookingWasCanceled() {
+        int propertyId = getPropertyId();
+
+        int guestId = getGuestId();
+
+        // Create
+        int bookingId = given()
+                .contentType(ContentType.JSON)
+                .body("{ \"start\": \"2024-01-11\", \"end\": \"2024-01-19\", \"guest\": { \"id\": " + guestId + " }, \"property\": { \"id\": " + propertyId + " } }")
+                .when()
+                .post(API_BOOKING)
+                .then()
+                .statusCode(HttpStatus.CREATED.value())
+                .extract()
+                .path("id");;
+
+        // Conflict if there is a booking conflicting with the dates
+        given()
+                .contentType(ContentType.JSON)
+                .body("{ \"start\": \"2024-01-12\", \"end\": \"2024-01-14\", \"guest\": { \"id\": " + getGuestId() + " }, \"property\": { \"id\": " + propertyId + " } }")
+                .when()
+                .post(API_BOOKING)
+                .then()
+                .statusCode(HttpStatus.CONFLICT.value());
+
+        // Cancel
+        given()
+                .contentType(ContentType.JSON)
+                .when()
+                .patch(API_BOOKING + "/cancel/" + bookingId)
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("canceled", equalTo(true));
+
+        // Successful Booking due to previous cancel
+        given()
+                .contentType(ContentType.JSON)
+                .body("{ \"start\": \"2024-01-12\", \"end\": \"2024-01-14\", \"guest\": { \"id\": " + getGuestId() + " }, \"property\": { \"id\": " + propertyId + " } }")
+                .when()
+                .post(API_BOOKING)
+                .then()
+                .statusCode(HttpStatus.CREATED.value());
+
+    }
 }
