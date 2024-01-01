@@ -87,7 +87,7 @@ public class HostfullyIntegrationTest {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get(API_PROPERTY + "/" +  propertyId)
+                .get(API_PROPERTY + "/" + propertyId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("id", equalTo(propertyId));
@@ -97,7 +97,7 @@ public class HostfullyIntegrationTest {
                 .contentType(ContentType.JSON)
                 .body("{ \"city\": \"Miami\"}")
                 .when()
-                .put(API_PROPERTY + "/" +  propertyId)
+                .put(API_PROPERTY + "/" + propertyId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("city", equalTo("Miami"));
@@ -107,7 +107,7 @@ public class HostfullyIntegrationTest {
                 .contentType(ContentType.JSON)
                 .body("{ \"country\": \"France\"}")
                 .when()
-                .patch(API_PROPERTY + "/" +  propertyId)
+                .patch(API_PROPERTY + "/" + propertyId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("country", equalTo("France"));
@@ -116,7 +116,7 @@ public class HostfullyIntegrationTest {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .delete(API_PROPERTY + "/" +  propertyId)
+                .delete(API_PROPERTY + "/" + propertyId)
                 .then()
                 .statusCode(HttpStatus.OK.value());
 
@@ -124,7 +124,7 @@ public class HostfullyIntegrationTest {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get(API_PROPERTY + "/" +  propertyId)
+                .get(API_PROPERTY + "/" + propertyId)
                 .then()
                 .statusCode(HttpStatus.NOT_FOUND.value());
     }
@@ -139,7 +139,7 @@ public class HostfullyIntegrationTest {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get(API_GUEST + "/" +  guestId)
+                .get(API_GUEST + "/" + guestId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("id", equalTo(guestId));
@@ -149,7 +149,7 @@ public class HostfullyIntegrationTest {
                 .contentType(ContentType.JSON)
                 .body("{ \"city\": \"Miami\"}")
                 .when()
-                .put(API_GUEST + "/" +  guestId)
+                .put(API_GUEST + "/" + guestId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("city", equalTo("Miami"));
@@ -159,7 +159,7 @@ public class HostfullyIntegrationTest {
                 .contentType(ContentType.JSON)
                 .body("{ \"country\": \"France\"}")
                 .when()
-                .patch(API_GUEST + "/" +  guestId)
+                .patch(API_GUEST + "/" + guestId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("country", equalTo("France"));
@@ -168,7 +168,7 @@ public class HostfullyIntegrationTest {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .delete(API_GUEST + "/" +  guestId)
+                .delete(API_GUEST + "/" + guestId)
                 .then()
                 .statusCode(HttpStatus.OK.value());
 
@@ -176,7 +176,7 @@ public class HostfullyIntegrationTest {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get(API_GUEST + "/" +  guestId)
+                .get(API_GUEST + "/" + guestId)
                 .then()
                 .statusCode(HttpStatus.NOT_FOUND.value());
     }
@@ -210,7 +210,7 @@ public class HostfullyIntegrationTest {
                 .contentType(ContentType.JSON)
                 .body("{ \"end\": \"2024-01-19\"}")
                 .when()
-                .put(API_BLOCK + "/" +  blockId)
+                .put(API_BLOCK + "/" + blockId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("end", equalTo("2024-01-19"));
@@ -220,7 +220,7 @@ public class HostfullyIntegrationTest {
                 .contentType(ContentType.JSON)
                 .body("{ \"start\": \"2024-01-12\"}")
                 .when()
-                .patch(API_BLOCK + "/" +  blockId)
+                .patch(API_BLOCK + "/" + blockId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("start", equalTo("2024-01-12"));
@@ -229,7 +229,7 @@ public class HostfullyIntegrationTest {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .delete(API_BLOCK + "/" +  blockId)
+                .delete(API_BLOCK + "/" + blockId)
                 .then()
                 .statusCode(HttpStatus.OK.value());
 
@@ -237,10 +237,11 @@ public class HostfullyIntegrationTest {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get(API_BLOCK + "/" +  blockId)
+                .get(API_BLOCK + "/" + blockId)
                 .then()
                 .statusCode(HttpStatus.NOT_FOUND.value());
     }
+
     @Test
     public void testCRUDBooking() {
 
@@ -251,7 +252,7 @@ public class HostfullyIntegrationTest {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get(API_BOOKING + "/" +  bookingId)
+                .get(API_BOOKING + "/" + bookingId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("id", equalTo(bookingId));
@@ -261,7 +262,7 @@ public class HostfullyIntegrationTest {
                 .contentType(ContentType.JSON)
                 .body("{ \"end\": \"2024-01-13\"}")
                 .when()
-                .put(API_BOOKING + "/" +  bookingId)
+                .put(API_BOOKING + "/" + bookingId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("end", equalTo("2024-01-13"));
@@ -271,7 +272,7 @@ public class HostfullyIntegrationTest {
                 .contentType(ContentType.JSON)
                 .body("{ \"start\": \"2024-01-09\"}")
                 .when()
-                .patch(API_BOOKING + "/" +  bookingId)
+                .patch(API_BOOKING + "/" + bookingId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("start", equalTo("2024-01-09"));
@@ -280,7 +281,7 @@ public class HostfullyIntegrationTest {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .delete(API_BOOKING + "/" +  bookingId)
+                .delete(API_BOOKING + "/" + bookingId)
                 .then()
                 .statusCode(HttpStatus.OK.value());
 
@@ -288,10 +289,11 @@ public class HostfullyIntegrationTest {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get(API_BOOKING + "/" +  bookingId)
+                .get(API_BOOKING + "/" + bookingId)
                 .then()
                 .statusCode(HttpStatus.NOT_FOUND.value());
     }
+
     @Test
     public void testConflictWithIntersectingBooking() {
 
@@ -309,6 +311,34 @@ public class HostfullyIntegrationTest {
                 .statusCode(HttpStatus.CREATED.value());
 
         // Conflict if there is a booking conflicting with the dates
+        given()
+                .contentType(ContentType.JSON)
+                .body("{ \"start\": \"2024-01-12\", \"end\": \"2024-01-14\", \"guest\": { \"id\": " + guestId + " }, \"property\": { \"id\": " + propertyId + " } }")
+                .when()
+                .post(API_BOOKING)
+                .then()
+                .statusCode(HttpStatus.CONFLICT.value());
+    }
+
+    @Test
+    public void testConflictWithExistingBlock() {
+
+        int propertyId = getPropertyId();
+
+        // Block Dates
+        given()
+                .contentType(ContentType.JSON)
+                .body("{ \"start\": \"2024-01-13\", \"end\": \"2024-01-20\", \"property\": { \"id\": " + propertyId + " } }")
+                .when()
+                .post(API_BLOCK)
+                .then()
+                .statusCode(HttpStatus.CREATED.value())
+                .extract()
+                .path("id");
+
+        int guestId = getGuestId();
+
+        // Conflict if there is a block intersecting with the dates
         given()
                 .contentType(ContentType.JSON)
                 .body("{ \"start\": \"2024-01-12\", \"end\": \"2024-01-14\", \"guest\": { \"id\": " + guestId + " }, \"property\": { \"id\": " + propertyId + " } }")
