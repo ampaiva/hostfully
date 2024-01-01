@@ -347,4 +347,30 @@ public class HostfullyIntegrationTest {
                 .then()
                 .statusCode(HttpStatus.CONFLICT.value());
     }
+
+    @Test
+    public void testCancelAndRebook() {
+
+        // Create
+        int bookingId = getBookingId();
+
+        // Cancel
+        given()
+                .contentType(ContentType.JSON)
+                .when()
+                .patch(API_BOOKING + "/cancel/" + bookingId)
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("canceled", equalTo(true));
+
+        // Rebook
+        given()
+                .contentType(ContentType.JSON)
+                .when()
+                .patch(API_BOOKING + "/rebook/" + bookingId)
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("canceled", equalTo(false));
+
+    }
 }
