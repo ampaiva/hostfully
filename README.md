@@ -23,6 +23,8 @@ cd hostfully
 
 ## Running the tests
 
+The tests cover all the requirements for the REST API.
+
 ```
 ./gradlew test
 ```

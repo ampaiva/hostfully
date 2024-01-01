@@ -319,6 +319,23 @@ public class HostfullyIntegrationTest {
     }
 
     @Test
+    public void testInvalidDatesBooking() {
+
+        int propertyId = getPropertyId();
+
+        int guestId = getGuestId();
+
+        // Create
+        given()
+                .contentType(ContentType.JSON)
+                .body("{ \"start\": \"2024-01-19\", \"end\": \"2024-01-18\", \"guest\": { \"id\": " + guestId + " }, \"property\": { \"id\": " + propertyId + " } }")
+                .when()
+                .post(API_BOOKING)
+                .then()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
     public void testConflictWithExistingBlock() {
 
         int propertyId = getPropertyId();

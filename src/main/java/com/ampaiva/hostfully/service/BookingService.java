@@ -1,6 +1,7 @@
 package com.ampaiva.hostfully.service;
 
 import com.ampaiva.hostfully.exception.ConflictException;
+import com.ampaiva.hostfully.exception.PatchException;
 import com.ampaiva.hostfully.model.Block;
 import com.ampaiva.hostfully.model.Booking;
 import com.ampaiva.hostfully.model.Guest;
@@ -32,6 +33,7 @@ public class BookingService extends BaseService<Booking> {
 
 
     public Booking saveEntity(Booking booking) {
+        checkValidDates(booking);
         Property property = propertyRepository.findById(booking.getProperty().getId()).orElseThrow();
         Guest guest = guestRepository.findById(booking.getGuest().getId()).orElseThrow();
         checkConflictingBookings(booking, property);
@@ -40,6 +42,11 @@ public class BookingService extends BaseService<Booking> {
         savedEntity.setProperty(property);
         savedEntity.setGuest(guest);
         return savedEntity;
+    }
+
+    private void checkValidDates(Booking booking) {
+        if (booking.getStart().isAfter(booking.getEnd()))
+            throw new PatchException("Start date (" + booking.getStart() + ") should be less than or equal to end date (" + booking.getEnd() + ")");
     }
 
     private void checkConflictingBookings(Booking booking, Property property) {
