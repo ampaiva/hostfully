@@ -13,7 +13,7 @@ public class BlockService extends BaseService<BlockDto, Block> implements DtoSer
     private final PropertyRepository propertyRepository;
 
     public BlockService(BlockMapper mapper, BlockRepository entityRepository, PropertyRepository propertyRepository) {
-        super(mapper, BlockDto.class, Block.class, entityRepository);
+        super(mapper, Block.class, entityRepository);
         this.propertyRepository = propertyRepository;
     }
 

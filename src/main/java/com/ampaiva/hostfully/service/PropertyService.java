@@ -12,6 +12,6 @@ public class PropertyService extends BaseService<PropertyDto, Property> implemen
 
     @Autowired
     public PropertyService(PropertyMapper mapper, PropertyRepository entityRepository) {
-        super(mapper, PropertyDto.class, Property.class, entityRepository);
+        super(mapper, Property.class, entityRepository);
     }
 }

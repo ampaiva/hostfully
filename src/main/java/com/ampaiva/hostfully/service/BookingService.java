@@ -26,7 +26,7 @@ public class BookingService extends BaseService<BookingDto, Booking> implements 
     private final BlockRepository blockRepository;
 
     public BookingService(BookingMapper mapper, BookingRepository bookingRepository, PropertyRepository propertyRepository, GuestRepository guestRepository, BlockRepository blockRepository) {
-        super(mapper, BookingDto.class, Booking.class, bookingRepository);
+        super(mapper, Booking.class, bookingRepository);
         this.bookingRepository = bookingRepository;
         this.propertyRepository = propertyRepository;
         this.guestRepository = guestRepository;

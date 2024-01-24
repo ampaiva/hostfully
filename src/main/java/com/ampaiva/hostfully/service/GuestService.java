@@ -10,6 +10,6 @@ import org.springframework.stereotype.Service;
 public class GuestService extends BaseService<GuestDto, Guest> implements DtoService<GuestDto> {
 
     public GuestService(GuestMapper mapper, GuestRepository entityRepository) {
-        super(mapper, GuestDto.class, Guest.class, entityRepository);
+        super(mapper, Guest.class, entityRepository);
     }
 }

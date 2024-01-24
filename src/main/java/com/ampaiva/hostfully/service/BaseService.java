@@ -17,14 +17,12 @@ import java.util.stream.Collectors;
 public abstract class BaseService<T, U> {
 
     private final BaseMapper<T, U> mapper;
-    private final Class<T> dtoClass;
     private final Class<U> entityClass;
 
     private final JpaRepository<U, Long> entityRepository;
 
-    protected BaseService(BaseMapper<T, U> mapper, Class<T> dtoClass, Class<U> entityClass, JpaRepository<U, Long> entityRepository) {
+    protected BaseService(BaseMapper<T, U> mapper, Class<U> entityClass, JpaRepository<U, Long> entityRepository) {
         this.mapper = mapper;
-        this.dtoClass = dtoClass;
         this.entityClass = entityClass;
         this.entityRepository = entityRepository;
     }
