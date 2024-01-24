@@ -25,6 +25,7 @@ public class BlockService extends BaseService<BlockDto, Block> implements DtoSer
         block.setProperty(propertyRepository.findById(block.getProperty().getId()).orElseThrow());
         return toDto(block);
     }
+
     private void checkValidDates(Block block) {
         if (block.getStart().isAfter(block.getEnd()))
             throw new PatchException("Start date (" + block.getStart() + ") should be less than or equal to end date (" + block.getEnd() + ")");
