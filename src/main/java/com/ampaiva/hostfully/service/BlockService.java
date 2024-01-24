@@ -4,7 +4,6 @@ import com.ampaiva.hostfully.dto.BlockDto;
 import com.ampaiva.hostfully.exception.PatchException;
 import com.ampaiva.hostfully.mapper.BlockMapper;
 import com.ampaiva.hostfully.model.Block;
-import com.ampaiva.hostfully.model.Booking;
 import com.ampaiva.hostfully.repository.BlockRepository;
 import com.ampaiva.hostfully.repository.PropertyRepository;
 import org.springframework.stereotype.Service;

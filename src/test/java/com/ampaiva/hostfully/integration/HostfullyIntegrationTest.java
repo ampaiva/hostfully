@@ -422,7 +422,6 @@ public class HostfullyIntegrationTest {
                 .statusCode(HttpStatus.CREATED.value())
                 .extract()
                 .path("id");
-        ;
 
         // Conflict if there is a booking conflicting with the dates
         given()
