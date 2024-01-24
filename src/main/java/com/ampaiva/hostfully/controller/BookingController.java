@@ -1,6 +1,6 @@
 package com.ampaiva.hostfully.controller;
 
-import com.ampaiva.hostfully.model.Booking;
+import com.ampaiva.hostfully.dto.BookingDto;
 import com.ampaiva.hostfully.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,19 +13,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/booking")
-public class BookingController extends BaseController<Booking> {
+@RequestMapping("/api/bookings")
+public class BookingController extends BaseController<BookingDto> {
     @Autowired
     public BookingController(BookingService baseService) {
         super(baseService);
     }
 
-    @PatchMapping("/cancel/{id}")
+    @PatchMapping("/{id}/cancel")
     public ResponseEntity<?> cancel(@PathVariable Long id) {
         return updateCanceled(id, true);
     }
 
-    @PatchMapping("/rebook/{id}")
+    @PatchMapping("/{id}/rebook")
     public ResponseEntity<?> rebook(@PathVariable Long id) {
         return updateCanceled(id, false);
     }
@@ -33,6 +33,6 @@ public class BookingController extends BaseController<Booking> {
     private ResponseEntity<?> updateCanceled(Long id, boolean canceled) {
         Map<String, Object> updates = new HashMap<>();
         updates.put("canceled", canceled);
-        return patchEntity(id, updates);
+        return patch(id, updates);
     }
 }

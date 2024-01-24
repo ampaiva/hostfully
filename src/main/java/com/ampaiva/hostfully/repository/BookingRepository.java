@@ -10,6 +10,10 @@ import java.util.List;
 
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 
-    @Query("SELECT e FROM Booking e WHERE e.property = :property and :canceled = false and e.canceled = false and ((e.start <= :start AND e.end >= :start) OR (e.start <= :end AND e.end >= :end))")
+    @Query("SELECT e FROM Booking e WHERE e.property = :property AND :canceled = false AND e.canceled = false AND " +
+            "((:start between e.start AND e.end) OR " +
+            "(:end between e.start AND e.end) OR " +
+            "(e.start between :start AND :end) OR " +
+            "(e.end between :start AND :end))")
     List<Booking> findConflictingBookings(Property property, Boolean canceled, LocalDate start, LocalDate end);
 }

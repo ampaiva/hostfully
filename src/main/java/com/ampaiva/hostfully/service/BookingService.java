@@ -1,7 +1,9 @@
 package com.ampaiva.hostfully.service;
 
+import com.ampaiva.hostfully.dto.BookingDto;
 import com.ampaiva.hostfully.exception.ConflictException;
 import com.ampaiva.hostfully.exception.PatchException;
+import com.ampaiva.hostfully.mapper.BookingMapper;
 import com.ampaiva.hostfully.model.Block;
 import com.ampaiva.hostfully.model.Booking;
 import com.ampaiva.hostfully.model.Guest;
@@ -16,15 +18,15 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-public class BookingService extends BaseService<Booking> {
+public class BookingService extends BaseService<BookingDto, Booking> implements DtoService<BookingDto> {
 
     private final BookingRepository bookingRepository;
     private final PropertyRepository propertyRepository;
     private final GuestRepository guestRepository;
     private final BlockRepository blockRepository;
 
-    public BookingService(BookingRepository bookingRepository, PropertyRepository propertyRepository, GuestRepository guestRepository, BlockRepository blockRepository) {
-        super(Booking.class, bookingRepository);
+    public BookingService(BookingMapper mapper, BookingRepository bookingRepository, PropertyRepository propertyRepository, GuestRepository guestRepository, BlockRepository blockRepository) {
+        super(mapper, BookingDto.class, Booking.class, bookingRepository);
         this.bookingRepository = bookingRepository;
         this.propertyRepository = propertyRepository;
         this.guestRepository = guestRepository;
@@ -32,16 +34,19 @@ public class BookingService extends BaseService<Booking> {
     }
 
 
-    public Booking saveEntity(Booking booking) {
+    @Override
+    public BookingDto save(BookingDto dto) {
+        Booking booking = toEntity(dto);
         checkValidDates(booking);
         Property property = propertyRepository.findById(booking.getProperty().getId()).orElseThrow();
         Guest guest = guestRepository.findById(booking.getGuest().getId()).orElseThrow();
         checkConflictingBookings(booking, property);
         checkConflictingBlock(booking, property);
-        Booking savedEntity = super.saveEntity(booking);
+        BookingDto savedDto = super.save(dto);
+        Booking savedEntity = toEntity(savedDto);
         savedEntity.setProperty(property);
         savedEntity.setGuest(guest);
-        return savedEntity;
+        return toDto(savedEntity);
     }
 
     private void checkValidDates(Booking booking) {

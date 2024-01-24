@@ -19,10 +19,12 @@ import static org.hamcrest.Matchers.equalTo;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class HostfullyIntegrationTest {
 
-    public static final String API_GUEST = "/api/guest";
-    public static final String API_PROPERTY = "/api/property";
-    public static final String API_BLOCK = "/api/block";
-    public static final String API_BOOKING = "/api/booking";
+    public static final String API_GUEST = "/api/guests";
+    public static final String API_PROPERTY = "/api/properties";
+    public static final String API_BLOCK = "/api/blocks";
+    public static final String API_BOOKING = "/api/bookings";
+    public static final String CANCEL = "/cancel";
+    public static final String REBOOK = "/rebook";
     @LocalServerPort
     int randomServerPort;
 
@@ -116,7 +118,7 @@ public class HostfullyIntegrationTest {
                 .when()
                 .delete(API_PROPERTY + "/" + propertyId)
                 .then()
-                .statusCode(HttpStatus.OK.value());
+                .statusCode(HttpStatus.NO_CONTENT.value());
 
         // Retrieve Failed
         given()
@@ -168,7 +170,7 @@ public class HostfullyIntegrationTest {
                 .when()
                 .delete(API_GUEST + "/" + guestId)
                 .then()
-                .statusCode(HttpStatus.OK.value());
+                .statusCode(HttpStatus.NO_CONTENT.value());
 
         // Retrieve Failed
         given()
@@ -229,7 +231,7 @@ public class HostfullyIntegrationTest {
                 .when()
                 .delete(API_BLOCK + "/" + blockId)
                 .then()
-                .statusCode(HttpStatus.OK.value());
+                .statusCode(HttpStatus.NO_CONTENT.value());
 
         // Retrieve Failed
         given()
@@ -281,7 +283,7 @@ public class HostfullyIntegrationTest {
                 .when()
                 .delete(API_BOOKING + "/" + bookingId)
                 .then()
-                .statusCode(HttpStatus.OK.value());
+                .statusCode(HttpStatus.NO_CONTENT.value());
 
         // Retrieve Failed
         given()
@@ -336,6 +338,21 @@ public class HostfullyIntegrationTest {
     }
 
     @Test
+    public void testInvalidDatesBlock() {
+
+        int propertyId = getPropertyId();
+
+        // Create
+        given()
+                .contentType(ContentType.JSON)
+                .body("{ \"start\": \"2024-01-19\", \"end\": \"2024-01-18\", \"property\": { \"id\": " + propertyId + " } }")
+                .when()
+                .post(API_BLOCK)
+                .then()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
     public void testConflictWithExistingBlock() {
 
         int propertyId = getPropertyId();
@@ -373,7 +390,7 @@ public class HostfullyIntegrationTest {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .patch(API_BOOKING + "/cancel/" + bookingId)
+                .patch(API_BOOKING + "/" + bookingId + CANCEL)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("canceled", equalTo(true));
@@ -382,7 +399,7 @@ public class HostfullyIntegrationTest {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .patch(API_BOOKING + "/rebook/" + bookingId)
+                .patch(API_BOOKING + "/" + bookingId + REBOOK)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("canceled", equalTo(false));
@@ -420,7 +437,7 @@ public class HostfullyIntegrationTest {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .patch(API_BOOKING + "/cancel/" + bookingId)
+                .patch(API_BOOKING + "/" + bookingId + CANCEL)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("canceled", equalTo(true));

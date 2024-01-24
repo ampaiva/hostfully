@@ -1,5 +1,5 @@
 # Alexandre Paiva
-## Java Techinical Test
+## Java Technical Test
 
 ## Overview
 This repository contains a WebService that supports a REST API to handle bookings.
@@ -34,9 +34,22 @@ The tests cover all the requirements for the REST API.
 
 The REST API allow users to:
 - Create a booking
+  - POST /api/bookings 
 - Update booking dates and guest details
+    - PUT /api/bookings/{id}
+    - PATCH /api/bookings/{id}
+    - PUT /api/guests
+    - PATCH /api/guests
 - Cancel a booking
+  - PATCH /api/bookings/{id}/cancel
 - Rebook a canceled booking
+    - PATCH /api/bookings/{id}/rebook
 - Delete a booking from the system
+  - DELETE /api/bookings/{id}
 - Get a booking
+    - GET /api/bookings/{id}
 - Create, update and delete a block
+    - POST /api/blocks
+    - PUT /api/blocks/{id}
+    - PATCH /api/blocks/{id}
+    - DELETE /api/blocks/{id}
