@@ -2,7 +2,9 @@ package com.ampaiva.hostfully.integration;
 
 
 import io.restassured.RestAssured;
+import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
+import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,12 +12,18 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
+import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.modifyUris;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
+import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.document;
+import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.documentationConfiguration;
 
-@ExtendWith(SpringExtension.class)
+@ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class HostfullyIntegrationTest {
 
@@ -25,11 +33,14 @@ public class HostfullyIntegrationTest {
     public static final String API_BOOKING = "/api/bookings";
     public static final String CANCEL = "/cancel";
     public static final String REBOOK = "/rebook";
+
     @LocalServerPort
     int randomServerPort;
 
     @Value("${server.servlet.context-path}")
     String contextPath;
+
+    private RequestSpecification spec;
 
     private static int getGuestId() {
         return given()
@@ -73,6 +84,12 @@ public class HostfullyIntegrationTest {
     }
 
     @BeforeEach
+    void setUp(RestDocumentationContextProvider restDocumentation) {
+        this.spec = new RequestSpecBuilder().addFilter(documentationConfiguration(restDocumentation))
+                .build();
+    }
+
+    @BeforeEach
     public void setUp() {
         RestAssured.port = randomServerPort;
         RestAssured.basePath = contextPath;
@@ -84,7 +101,12 @@ public class HostfullyIntegrationTest {
         int propertyId = getPropertyId();
 
         // Retrieve
-        given()
+        given(this.spec)
+                .filter(document("hostfully/property/get",
+                        preprocessRequest(modifyUris()
+                                .scheme("https")
+                                .host("com.ampaiva.hostfully")
+                                .removePort())))
                 .contentType(ContentType.JSON)
                 .when()
                 .get(API_PROPERTY + "/" + propertyId)
@@ -93,7 +115,12 @@ public class HostfullyIntegrationTest {
                 .body("id", equalTo(propertyId));
 
         // Update
-        given()
+        given(this.spec)
+                .filter(document("hostfully/property/put",
+                        preprocessRequest(modifyUris()
+                                .scheme("https")
+                                .host("com.ampaiva.hostfully")
+                                .removePort())))
                 .contentType(ContentType.JSON)
                 .body("{ \"city\": \"Miami\"}")
                 .when()

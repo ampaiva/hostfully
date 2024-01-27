@@ -1,0 +1,47 @@
+= Hostfully Java Technical Test
+:author: Alexandre Paiva
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+
+Alexandre Paiva
+
+== Overview
+
+This repository contains a WebService that supports a REST API to handle bookings.
+
+=== Terminology
+
+A booking is when a guest selects a start and end date and submits a reservation on a property.
+A block is when the property owner or manager selects a range of days during which no guest can make a booking (e.g. the owner wants to use the property for themselves, or the property manager needs to schedule the repainting of a few rooms).
+
+`SampleRestAssuredApplicationTests` makes a call to a very simple service.
+The service that is being tested is running on a random port on `localhost`.
+The tests make use of a preprocessor to modify the request so that it appears to have been sent to
+`https://api.example.com`.
+If your service includes URIs in its responses, for example because it uses hypermedia, similar preprocessing can be applied to the response before it is documented.
+
+Three snippets are produced.
+One showing how to make a request using cURL:
+
+==== Get a Property
+
+===== Request
+
+include::{snippets}/hostfully/property/get/http-request.adoc[]
+
+===== Response
+
+include::{snippets}/hostfully/property/get/http-response.adoc[]
+
+include::{snippets}/hostfully/property/get/curl-request.adoc[]
+
+==== Update a Property
+
+===== Request
+
+include::{snippets}/hostfully/property/put/http-request.adoc[]
+
+===== Response
+
+include::{snippets}/hostfully/property/put/http-response.adoc[]
