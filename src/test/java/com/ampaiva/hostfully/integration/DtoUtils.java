@@ -34,4 +34,11 @@ public class DtoUtils {
                 .map(field -> parameterWithName(field.getName()).description(getDescriptions(dtoClass).get(field.getName())))
                 .toArray(ParameterDescriptor[]::new);
     }
+    public String[] getFieldNamesExcept(Class<?> dtoClass, Set<String> excludedFields) {
+        return Arrays.stream(dtoClass.getDeclaredFields())
+                .map(Field::getName)
+                .filter(name -> !excludedFields.contains(name))
+                .toArray(String[]::new);
+    }
+
 }

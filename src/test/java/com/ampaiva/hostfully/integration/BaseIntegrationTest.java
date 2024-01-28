@@ -1,6 +1,7 @@
 package com.ampaiva.hostfully.integration;
 
 
+import com.github.javafaker.Faker;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
@@ -18,7 +19,9 @@ import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.operation.preprocess.OperationRequestPreprocessor;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -48,6 +51,9 @@ public abstract class BaseIntegrationTest {
     @Autowired
     DtoUtils dtoUtils;
 
+    @Autowired
+    Faker faker;
+
     private final Class<?> dtoClass;
     private final String dtoPlural;
 
@@ -75,6 +81,16 @@ public abstract class BaseIntegrationTest {
                 .removePort());
     }
 
+    private String getJsonRepr(Map.Entry<String, String> entry) {
+        return String.format("\"%s\": \"%s\"", entry.getKey(), entry.getValue());
+    }
+
+    String generateBody(Map<String, String> map) {
+        return "{" + map.entrySet().stream()
+                .map(this::getJsonRepr)
+                .collect(Collectors.joining(",")) + "}";
+    }
+
     @BeforeEach
     void setUp(RestDocumentationContextProvider restDocumentation) {
         this.spec = new RequestSpecBuilder()
@@ -91,10 +107,10 @@ public abstract class BaseIntegrationTest {
     @Test
     public void testCreate() {
         // Create
-        int id = given(this.spec).filter(document("api/" + dtoPlural +"/post/" + HttpStatus.CREATED.value(), getPreprocessor(),
+        int id = given(this.spec).filter(document("api/" + dtoPlural + "/post/" + HttpStatus.CREATED.value(), getPreprocessor(),
                         requestFields(dtoUtils.generateFieldExcept(dtoClass, Set.of("id")))))
                 .contentType(ContentType.JSON)
-                .body("{ \"address\": \"Disney Road, 2024\", \"city\": \"Orlando\", \"state\": \"FL\", \"country\": \"USA\" }")
+                .body("{ \"address\": \"" + faker.address().streetAddress() + "Disney Road, 2024\", \"city\": \"Orlando\", \"state\": \"FL\", \"country\": \"USA\" }")
                 .when()
                 .post(API + dtoPlural)
                 .then()

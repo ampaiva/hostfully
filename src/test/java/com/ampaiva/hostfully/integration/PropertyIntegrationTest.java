@@ -26,16 +26,6 @@ public class PropertyIntegrationTest extends BaseIntegrationTest {
         super(PropertyDto.class, "properties");
     }
 
-    private String getJsonRepr(Map.Entry<String, String> entry) {
-        return String.format("\"%s\": \"%s\"", entry.getKey(), entry.getValue());
-    }
-
-    private String generateBody(Map<String, String> map) {
-        return "{" + map.entrySet().stream()
-                .map(this::getJsonRepr)
-                .collect(Collectors.joining(",")) + "}";
-    }
-
     @ParameterizedTest
     @CsvSource({"address", "city", "state", "country"})
     public void testCreatePropertyWithoutAddress(String missingField) {
