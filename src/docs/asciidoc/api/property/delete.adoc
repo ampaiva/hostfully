@@ -5,7 +5,7 @@ It cannot be undone.
 
 ==== Parameters
 
-include::{snippets}/hostfully/property/delete/204/path-parameters.adoc[]
+include::{snippets}/api/properties/delete/204/path-parameters.adoc[]
 
 ==== Returns
 
@@ -17,16 +17,16 @@ if there is no Property with path parameter id, returns not found status with a 
 
 ==== Request
 
-include::{snippets}/hostfully/property/delete/204/http-request.adoc[]
+include::{snippets}/api/properties/delete/204/http-request.adoc[]
 
 ==== Response
 
-include::{snippets}/hostfully/property/delete/204/http-response.adoc[]
+include::{snippets}/api/properties/delete/204/http-response.adoc[]
 
 ==== Request
 
-include::{snippets}/hostfully/property/delete/404/http-request.adoc[]
+include::{snippets}/api/properties/delete/404/http-request.adoc[]
 
 ==== Response
 
-include::{snippets}/hostfully/property/delete/404/http-response.adoc[]
+include::{snippets}/api/properties/delete/404/http-response.adoc[]

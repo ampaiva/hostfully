@@ -8,7 +8,7 @@ This request accepts mostly the same arguments as the property creation call.
 
 ==== Parameters
 
-include::{snippets}/hostfully/property/patch/200/path-parameters.adoc[]
+include::{snippets}/api/properties/patch/200/path-parameters.adoc[]
 
 ==== Returns
 
@@ -20,17 +20,17 @@ if there is no Property with path parameter id, returns not found status with a 
 
 ==== Request
 
-include::{snippets}/hostfully/property/patch/200/http-request.adoc[]
+include::{snippets}/api/properties/patch/200/http-request.adoc[]
 
 ==== Response
 
-include::{snippets}/hostfully/property/patch/200/http-response.adoc[]
+include::{snippets}/api/properties/patch/200/http-response.adoc[]
 
 ==== Request
 
-include::{snippets}/hostfully/property/patch/404/http-request.adoc[]
+include::{snippets}/api/properties/patch/404/http-request.adoc[]
 
 ==== Response
 
-include::{snippets}/hostfully/property/patch/404/http-response.adoc[]
+include::{snippets}/api/properties/patch/404/http-response.adoc[]
 

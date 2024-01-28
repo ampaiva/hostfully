@@ -1,6 +1,7 @@
 package com.ampaiva.hostfully.integration;
 
 
+import com.ampaiva.hostfully.dto.PropertyDto;
 import com.ampaiva.hostfully.utils.DtoMetadata;
 import com.ampaiva.hostfully.utils.DtoUtils;
 import com.ampaiva.hostfully.utils.PayloadBuilder;
@@ -9,6 +10,8 @@ import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
+import org.hamcrest.Matcher;
+import org.hamcrest.core.IsIterableContaining;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,6 +26,8 @@ import org.springframework.restdocs.operation.preprocess.OperationRequestPreproc
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
@@ -105,6 +110,19 @@ public abstract class BaseIntegrationTest {
         RestAssured.basePath = contextPath;
     }
 
+    private int getId() {
+        return given()
+                .contentType(ContentType.JSON)
+                .body(payloadBuilder.generateCreatePayload(getMetadata()))
+                .when()
+                .post(API + dtoPlural)
+                .then()
+                .statusCode(HttpStatus.CREATED.value())
+                .extract()
+                .path("id");
+    }
+
+
     @Test
     public void testCreate() {
         // Create
@@ -141,7 +159,7 @@ public abstract class BaseIntegrationTest {
     @Test
     public void testGetExisting() {
         // Create
-        int propertyId = getPropertyId();
+        int id = getId();
 
         // Get
         given(this.spec)
@@ -150,10 +168,10 @@ public abstract class BaseIntegrationTest {
                         responseFields(dtoUtils.generateGetFieldDescriptors(getMetadata()))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get(API + dtoPlural + "/{id}", propertyId)
+                .get(API + dtoPlural + "/{id}", id)
                 .then()
                 .statusCode(HttpStatus.OK.value())
-                .body("id", equalTo(propertyId));
+                .body("id", equalTo(id));
     }
 
     @Test
@@ -173,17 +191,9 @@ public abstract class BaseIntegrationTest {
     }
 
     @Test
-    public void testGetAllProperties() {
+    public void testGetAll() {
         // Create
-        int id = given()
-                .contentType(ContentType.JSON)
-                .body(payloadBuilder.generateCreatePayload(getMetadata()))
-                .when()
-                .post(API + dtoPlural)
-                .then()
-                .statusCode(HttpStatus.CREATED.value())
-                .extract()
-                .path("id");
+        int id = getId();
 
         // Get All
         given(this.spec)
@@ -196,4 +206,121 @@ public abstract class BaseIntegrationTest {
                 .body("", hasItems(hasEntry("id", id)));
 
     }
+
+
+    @Test
+    public void testUpdate() {
+        // Create
+        int id = getId();
+
+        var fakeValues = payloadBuilder.generateCreateFakeValues(getMetadata());
+
+        // Update
+        given(this.spec)
+                .filter(document("api/" + dtoPlural + "/put/" + HttpStatus.OK.value(), getPreprocessor(),
+                        pathParameters(dtoUtils.generateIdParameter(getMetadata()))))
+                .contentType(ContentType.JSON)
+                .body(payloadBuilder.generateCreatePayload(fakeValues))
+                .when()
+                .put(API + dtoPlural + "/{id}", id)
+                .then()
+                .statusCode(HttpStatus.OK.value());
+                //TODO: Implement the matcher
+                //.body("", hasItems(hasEntries(fakeValues)));
+    }
+
+
+    private Matcher<String>[] hasEntries(Map<String, String> listDtoMetadata) {
+        return listDtoMetadata.entrySet().stream()
+                .map(dtoMetadata -> hasEntry(dtoMetadata.getKey(), dtoMetadata.getValue()))
+                .toArray(Matcher[]::new);
+    }
+
+
+    @Test
+    public void testUpdateNonExisting() {
+        // Create
+        int nonExistingId = Integer.MAX_VALUE;
+
+        // Update
+        given(this.spec)
+                .filter(document("api/" + dtoPlural + "/put/" + HttpStatus.NOT_FOUND.value(), getPreprocessor(),
+                        pathParameters(dtoUtils.generateIdParameter(getMetadata()))))
+                .contentType(ContentType.JSON)
+                .body(payloadBuilder.generateCreatePayload(getMetadata()))
+                .when()
+                .put(API + dtoPlural + "/{id}", nonExistingId)
+                .then()
+                .statusCode(HttpStatus.NOT_FOUND.value())
+                .contentType(ContentType.TEXT)
+                .body(containsString("Object with id=" + nonExistingId + " not found"));
+    }
+
+    @Test
+    public void testPatch() {
+        // Create
+        int id = getId();
+
+        var fakeValues = payloadBuilder.generateCreateFakeValues(getMetadata());
+
+        // Update
+        given(this.spec)
+                .filter(document("api/" + dtoPlural + "/patch/" + HttpStatus.OK.value(), getPreprocessor(),
+                        pathParameters(dtoUtils.generateIdParameter(getMetadata()))))
+                .contentType(ContentType.JSON)
+                .body(payloadBuilder.generateCreatePayload(fakeValues))
+                .when()
+                .patch(API + dtoPlural + "/{id}", id)
+                .then()
+                .statusCode(HttpStatus.OK.value());
+        //TODO: Implement the matcher
+        //.body("", hasItems(hasEntries(fakeValues)));
+    }
+
+    @Test
+    public void testPatchNonExisting() {
+        // Create
+        int nonExistingId = Integer.MAX_VALUE;
+
+        // Update
+        given(this.spec)
+                .filter(document("api/" + dtoPlural + "/patch/" + HttpStatus.NOT_FOUND.value(), getPreprocessor(),
+                        pathParameters(dtoUtils.generateIdParameter(getMetadata()))))
+                .contentType(ContentType.JSON)
+                .body(payloadBuilder.generateCreatePayload(getMetadata()))
+                .when()
+                .patch(API + dtoPlural + "/{id}", nonExistingId)
+                .then()
+                .statusCode(HttpStatus.NOT_FOUND.value())
+                .contentType(ContentType.TEXT)
+                .body(containsString("Object with id=" + nonExistingId + " not found"));
+    }
+
+    @Test
+    public void testDelete() {
+        // Create
+        int id = getId();
+
+        // Delete
+        given(this.spec)
+                .filter(document("api/" + dtoPlural + "/delete/" + HttpStatus.NO_CONTENT.value(), getPreprocessor(),
+                        pathParameters(dtoUtils.generateIdParameter(getMetadata()))))
+                .contentType(ContentType.JSON)
+                .when()
+                .delete(API + dtoPlural + "/{id}", id)
+                .then()
+                .statusCode(HttpStatus.NO_CONTENT.value());
+
+        // Retrieve Failed
+        given(this.spec).filter(document("api/" + dtoPlural + "/delete/" + HttpStatus.NOT_FOUND.value(), getPreprocessor(),
+                        pathParameters(dtoUtils.generateIdParameter(getMetadata()))))
+                .contentType(ContentType.JSON)
+                .when()
+                .delete(API + dtoPlural + "/{id}", id)
+                .then()
+                .statusCode(HttpStatus.NOT_FOUND.value())
+                .contentType(ContentType.TEXT)
+                .body(containsString("Object with id=" + id + " not found"));
+    }
+
 }

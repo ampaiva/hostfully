@@ -9,7 +9,6 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -32,11 +31,6 @@ public class DtoUtils {
                 .collect(Collectors.toList());
     }
 
-    private Map<String, String> getDescriptions(Class<?> dtoClass) {
-        return Arrays.stream(dtoClass.getDeclaredFields())
-                .filter(field -> field.isAnnotationPresent(Schema.class))
-                .collect(Collectors.toMap(Field::getName, field -> field.getAnnotation(Schema.class).description()));
-    }
 
     public FieldDescriptor[] generateGetFieldDescriptors(List<DtoMetadata> listDtoMetadata) {
         return listDtoMetadata.stream()
@@ -56,13 +50,6 @@ public class DtoUtils {
                 .filter(dtoMetadata -> !("id".equals(dtoMetadata.name()) || !dtoMetadata.nullable()))
                 .map(dtoMetadata -> fieldWithPath(dtoMetadata.name()).description(dtoMetadata.description()))
                 .toArray(FieldDescriptor[]::new);
-    }
-
-    public ParameterDescriptor[] generateParameters(Class<?> dtoClass, Set<String> parameters) {
-        return Arrays.stream(dtoClass.getDeclaredFields())
-                .filter(field -> parameters.contains(field.getName()))
-                .map(field -> parameterWithName(field.getName()).description(getDescriptions(dtoClass).get(field.getName())))
-                .toArray(ParameterDescriptor[]::new);
     }
 
     public ParameterDescriptor[] generateIdParameter(List<DtoMetadata> listDtoMetadata) {

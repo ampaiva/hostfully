@@ -4,6 +4,7 @@ import com.github.javafaker.Faker;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -21,11 +22,11 @@ public class PayloadBuilder {
         fieldGenerators.put("country", () -> faker.address().country());
     }
 
-    private static boolean isNotIdOrNotNullable(DtoMetadata m) {
+    private boolean isNotIdOrNotNullable(DtoMetadata m) {
         return !("id".equals(m.name()) || m.nullable());
     }
 
-    private static boolean isNotIdOrNullable(DtoMetadata m) {
+    private boolean isNotIdOrNullable(DtoMetadata m) {
         return !("id".equals(m.name()) || !m.nullable());
     }
 
@@ -33,18 +34,44 @@ public class PayloadBuilder {
         return fieldGenerators.getOrDefault(fieldName, () -> "?").get();
     }
 
-    private String generateCreateKeyValues(List<DtoMetadata> list, Predicate<DtoMetadata> filteredFields) {
-        return list.stream()
-                .filter(filteredFields)
-                .map(m -> "\"" + m.name() + "\":\"" + getFakeValue(m.name()) + "\"")
+    private String getFakeValue(DtoMetadata dtoMetadata) {
+        return getFakeValue(dtoMetadata.name());
+    }
+
+    private String generateCreateKeyValues(Map<String, String> fakeValues) {
+        return fakeValues.entrySet().stream()
+                .map(entry -> "\"" + entry.getKey() + "\":\"" + entry.getValue() + "\"")
                 .collect(Collectors.joining(","));
     }
 
+
+    private String generatePayload(String keyValues) {
+        return "{" + keyValues + "}";
+    }
+
+    private Map<String, String> generateFakeValues(List<DtoMetadata> list, Predicate<DtoMetadata> filterFields) {
+        return list.stream()
+                .filter(filterFields)
+                .filter(dtoMetadata -> fieldGenerators.containsKey(dtoMetadata.name()))
+                .collect(Collectors.toMap(DtoMetadata::name, this::getFakeValue,
+                        (existing, replacement) -> existing,
+                        LinkedHashMap::new
+                ));
+    }
+
+    public Map<String, String> generateCreateFakeValues(List<DtoMetadata> list) {
+        return  generateFakeValues(list, this::isNotIdOrNotNullable);
+    }
+
+    public String generateCreatePayload(Map<String, String> fakeValues) {
+        return generatePayload(generateCreateKeyValues(fakeValues));
+    }
+
     public String generateCreatePayload(List<DtoMetadata> list) {
-        return "{" + generateCreateKeyValues(list, PayloadBuilder::isNotIdOrNotNullable) + "}";
+        return generateCreatePayload(generateCreateFakeValues(list));
     }
 
     public String generateCreateMissingNonNullablePayload(List<DtoMetadata> list) {
-        return "{" + generateCreateKeyValues(list, PayloadBuilder::isNotIdOrNullable) + "}";
+        return generatePayload(generateCreateKeyValues(generateFakeValues(list, this::isNotIdOrNullable)));
     }
 }
