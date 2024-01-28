@@ -1,6 +1,9 @@
 package com.ampaiva.hostfully.integration;
 
 
+import com.ampaiva.hostfully.utils.DtoMetadata;
+import com.ampaiva.hostfully.utils.DtoUtils;
+import com.ampaiva.hostfully.utils.PayloadBuilder;
 import com.github.javafaker.Faker;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
@@ -19,8 +22,8 @@ import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.operation.preprocess.OperationRequestPreprocessor;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static io.restassured.RestAssured.given;
@@ -54,12 +57,24 @@ public abstract class BaseIntegrationTest {
     @Autowired
     Faker faker;
 
+    @Autowired
+    PayloadBuilder payloadBuilder;
+
     private final Class<?> dtoClass;
     private final String dtoPlural;
+
+    private List<DtoMetadata> listDtoMetadata;
 
     BaseIntegrationTest(Class<?> dtoClass, String dtoPlural) {
         this.dtoClass = dtoClass;
         this.dtoPlural = dtoPlural;
+    }
+
+    private List<DtoMetadata> getMetadata() {
+        if (listDtoMetadata == null) {
+            this.listDtoMetadata = dtoUtils.getDtoMetadata(dtoClass);
+        }
+        return listDtoMetadata;
     }
 
     static int getPropertyId() {
@@ -107,10 +122,11 @@ public abstract class BaseIntegrationTest {
     @Test
     public void testCreate() {
         // Create
-        int id = given(this.spec).filter(document("api/" + dtoPlural + "/post/" + HttpStatus.CREATED.value(), getPreprocessor(),
-                        requestFields(dtoUtils.generateFieldExcept(dtoClass, Set.of("id")))))
+        int id = given(this.spec)
+                .filter(document("api/" + dtoPlural + "/post/" + HttpStatus.CREATED.value(), getPreprocessor(),
+                        requestFields(dtoUtils.generateCreateFieldDescriptors(getMetadata()))))
                 .contentType(ContentType.JSON)
-                .body("{ \"address\": \"" + faker.address().streetAddress() + "Disney Road, 2024\", \"city\": \"Orlando\", \"state\": \"FL\", \"country\": \"USA\" }")
+                .body(payloadBuilder.generateCreatePayload(getMetadata()))
                 .when()
                 .post(API + dtoPlural)
                 .then()
