@@ -1,6 +1,7 @@
 === List all properties
 
-Returns a list of all properties. The properties are returned sorted by creation date, with the most recent properties appearing first.
+Returns a list of all properties.
+The properties are returned sorted by creation date, with the most recent properties appearing first.
 
 ==== Parameters
 
@@ -14,8 +15,8 @@ Returns a list with all properties.
 
 ===== Request
 
-include::{snippets}/hostfully/property/get-all/http-request.adoc[]
+include::{snippets}/api/properties/get-all/http-request.adoc[]
 
 ===== Response
 
-include::{snippets}/hostfully/property/get-all/http-response.adoc[]
+include::{snippets}/api/properties/get-all/http-response.adoc[]

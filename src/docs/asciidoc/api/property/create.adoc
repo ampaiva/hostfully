@@ -21,8 +21,8 @@ include::{snippets}/api/properties/post/201/http-response.adoc[]
 
 ===== Request
 
-include::{snippets}/hostfully/property/post/400/http-request.adoc[]
+include::{snippets}/api/properties/post/400/http-request.adoc[]
 
 ===== Response
 
-include::{snippets}/hostfully/property/post/400/http-response.adoc[]
+include::{snippets}/api/properties/post/400/http-response.adoc[]

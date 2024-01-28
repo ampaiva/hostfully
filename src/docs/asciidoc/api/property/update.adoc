@@ -1,6 +1,8 @@
 === Update a Property
 
-Updates the specified property by setting the values of the parameters passed. Any parameters not provided will be left unchanged. For example, if you pass the address parameter, that becomes the properties’ address.
+Updates the specified property by setting the values of the parameters passed.
+Any parameters not provided will be left unchanged.
+For example, if you pass the address parameter, that becomes the properties’ address.
 
 This request accepts mostly the same arguments as the property creation call.
 

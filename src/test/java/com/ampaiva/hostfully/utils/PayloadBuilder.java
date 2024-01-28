@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -20,19 +21,30 @@ public class PayloadBuilder {
         fieldGenerators.put("country", () -> faker.address().country());
     }
 
+    private static boolean isNotIdOrNotNullable(DtoMetadata m) {
+        return !("id".equals(m.name()) || m.nullable());
+    }
+
+    private static boolean isNotIdOrNullable(DtoMetadata m) {
+        return !("id".equals(m.name()) || !m.nullable());
+    }
+
     private String getFakeValue(String fieldName) {
         return fieldGenerators.getOrDefault(fieldName, () -> "?").get();
     }
 
-    private String generateKeyValues(List<DtoMetadata> list) {
+    private String generateCreateKeyValues(List<DtoMetadata> list, Predicate<DtoMetadata> filteredFields) {
         return list.stream()
-                .filter(m -> ! ("id".equals(m.name()) ||  m.nullable()))
+                .filter(filteredFields)
                 .map(m -> "\"" + m.name() + "\":\"" + getFakeValue(m.name()) + "\"")
                 .collect(Collectors.joining(","));
     }
 
     public String generateCreatePayload(List<DtoMetadata> list) {
-        // "{ \"address\": \"" + faker.address().streetAddress() + "Disney Road, 2024\", \"city\": \"Orlando\", \"state\": \"FL\", \"country\": \"USA\" }")
-        return "{" + generateKeyValues(list) + "}";
+        return "{" + generateCreateKeyValues(list, PayloadBuilder::isNotIdOrNotNullable) + "}";
+    }
+
+    public String generateCreateMissingNonNullablePayload(List<DtoMetadata> list) {
+        return "{" + generateCreateKeyValues(list, PayloadBuilder::isNotIdOrNullable) + "}";
     }
 }

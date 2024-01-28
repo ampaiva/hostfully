@@ -1,9 +1,10 @@
 === Retrieve a Property
+
 Retrieves a property object.
 
 ==== Parameters
 
-include::{snippets}/hostfully/property/get/200/path-parameters.adoc[]
+include::{snippets}/api/properties/get/200/path-parameters.adoc[]
 
 ==== Returns
 
@@ -15,16 +16,16 @@ if there is no Property with path parameter id, returns not found status with a 
 
 ===== Request
 
-include::{snippets}/hostfully/property/get/200/http-request.adoc[]
+include::{snippets}/api/properties/get/200/http-request.adoc[]
 
 ===== Response
 
-include::{snippets}/hostfully/property/get/200/http-response.adoc[]
+include::{snippets}/api/properties/get/200/http-response.adoc[]
 
 ===== Request
 
-include::{snippets}/hostfully/property/get/404/http-request.adoc[]
+include::{snippets}/api/properties/get/404/http-request.adoc[]
 
 ===== Response
 
-include::{snippets}/hostfully/property/get/404/http-response.adoc[]
+include::{snippets}/api/properties/get/404/http-response.adoc[]

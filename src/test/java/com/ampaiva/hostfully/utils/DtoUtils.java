@@ -19,11 +19,11 @@ import static org.springframework.restdocs.request.RequestDocumentation.paramete
 public class DtoUtils {
 
     private DtoMetadata getMetadata(Field field) {
-        if (! field.isAnnotationPresent(Schema.class)) {
+        if (!field.isAnnotationPresent(Schema.class)) {
             return new DtoMetadata(field.getName(), null, null);
         }
         Schema schema = field.getAnnotation(Schema.class);
-        return new DtoMetadata(field.getName(),schema.description(), schema.nullable());
+        return new DtoMetadata(field.getName(), schema.description(), schema.nullable());
     }
 
     public List<DtoMetadata> getDtoMetadata(Class<?> dtoClass) {
@@ -37,10 +37,10 @@ public class DtoUtils {
                 .filter(field -> field.isAnnotationPresent(Schema.class))
                 .collect(Collectors.toMap(Field::getName, field -> field.getAnnotation(Schema.class).description()));
     }
-    public FieldDescriptor[] generateFieldExcept(Class<?> dtoClass, Set<String> excludedFields) {
-        return Arrays.stream(dtoClass.getDeclaredFields())
-                .filter(field -> !excludedFields.contains(field.getName()))
-                .map(field -> fieldWithPath(field.getName()).description(getDescriptions(dtoClass).get(field.getName())))
+
+    public FieldDescriptor[] generateGetFieldDescriptors(List<DtoMetadata> listDtoMetadata) {
+        return listDtoMetadata.stream()
+                .map(dtoMetadata -> fieldWithPath(dtoMetadata.name()).description(dtoMetadata.description()))
                 .toArray(FieldDescriptor[]::new);
     }
 
@@ -51,10 +51,24 @@ public class DtoUtils {
                 .toArray(FieldDescriptor[]::new);
     }
 
+    public FieldDescriptor[] generateMissingFieldDescriptors(List<DtoMetadata> listDtoMetadata) {
+        return listDtoMetadata.stream()
+                .filter(dtoMetadata -> !("id".equals(dtoMetadata.name()) || !dtoMetadata.nullable()))
+                .map(dtoMetadata -> fieldWithPath(dtoMetadata.name()).description(dtoMetadata.description()))
+                .toArray(FieldDescriptor[]::new);
+    }
+
     public ParameterDescriptor[] generateParameters(Class<?> dtoClass, Set<String> parameters) {
         return Arrays.stream(dtoClass.getDeclaredFields())
                 .filter(field -> parameters.contains(field.getName()))
                 .map(field -> parameterWithName(field.getName()).description(getDescriptions(dtoClass).get(field.getName())))
+                .toArray(ParameterDescriptor[]::new);
+    }
+
+    public ParameterDescriptor[] generateIdParameter(List<DtoMetadata> listDtoMetadata) {
+        return listDtoMetadata.stream()
+                .filter(dtoMetadata -> "id".equals(dtoMetadata.name()))
+                .map(dtoMetadata -> parameterWithName(dtoMetadata.name()).description(dtoMetadata.description()))
                 .toArray(ParameterDescriptor[]::new);
     }
 }

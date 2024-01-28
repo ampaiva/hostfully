@@ -23,14 +23,15 @@ import org.springframework.restdocs.operation.preprocess.OperationRequestPreproc
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.modifyUris;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.document;
 import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.documentationConfiguration;
 
@@ -45,36 +46,24 @@ public abstract class BaseIntegrationTest {
     public static final String API_BOOKING = "/api/bookings";
     public static final String CANCEL = "/cancel";
     public static final String REBOOK = "/rebook";
+    private final Class<?> dtoClass;
+    private final String dtoPlural;
     protected RequestSpecification spec;
     @LocalServerPort
     int randomServerPort;
     @Value("${server.servlet.context-path}")
     String contextPath;
-
     @Autowired
     DtoUtils dtoUtils;
-
     @Autowired
     Faker faker;
-
     @Autowired
     PayloadBuilder payloadBuilder;
-
-    private final Class<?> dtoClass;
-    private final String dtoPlural;
-
     private List<DtoMetadata> listDtoMetadata;
 
     BaseIntegrationTest(Class<?> dtoClass, String dtoPlural) {
         this.dtoClass = dtoClass;
         this.dtoPlural = dtoPlural;
-    }
-
-    private List<DtoMetadata> getMetadata() {
-        if (listDtoMetadata == null) {
-            this.listDtoMetadata = dtoUtils.getDtoMetadata(dtoClass);
-        }
-        return listDtoMetadata;
     }
 
     static int getPropertyId() {
@@ -96,14 +85,11 @@ public abstract class BaseIntegrationTest {
                 .removePort());
     }
 
-    private String getJsonRepr(Map.Entry<String, String> entry) {
-        return String.format("\"%s\": \"%s\"", entry.getKey(), entry.getValue());
-    }
-
-    String generateBody(Map<String, String> map) {
-        return "{" + map.entrySet().stream()
-                .map(this::getJsonRepr)
-                .collect(Collectors.joining(",")) + "}";
+    private List<DtoMetadata> getMetadata() {
+        if (listDtoMetadata == null) {
+            this.listDtoMetadata = dtoUtils.getDtoMetadata(dtoClass);
+        }
+        return listDtoMetadata;
     }
 
     @BeforeEach
@@ -137,5 +123,77 @@ public abstract class BaseIntegrationTest {
         assertTrue(id > 0);
     }
 
+    @Test
+    public void testCreateWithMissingNonNullableFields() {
+        given(this.spec)
+                .filter(document("api/" + dtoPlural + "/post/" + HttpStatus.BAD_REQUEST.value(), getPreprocessor(),
+                        requestFields(dtoUtils.generateMissingFieldDescriptors(getMetadata()))))
+                .contentType(ContentType.JSON)
+                .body(payloadBuilder.generateCreateMissingNonNullablePayload(getMetadata()))
+                .when()
+                .post(API + dtoPlural)
+                .then()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .contentType(ContentType.TEXT)
+                .body(containsString("not-null property references a null or transient value : com.ampaiva.hostfully.model.Property."));
+    }
 
+    @Test
+    public void testGetExisting() {
+        // Create
+        int propertyId = getPropertyId();
+
+        // Get
+        given(this.spec)
+                .filter(document("api/" + dtoPlural + "/get/" + HttpStatus.OK.value(), getPreprocessor(),
+                        pathParameters(dtoUtils.generateIdParameter(getMetadata())),
+                        responseFields(dtoUtils.generateGetFieldDescriptors(getMetadata()))))
+                .contentType(ContentType.JSON)
+                .when()
+                .get(API + dtoPlural + "/{id}", propertyId)
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("id", equalTo(propertyId));
+    }
+
+    @Test
+    public void testGetNonExisting() {
+        int nonExistingPropertyId = Integer.MAX_VALUE;
+
+        given(this.spec)
+                .filter(document("api/" + dtoPlural + "/get/" + HttpStatus.NOT_FOUND.value(), getPreprocessor(),
+                        pathParameters(dtoUtils.generateIdParameter(getMetadata()))))
+                .contentType(ContentType.JSON)
+                .when()
+                .get(API + dtoPlural + "/{id}", nonExistingPropertyId)
+                .then()
+                .statusCode(HttpStatus.NOT_FOUND.value())
+                .contentType(ContentType.TEXT)
+                .body(containsString("Object with id=" + nonExistingPropertyId + " not found"));
+    }
+
+    @Test
+    public void testGetAllProperties() {
+        // Create
+        int id = given()
+                .contentType(ContentType.JSON)
+                .body(payloadBuilder.generateCreatePayload(getMetadata()))
+                .when()
+                .post(API + dtoPlural)
+                .then()
+                .statusCode(HttpStatus.CREATED.value())
+                .extract()
+                .path("id");
+
+        // Get All
+        given(this.spec)
+                .filter(document("api/" + dtoPlural + "/get-all", getPreprocessor()))
+                .contentType(ContentType.JSON)
+                .when()
+                .get(API + dtoPlural)
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("", hasItems(hasEntry("id", id)));
+
+    }
 }
