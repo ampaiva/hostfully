@@ -25,10 +25,13 @@ public abstract class BaseController<T> {
 
     @Operation(summary = "Get an entity by its id")
     @GetMapping("/{id}")
-    public ResponseEntity<T> getById(@PathVariable Long id) {
-        Optional<T> optionalEntity = dtoService.getById(id);
-        return optionalEntity.map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<?> getById(@PathVariable Long id) {
+        Optional<T> optionalDto = dtoService.getById(id);
+        if (optionalDto.isEmpty()) {
+            return new ResponseEntity<>("Entity not found with id=" + id, HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(optionalDto, HttpStatus.OK);
     }
 
     @PostMapping

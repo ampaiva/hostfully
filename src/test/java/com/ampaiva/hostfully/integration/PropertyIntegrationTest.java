@@ -17,7 +17,9 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.modifyUris;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.document;
 
 public class PropertyIntegrationTest extends BaseIntegrationTest {
@@ -25,11 +27,8 @@ public class PropertyIntegrationTest extends BaseIntegrationTest {
     @Test
     public void testCreateProperty() {
         // Create
-        int propertyId = given(this.spec).filter(document("hostfully/property/post/201", preprocessRequest(modifyUris()
-                                .scheme("https")
-                                .host("com.ampaiva.hostfully")
-                                .removePort()),
-                        requestFields(DtoUtils.generateFieldDescriptors(PropertyDto.class, Set.of("id")))))
+        int propertyId = given(this.spec).filter(document("hostfully/property/post/" + HttpStatus.CREATED.value(), getPreprocessor(),
+                        requestFields(dtoUtils.generateFieldExcept(PropertyDto.class, Set.of("id")))))
                 .contentType(ContentType.JSON)
                 .body("{ \"address\": \"Disney Road, 2024\", \"city\": \"Orlando\", \"state\": \"FL\", \"country\": \"USA\" }")
                 .when()
@@ -47,10 +46,9 @@ public class PropertyIntegrationTest extends BaseIntegrationTest {
     }
 
     private String generateBody(Map<String, String> map) {
-        var str = "{" + map.entrySet().stream()
+        return "{" + map.entrySet().stream()
                 .map(this::getJsonRepr)
                 .collect(Collectors.joining(",")) + "}";
-        return str;
     }
 
     @ParameterizedTest
@@ -72,11 +70,8 @@ public class PropertyIntegrationTest extends BaseIntegrationTest {
 
 
         // Create
-        given(this.spec).filter(document("hostfully/property/post/400", preprocessRequest(modifyUris()
-                                .scheme("https")
-                                .host("com.ampaiva.hostfully")
-                                .removePort()),
-                        requestFields(DtoUtils.generateFieldDescriptors(PropertyDto.class, Set.of("id", missingField)))))
+        given(this.spec).filter(document("hostfully/property/post/" + HttpStatus.BAD_REQUEST.value(), getPreprocessor(),
+                        requestFields(dtoUtils.generateFieldExcept(PropertyDto.class, Set.of("id", missingField)))))
                 .contentType(ContentType.JSON)
                 .body(generateBody(newMap))
                 .when()
@@ -88,28 +83,43 @@ public class PropertyIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    public void testCRUDProperty() {
+    public void testGetExistingProperty() {
         // Create
         int propertyId = getPropertyId();
 
         // Get
         given(this.spec)
-                .filter(document("hostfully/property/get/id", preprocessRequest(modifyUris()
-                                .scheme("https")
-                                .host("com.ampaiva.hostfully")
-                                .removePort()),
-                        responseFields(
-                                fieldWithPath("id").description("The property ID"),
-                                fieldWithPath("address").description("The property address (typically number followed by street"),
-                                fieldWithPath("city").description("The property city"),
-                                fieldWithPath("state").description("The property state"),
-                                fieldWithPath("country").description("The property country"))))
+                .filter(document("hostfully/property/get/" + HttpStatus.OK.value(), getPreprocessor(),
+                        pathParameters(dtoUtils.generateParameters(PropertyDto.class, Set.of("id"))),
+                        responseFields(dtoUtils.generateFieldExcept(PropertyDto.class, Set.of()))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get(API_PROPERTY + "/" + propertyId)
+                .get(API_PROPERTY + "/{id}", propertyId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("id", equalTo(propertyId));
+    }
+
+    @Test
+    public void testGetNonExistingProperty() {
+        int nonExistingPropertyId = Integer.MAX_VALUE;
+
+        given(this.spec)
+                .filter(document("hostfully/property/get/" + HttpStatus.NOT_FOUND.value(), getPreprocessor(),
+                        pathParameters(dtoUtils.generateParameters(PropertyDto.class, Set.of("id")))))
+                .contentType(ContentType.JSON)
+                .when()
+                .get(API_PROPERTY + "/{id}", nonExistingPropertyId)
+                .then()
+                .statusCode(HttpStatus.NOT_FOUND.value())
+                .contentType(ContentType.TEXT)
+                .body(containsString("Entity not found with id=" + nonExistingPropertyId));
+    }
+
+    @Test
+    public void testCRUDProperty() {
+        // Create
+        int propertyId = getPropertyId();
 
         // Get All
         given(this.spec)

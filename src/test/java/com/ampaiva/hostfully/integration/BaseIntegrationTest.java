@@ -7,15 +7,19 @@ import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.operation.preprocess.OperationRequestPreprocessor;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static io.restassured.RestAssured.given;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.modifyUris;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.documentationConfiguration;
 
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
@@ -34,6 +38,9 @@ public class BaseIntegrationTest {
     @Value("${server.servlet.context-path}")
     String contextPath;
 
+    @Autowired
+    DtoUtils dtoUtils;
+
     static int getPropertyId() {
         return given()
                 .contentType(ContentType.JSON)
@@ -44,6 +51,13 @@ public class BaseIntegrationTest {
                 .statusCode(HttpStatus.CREATED.value())
                 .extract()
                 .path("id");
+    }
+
+    protected static OperationRequestPreprocessor getPreprocessor() {
+        return preprocessRequest(modifyUris()
+                .scheme("https")
+                .host("com.ampaiva.hostfully")
+                .removePort());
     }
 
     @BeforeEach

@@ -40,11 +40,41 @@ include::{snippets}/hostfully/property/post/400/http-request.adoc[]
 
 include::{snippets}/hostfully/property/post/400/http-response.adoc[]
 
-=== Get all properties
+=== Retrieve a Property
+Retrieves a property object.
 
-Get all properties.
+=== Parameters
 
-ENDPOINT
+include::{snippets}/hostfully/property/get/id/path-parameters.adoc[]
+
+==== Returns
+
+Returns the Property object with the id.
+
+if there is no Property with path parameter id, returns not found status with a proper error message in the response.
+
+==== Examples
+
+===== Request
+
+include::{snippets}/hostfully/property/get/200/http-request.adoc[]
+
+===== Response
+
+include::{snippets}/hostfully/property/get/200/http-response.adoc[]
+
+===== Request
+
+include::{snippets}/hostfully/property/get/404/http-request.adoc[]
+
+===== Response
+
+include::{snippets}/hostfully/property/get/404/http-response.adoc[]
+
+
+=== List all properties
+
+Returns a list of all properties. The properties are returned sorted by creation date, with the most recent properties appearing first.
 
 ==== Parameters
 
@@ -65,17 +95,6 @@ include::{snippets}/hostfully/property/get/http-request.adoc[]
 include::{snippets}/hostfully/property/get/http-response.adoc[]
 
 include::{snippets}/hostfully/property/get/curl-request.adoc[]
-
-=== Get one Property
-
-include::{snippets}/hostfully/property/get/id/http-request.adoc[]
-
-=== Response
-
-include::{snippets}/hostfully/property/get/id/http-response.adoc[]
-
-include::{snippets}/hostfully/property/get/id/curl-request.adoc[]
-
 
 ==== Update a Property
 
