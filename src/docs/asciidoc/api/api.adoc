@@ -1,0 +1,25 @@
+= API Documentation
+The Hostfully API is organized around link:https://en.wikipedia.org/wiki/REST[REST]. The API has predictable resource-oriented URLs, accepts form-encoded request bodies, returns JSON-encoded responses, and uses standard HTTP response codes and verbs.
+
+== Authentication
+
+Authentication is not implemented due to time constraints.
+
+== HTTP Status Codes
+
+Not all HTTP Status Codes are used in the current version of the API.
+The table below lists only the ones that are being currently used.
+
+.Table HTTP Status Code Summary
+[cols="2,1,1"]
+|===
+|Code|Reason| Description
+
+|200|OK|Everything worked as expected.
+|400|Bad Request|The request was unacceptable, often due to missing a required parameter.
+|404|Not Found|    The requested resource does not exist.
+|409|Conflict|The request conflicts with another request (perhaps due to using the same idempotent key).
+|500|Internal Server Errors|Something went wrong on the server end that was not expected, so it was not mapped to a specic code.
+|===
+
+include::property/index.adoc[]

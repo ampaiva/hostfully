@@ -1,0 +1,9 @@
+=== Update a Property
+
+==== Request
+
+include::{snippets}/hostfully/property/put/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/hostfully/property/put/http-response.adoc[]

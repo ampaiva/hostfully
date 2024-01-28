@@ -117,23 +117,24 @@ public class PropertyIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    public void testCRUDProperty() {
+    public void testGetAllProperties() {
         // Create
         int propertyId = getPropertyId();
 
         // Get All
         given(this.spec)
-                .filter(document("hostfully/property/get",
-                        preprocessRequest(modifyUris()
-                                .scheme("https")
-                                .host("com.ampaiva.hostfully")
-                                .removePort())))
+                .filter(document("hostfully/property/get-all", getPreprocessor()))
                 .contentType(ContentType.JSON)
                 .when()
                 .get(API_PROPERTY)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("", hasItems(hasEntry("id", propertyId)));
+
+    }
+    public void testCRUDProperty() {
+        // Create
+        int propertyId = getPropertyId();
 
         // Update
         given(this.spec)

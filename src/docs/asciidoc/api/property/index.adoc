@@ -1,0 +1,20 @@
+== Property
+
+This is an object that represents a property.
+The property has one owner and can be reserved by a guest.
+This reservation is a booking.
+A property can also have assigned to it a block.
+
+=== The Property object
+
+==== Attributes
+
+include::{snippets}/hostfully/property/get/id/response-fields.adoc[]
+
+include::create.adoc[]
+
+include::retrieve.adoc[]
+
+include::list.adoc[]
+
+include::update.adoc[]
