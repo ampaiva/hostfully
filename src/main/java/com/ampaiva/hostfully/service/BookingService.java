@@ -1,8 +1,8 @@
 package com.ampaiva.hostfully.service;
 
 import com.ampaiva.hostfully.dto.BookingDto;
+import com.ampaiva.hostfully.exception.BadRequestException;
 import com.ampaiva.hostfully.exception.ConflictException;
-import com.ampaiva.hostfully.exception.PatchException;
 import com.ampaiva.hostfully.mapper.BookingMapper;
 import com.ampaiva.hostfully.model.Block;
 import com.ampaiva.hostfully.model.Booking;
@@ -51,7 +51,7 @@ public class BookingService extends BaseService<BookingDto, Booking> implements 
 
     private void checkValidDates(Booking booking) {
         if (booking.getStart().isAfter(booking.getEnd()))
-            throw new PatchException("Start date (" + booking.getStart() + ") should be less than or equal to end date (" + booking.getEnd() + ")");
+            throw new BadRequestException("Start date (" + booking.getStart() + ") should be less than or equal to end date (" + booking.getEnd() + ")");
     }
 
     private void checkConflictingBookings(Booking booking, Property property) {

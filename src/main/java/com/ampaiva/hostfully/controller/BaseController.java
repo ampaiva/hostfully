@@ -1,6 +1,7 @@
 package com.ampaiva.hostfully.controller;
 
 import com.ampaiva.hostfully.service.DtoService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +18,12 @@ public abstract class BaseController<T> {
     }
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<T>> getAll() {
         return new ResponseEntity<>(dtoService.getAll(), HttpStatus.OK);
     }
 
+    @Operation(summary = "Get an entity by its id")
     @GetMapping("/{id}")
     public ResponseEntity<T> getById(@PathVariable Long id) {
         Optional<T> optionalEntity = dtoService.getById(id);

@@ -17,9 +17,11 @@ import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.modifyUris;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.document;
 import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.documentationConfiguration;
 
@@ -85,7 +87,8 @@ public class HostfullyIntegrationTest {
 
     @BeforeEach
     void setUp(RestDocumentationContextProvider restDocumentation) {
-        this.spec = new RequestSpecBuilder().addFilter(documentationConfiguration(restDocumentation))
+        this.spec = new RequestSpecBuilder()
+                .addFilter(documentationConfiguration(restDocumentation))
                 .build();
     }
 
@@ -100,7 +103,26 @@ public class HostfullyIntegrationTest {
         // Create
         int propertyId = getPropertyId();
 
-        // Retrieve
+        // Get
+        given(this.spec)
+                .filter(document("hostfully/property/get/id", preprocessRequest(modifyUris()
+                                .scheme("https")
+                                .host("com.ampaiva.hostfully")
+                                .removePort()),
+                        responseFields(
+                                fieldWithPath("id").description("The property ID"),
+                                fieldWithPath("address").description("The property address (typically number followed by street"),
+                                fieldWithPath("city").description("The property city"),
+                                fieldWithPath("state").description("The property state"),
+                                fieldWithPath("country").description("The property country"))))
+                .contentType(ContentType.JSON)
+                .when()
+                .get(API_PROPERTY + "/" + propertyId)
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("id", equalTo(propertyId));
+
+        // Get All
         given(this.spec)
                 .filter(document("hostfully/property/get",
                         preprocessRequest(modifyUris()
@@ -109,10 +131,10 @@ public class HostfullyIntegrationTest {
                                 .removePort())))
                 .contentType(ContentType.JSON)
                 .when()
-                .get(API_PROPERTY + "/" + propertyId)
+                .get(API_PROPERTY)
                 .then()
                 .statusCode(HttpStatus.OK.value())
-                .body("id", equalTo(propertyId));
+                .body("", hasItems(hasEntry("id", propertyId)));
 
         // Update
         given(this.spec)

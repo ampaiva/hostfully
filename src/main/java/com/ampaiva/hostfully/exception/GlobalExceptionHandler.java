@@ -30,15 +30,8 @@ public class GlobalExceptionHandler {
         return handleBadRequest(ex);
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<Object> handleRuntimeException(RuntimeException ex) {
-        return new ResponseEntity<>(ex.getMessage(), getResponseStatusValue(ex.getClass()));
-    }
-
-
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleException(Exception ex) {
-        String errorMessage = "An error occurred: " + ex.getMessage();
-        return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<Object> handleRuntimeException(Exception ex) {
+        return new ResponseEntity<>(ex.getMessage(), getResponseStatusValue(ex.getClass()));
     }
 }

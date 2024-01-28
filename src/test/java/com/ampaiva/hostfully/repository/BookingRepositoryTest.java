@@ -34,8 +34,10 @@ class BookingRepositoryTest {
             "21, 21, 0",
             "21, 22, 0"})
     void findConflictingBookingsWhenCanceledIsFalseAndChosenDateIntersectsExistingBooking(String start, String end, int expected) {
-        Property property = new Property();
-        Property otherProperty = new Property();
+        Property property = RepositoryTestUtils.generateRandomProperty();
+        ;
+        Property otherProperty = RepositoryTestUtils.generateRandomProperty();
+        ;
         propertyRepository.saveAll(List.of(property, otherProperty));
 
         Booking booking = new Booking();

@@ -3,45 +3,51 @@
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs
+:highlightjs-theme: github
+:toc: left
+:toclevels: 3
+:sectlinks:
 
-Alexandre Paiva
-
-== Overview
+= Overview
 
 This repository contains a WebService that supports a REST API to handle bookings.
 
-=== Terminology
+== Terminology
 
-A booking is when a guest selects a start and end date and submits a reservation on a property.
-A block is when the property owner or manager selects a range of days during which no guest can make a booking (e.g. the owner wants to use the property for themselves, or the property manager needs to schedule the repainting of a few rooms).
+* A **booking** is when a **guest** selects a start and end date and submits a reservation on a property.
+* A **block** is when the property owner or manager selects a range of days during which no guest can make a booking (e.g. the owner wants to use the property for themselves, or the **property** manager needs to schedule the repainting of a few rooms).
 
-`SampleRestAssuredApplicationTests` makes a call to a very simple service.
-The service that is being tested is running on a random port on `localhost`.
-The tests make use of a preprocessor to modify the request so that it appears to have been sent to
-`https://api.example.com`.
-If your service includes URIs in its responses, for example because it uses hypermedia, similar preprocessing can be applied to the response before it is documented.
+== Implementation
 
-Three snippets are produced.
-One showing how to make a request using cURL:
+For allowing the management of hosting properties, `Hostfully` has the internal (*) API documented here.
+This API allows the proper management of the before mentioned four entities: **Property**, **Guest**, **Booking**, and **Block**.
 
-==== Get a Property
+IMPORTANT: (*) The API was designed for internal usage only, mainly for Front-end integration or internal services.
+Therefore, entity IDs are returned in the GET, POST, PUT, and PATCH responses.
+If the API needs an extesion to be external exposed, it should be refactored to return UUID instead.
 
-===== Request
+= API Documentation
+The Hostfully API is organized around link:https://en.wikipedia.org/wiki/REST[REST]. The API has predictable resource-oriented URLs, accepts form-encoded request bodies, returns JSON-encoded responses, and uses standard HTTP response codes and verbs.
 
-include::{snippets}/hostfully/property/get/http-request.adoc[]
+== Authentication
 
-===== Response
+Authentication is not implemented due to time constraints.
 
-include::{snippets}/hostfully/property/get/http-response.adoc[]
+== HTTP Status Codes
 
-include::{snippets}/hostfully/property/get/curl-request.adoc[]
+Not all HTTP Status Codes are used in the current version of the API.
+The table below lists only the ones that are being currently used.
 
-==== Update a Property
+.Table HTTP Status Code Summary
+[cols="2,1,1"]
+|===
+|Code|Reason| Description
 
-===== Request
+|200|OK|Everything worked as expected.
+|400|Bad Request|The request was unacceptable, often due to missing a required parameter.
+|404|Not Found|    The requested resource does not exist.
+|409|Conflict|The request conflicts with another request (perhaps due to using the same idempotent key).
+|500|Internal Server Errors|Something went wrong on the server end that was not expected, so it was not mapped to a specic code.
+|===
 
-include::{snippets}/hostfully/property/put/http-request.adoc[]
-
-===== Response
-
-include::{snippets}/hostfully/property/put/http-response.adoc[]
+include::property.adoc[]

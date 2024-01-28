@@ -1,0 +1,88 @@
+== Property
+
+This is an object that represents a property.
+The property has one owner and can be reserved by a guest.
+This reservation is a booking.
+A property can also have assigned to it a block.
+
+=== The Property object
+
+==== Attributes
+
+include::{snippets}/hostfully/property/get/id/response-fields.adoc[]
+
+=== Create a property
+
+==== Parameters
+
+include::{snippets}/hostfully/property/post/201/request-fields.adoc[]
+
+==== Returns
+
+Returns the Property object after successful property creation.
+Raises an error if create parameters are invalid (for example, request payload missing any field).
+
+==== Examples
+
+===== Request
+
+include::{snippets}/hostfully/property/post/201/http-request.adoc[]
+
+===== Response
+
+include::{snippets}/hostfully/property/post/201/http-response.adoc[]
+
+===== Request
+
+include::{snippets}/hostfully/property/post/400/http-request.adoc[]
+
+===== Response
+
+include::{snippets}/hostfully/property/post/400/http-response.adoc[]
+
+=== Get all properties
+
+Get all properties.
+
+ENDPOINT
+
+==== Parameters
+
+No parameters.
+
+==== Returns
+
+Returns a list with all properties.
+
+==== Example
+
+===== Request
+
+include::{snippets}/hostfully/property/get/http-request.adoc[]
+
+===== Response
+
+include::{snippets}/hostfully/property/get/http-response.adoc[]
+
+include::{snippets}/hostfully/property/get/curl-request.adoc[]
+
+=== Get one Property
+
+include::{snippets}/hostfully/property/get/id/http-request.adoc[]
+
+=== Response
+
+include::{snippets}/hostfully/property/get/id/http-response.adoc[]
+
+include::{snippets}/hostfully/property/get/id/curl-request.adoc[]
+
+
+==== Update a Property
+
+===== Request
+
+include::{snippets}/hostfully/property/put/http-request.adoc[]
+
+===== Response
+
+include::{snippets}/hostfully/property/put/http-response.adoc[]
