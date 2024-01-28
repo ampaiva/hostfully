@@ -54,7 +54,7 @@ public abstract class BaseController<T> {
         Optional<T> optionalDto = dtoService.patch(id, updates);
 
         if (optionalDto.isEmpty()) {
-            return new ResponseEntity<>("id not found: " + id, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Object with id=" + id + " not found", HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<>(optionalDto.get(), HttpStatus.OK);

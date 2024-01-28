@@ -186,6 +186,25 @@ public class PropertyIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
+    public void testPatchNonExistingProperty() {
+        // Create
+        int nonExistingPropertyId = Integer.MAX_VALUE;
+
+        // Update
+        given(this.spec)
+                .filter(document("hostfully/property/patch/" + HttpStatus.NOT_FOUND.value(), getPreprocessor(),
+                        pathParameters(dtoUtils.generateParameters(PropertyDto.class, Set.of("id")))))
+                .contentType(ContentType.JSON)
+                .body("{ \"city\": \"Miami\"}")
+                .when()
+                .patch(API_PROPERTY + "/{id}", nonExistingPropertyId)
+                .then()
+                .statusCode(HttpStatus.NOT_FOUND.value())
+                .contentType(ContentType.TEXT)
+                .body(containsString("Object with id=" + nonExistingPropertyId + " not found"));
+    }
+
+    @Test
     public void testDeleteProperty() {
         // Create
         int propertyId = getPropertyId();

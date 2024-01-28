@@ -6,7 +6,7 @@ This request accepts mostly the same arguments as the property creation call.
 
 ==== Parameters
 
-include::{snippets}/hostfully/property/delete/204/path-parameters.adoc[]
+include::{snippets}/hostfully/property/put/200/path-parameters.adoc[]
 
 ==== Returns
 
