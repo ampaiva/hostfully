@@ -18,3 +18,7 @@ include::retrieve.adoc[]
 include::list.adoc[]
 
 include::update.adoc[]
+
+include::patch.adoc[]
+
+include::delete.adoc[]

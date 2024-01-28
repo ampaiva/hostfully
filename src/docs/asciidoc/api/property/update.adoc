@@ -1,9 +1,34 @@
 === Update a Property
 
+Updates the specified property by setting the values of the parameters passed. Any parameters not provided will be left unchanged. For example, if you pass the address parameter, that becomes the properties’ address.
+
+This request accepts mostly the same arguments as the property creation call.
+
+==== Parameters
+
+include::{snippets}/hostfully/property/delete/204/path-parameters.adoc[]
+
+==== Returns
+
+Returns no content in case of successful deletion.
+
+if there is no Property with path parameter id, returns not found status with a proper error message in the response.
+
+==== Examples
+
 ==== Request
 
-include::{snippets}/hostfully/property/put/http-request.adoc[]
+include::{snippets}/hostfully/property/put/200/http-request.adoc[]
 
 ==== Response
 
-include::{snippets}/hostfully/property/put/http-response.adoc[]
+include::{snippets}/hostfully/property/put/200/http-response.adoc[]
+
+==== Request
+
+include::{snippets}/hostfully/property/put/404/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/hostfully/property/put/404/http-response.adoc[]
+

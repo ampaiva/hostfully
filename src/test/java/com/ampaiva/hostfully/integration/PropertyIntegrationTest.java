@@ -15,8 +15,6 @@ import java.util.stream.Collectors;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.modifyUris;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
@@ -113,7 +111,7 @@ public class PropertyIntegrationTest extends BaseIntegrationTest {
                 .then()
                 .statusCode(HttpStatus.NOT_FOUND.value())
                 .contentType(ContentType.TEXT)
-                .body(containsString("Entity not found with id=" + nonExistingPropertyId));
+                .body(containsString("Object with id=" + nonExistingPropertyId + " not found"));
     }
 
     @Test
@@ -132,49 +130,85 @@ public class PropertyIntegrationTest extends BaseIntegrationTest {
                 .body("", hasItems(hasEntry("id", propertyId)));
 
     }
-    public void testCRUDProperty() {
+
+    @Test
+    public void testUpdateProperty() {
         // Create
         int propertyId = getPropertyId();
 
         // Update
         given(this.spec)
-                .filter(document("hostfully/property/put",
-                        preprocessRequest(modifyUris()
-                                .scheme("https")
-                                .host("com.ampaiva.hostfully")
-                                .removePort())))
+                .filter(document("hostfully/property/put/" + HttpStatus.OK.value(), getPreprocessor(),
+                        pathParameters(dtoUtils.generateParameters(PropertyDto.class, Set.of("id")))))
                 .contentType(ContentType.JSON)
                 .body("{ \"city\": \"Miami\"}")
                 .when()
-                .put(API_PROPERTY + "/" + propertyId)
+                .put(API_PROPERTY + "/{id}", propertyId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("city", equalTo("Miami"));
+    }
+    @Test
+    public void testUpdateNonExistingProperty() {
+        // Create
+        int nonExistingPropertyId = Integer.MAX_VALUE;
+
+        // Update
+        given(this.spec)
+                .filter(document("hostfully/property/put/" + HttpStatus.NOT_FOUND.value(), getPreprocessor(),
+                        pathParameters(dtoUtils.generateParameters(PropertyDto.class, Set.of("id")))))
+                .contentType(ContentType.JSON)
+                .body("{ \"city\": \"Miami\"}")
+                .when()
+                .put(API_PROPERTY + "/{id}", nonExistingPropertyId)
+                .then()
+                .statusCode(HttpStatus.NOT_FOUND.value())
+                .contentType(ContentType.TEXT)
+                .body(containsString("Object with id=" + nonExistingPropertyId + " not found"));
+    }
+
+    @Test
+    public void testPatchProperty() {
+        // Create
+        int propertyId = getPropertyId();
 
         // Patch
-        given()
+        given(this.spec)
+                .filter(document("hostfully/property/patch/" + HttpStatus.OK.value(), getPreprocessor(),
+                        pathParameters(dtoUtils.generateParameters(PropertyDto.class, Set.of("id")))))
                 .contentType(ContentType.JSON)
                 .body("{ \"country\": \"France\"}")
                 .when()
-                .patch(API_PROPERTY + "/" + propertyId)
+                .patch(API_PROPERTY + "/{id}", propertyId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("country", equalTo("France"));
+    }
+
+    @Test
+    public void testDeleteProperty() {
+        // Create
+        int propertyId = getPropertyId();
 
         // Delete
-        given()
+        given(this.spec)
+                .filter(document("hostfully/property/delete/" + HttpStatus.NO_CONTENT.value(), getPreprocessor(),
+                        pathParameters(dtoUtils.generateParameters(PropertyDto.class, Set.of("id")))))
                 .contentType(ContentType.JSON)
                 .when()
-                .delete(API_PROPERTY + "/" + propertyId)
+                .delete(API_PROPERTY + "/{id}", propertyId)
                 .then()
                 .statusCode(HttpStatus.NO_CONTENT.value());
 
         // Retrieve Failed
-        given()
+        given(this.spec).filter(document("hostfully/property/delete/" + HttpStatus.NOT_FOUND.value(), getPreprocessor(),
+                        pathParameters(dtoUtils.generateParameters(PropertyDto.class, Set.of("id")))))
                 .contentType(ContentType.JSON)
                 .when()
-                .get(API_PROPERTY + "/" + propertyId)
+                .delete(API_PROPERTY + "/{id}", propertyId)
                 .then()
-                .statusCode(HttpStatus.NOT_FOUND.value());
+                .statusCode(HttpStatus.NOT_FOUND.value())
+                .contentType(ContentType.TEXT)
+                .body(containsString("Object with id=" + propertyId + " not found"));
     }
 }

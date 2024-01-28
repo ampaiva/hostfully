@@ -1,0 +1,30 @@
+=== Delete a Property
+Permanently deletes a property. It cannot be undone.
+
+==== Parameters
+
+include::{snippets}/hostfully/property/delete/204/path-parameters.adoc[]
+
+==== Returns
+
+Returns no content in case of successful deletion.
+
+if there is no Property with path parameter id, returns not found status with a proper error message in the response.
+
+==== Examples
+
+==== Request
+
+include::{snippets}/hostfully/property/delete/204/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/hostfully/property/delete/204/http-response.adoc[]
+
+==== Request
+
+include::{snippets}/hostfully/property/delete/404/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/hostfully/property/delete/404/http-response.adoc[]
