@@ -22,21 +22,8 @@ import static org.springframework.restdocs.restassured.RestAssuredRestDocumentat
 
 public class PropertyIntegrationTest extends BaseIntegrationTest {
 
-    @Test
-    public void testCreateProperty() {
-        // Create
-        int propertyId = given(this.spec).filter(document("hostfully/property/post/" + HttpStatus.CREATED.value(), getPreprocessor(),
-                        requestFields(dtoUtils.generateFieldExcept(PropertyDto.class, Set.of("id")))))
-                .contentType(ContentType.JSON)
-                .body("{ \"address\": \"Disney Road, 2024\", \"city\": \"Orlando\", \"state\": \"FL\", \"country\": \"USA\" }")
-                .when()
-                .post(API_PROPERTY)
-                .then()
-                .statusCode(HttpStatus.CREATED.value())
-                .extract()
-                .path("id");
-
-        assertTrue(propertyId > 0);
+    PropertyIntegrationTest() {
+        super(PropertyDto.class, "properties");
     }
 
     private String getJsonRepr(Map.Entry<String, String> entry) {

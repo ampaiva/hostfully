@@ -2,7 +2,7 @@
 
 ==== Parameters
 
-include::{snippets}/hostfully/property/post/201/request-fields.adoc[]
+include::{snippets}/api/properties/post/201/request-fields.adoc[]
 
 ==== Returns
 
@@ -13,11 +13,11 @@ Raises an error if create parameters are invalid (for example, request payload m
 
 ===== Request
 
-include::{snippets}/hostfully/property/post/201/http-request.adoc[]
+include::{snippets}/api/properties/post/201/http-request.adoc[]
 
 ===== Response
 
-include::{snippets}/hostfully/property/post/201/http-response.adoc[]
+include::{snippets}/api/properties/post/201/http-response.adoc[]
 
 ===== Request
 
