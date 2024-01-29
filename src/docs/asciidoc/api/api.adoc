@@ -22,4 +22,5 @@ The table below lists only the ones that are being currently used.
 |500|Internal Server Errors|Something went wrong on the server end that was not expected, so it was not mapped to a specic code.
 |===
 
-include::property/index.adoc[]
+include::properties/index.adoc[]
+include::guests/index.adoc[]

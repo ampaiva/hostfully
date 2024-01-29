@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -30,7 +29,6 @@ public class DtoUtils {
                 .map(this::getMetadata)
                 .collect(Collectors.toList());
     }
-
 
     public FieldDescriptor[] generateGetFieldDescriptors(List<DtoMetadata> listDtoMetadata) {
         return listDtoMetadata.stream()

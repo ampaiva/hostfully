@@ -2,9 +2,7 @@ package com.ampaiva.hostfully.integration;
 
 
 import io.restassured.RestAssured;
-import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
-import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,18 +10,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
-import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.modifyUris;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.document;
-import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.documentationConfiguration;
+import static org.hamcrest.Matchers.equalTo;
 
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -41,8 +32,6 @@ public class HostfullyIntegrationTest {
 
     @Value("${server.servlet.context-path}")
     String contextPath;
-
-    private RequestSpecification spec;
 
     private static int getGuestId() {
         return given()
@@ -86,149 +75,11 @@ public class HostfullyIntegrationTest {
     }
 
     @BeforeEach
-    void setUp(RestDocumentationContextProvider restDocumentation) {
-        this.spec = new RequestSpecBuilder()
-                .addFilter(documentationConfiguration(restDocumentation))
-                .build();
-    }
-
-    @BeforeEach
     public void setUp() {
         RestAssured.port = randomServerPort;
         RestAssured.basePath = contextPath;
     }
 
-    @Test
-    public void testCRUDProperty() {
-        // Create
-        int propertyId = getPropertyId();
-
-        // Get
-        given(this.spec)
-                .filter(document("hostfully/property/get/id", preprocessRequest(modifyUris()
-                                .scheme("https")
-                                .host("com.ampaiva.hostfully")
-                                .removePort()),
-                        responseFields(
-                                fieldWithPath("id").description("The property ID"),
-                                fieldWithPath("address").description("The property address (typically number followed by street"),
-                                fieldWithPath("city").description("The property city"),
-                                fieldWithPath("state").description("The property state"),
-                                fieldWithPath("country").description("The property country"))))
-                .contentType(ContentType.JSON)
-                .when()
-                .get(API_PROPERTY + "/" + propertyId)
-                .then()
-                .statusCode(HttpStatus.OK.value())
-                .body("id", equalTo(propertyId));
-
-        // Get All
-        given(this.spec)
-                .filter(document("hostfully/property/get",
-                        preprocessRequest(modifyUris()
-                                .scheme("https")
-                                .host("com.ampaiva.hostfully")
-                                .removePort())))
-                .contentType(ContentType.JSON)
-                .when()
-                .get(API_PROPERTY)
-                .then()
-                .statusCode(HttpStatus.OK.value())
-                .body("", hasItems(hasEntry("id", propertyId)));
-
-        // Update
-        given(this.spec)
-                .filter(document("hostfully/property/put",
-                        preprocessRequest(modifyUris()
-                                .scheme("https")
-                                .host("com.ampaiva.hostfully")
-                                .removePort())))
-                .contentType(ContentType.JSON)
-                .body("{ \"city\": \"Miami\"}")
-                .when()
-                .put(API_PROPERTY + "/" + propertyId)
-                .then()
-                .statusCode(HttpStatus.OK.value())
-                .body("city", equalTo("Miami"));
-
-        // Patch
-        given()
-                .contentType(ContentType.JSON)
-                .body("{ \"country\": \"France\"}")
-                .when()
-                .patch(API_PROPERTY + "/" + propertyId)
-                .then()
-                .statusCode(HttpStatus.OK.value())
-                .body("country", equalTo("France"));
-
-        // Delete
-        given()
-                .contentType(ContentType.JSON)
-                .when()
-                .delete(API_PROPERTY + "/" + propertyId)
-                .then()
-                .statusCode(HttpStatus.NO_CONTENT.value());
-
-        // Retrieve Failed
-        given()
-                .contentType(ContentType.JSON)
-                .when()
-                .get(API_PROPERTY + "/" + propertyId)
-                .then()
-                .statusCode(HttpStatus.NOT_FOUND.value());
-    }
-
-
-    @Test
-    public void testCRUDGuest() {
-        // Create
-        int guestId = getGuestId();
-
-        // Retrieve
-        given()
-                .contentType(ContentType.JSON)
-                .when()
-                .get(API_GUEST + "/" + guestId)
-                .then()
-                .statusCode(HttpStatus.OK.value())
-                .body("id", equalTo(guestId));
-
-        // Update
-        given()
-                .contentType(ContentType.JSON)
-                .body("{ \"city\": \"Miami\"}")
-                .when()
-                .put(API_GUEST + "/" + guestId)
-                .then()
-                .statusCode(HttpStatus.OK.value())
-                .body("city", equalTo("Miami"));
-
-        // Patch
-        given()
-                .contentType(ContentType.JSON)
-                .body("{ \"country\": \"France\"}")
-                .when()
-                .patch(API_GUEST + "/" + guestId)
-                .then()
-                .statusCode(HttpStatus.OK.value())
-                .body("country", equalTo("France"));
-
-        // Delete
-        given()
-                .contentType(ContentType.JSON)
-                .when()
-                .delete(API_GUEST + "/" + guestId)
-                .then()
-                .statusCode(HttpStatus.NO_CONTENT.value());
-
-        // Retrieve Failed
-        given()
-                .contentType(ContentType.JSON)
-                .when()
-                .get(API_GUEST + "/" + guestId)
-                .then()
-                .statusCode(HttpStatus.NOT_FOUND.value());
-    }
 
     @Test
     public void testCRUDBlock() {

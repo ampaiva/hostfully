@@ -16,14 +16,17 @@ public class PayloadBuilder {
     private final Map<String, Supplier<String>> fieldGenerators = new HashMap<>();
 
     public PayloadBuilder(Faker faker) {
+        fieldGenerators.put("name", () -> faker.name().fullName());
+        fieldGenerators.put("email", () -> faker.internet().emailAddress());
+        fieldGenerators.put("phone", () -> faker.phoneNumber().phoneNumber());
         fieldGenerators.put("address", () -> faker.address().streetAddress());
         fieldGenerators.put("city", () -> faker.address().city());
         fieldGenerators.put("state", () -> faker.address().state());
         fieldGenerators.put("country", () -> faker.address().country());
     }
 
-    private boolean isNotIdOrNotNullable(DtoMetadata m) {
-        return !("id".equals(m.name()) || m.nullable());
+    private boolean isNotId(DtoMetadata m) {
+        return !"id".equals(m.name());
     }
 
     private boolean isNotIdOrNullable(DtoMetadata m) {
@@ -60,7 +63,7 @@ public class PayloadBuilder {
     }
 
     public Map<String, String> generateCreateFakeValues(List<DtoMetadata> list) {
-        return  generateFakeValues(list, this::isNotIdOrNotNullable);
+        return generateFakeValues(list, this::isNotId);
     }
 
     public String generateCreatePayload(Map<String, String> fakeValues) {

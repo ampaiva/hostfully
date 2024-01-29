@@ -9,7 +9,7 @@ A property can also have assigned to it a block.
 
 ==== Attributes
 
-include::{snippets}/hostfully/property/get/id/response-fields.adoc[]
+include::{snippets}/api/properties/get/200/response-fields.adoc[]
 
 include::create.adoc[]
 

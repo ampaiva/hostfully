@@ -1,7 +1,6 @@
 package com.ampaiva.hostfully.integration;
 
 
-import com.ampaiva.hostfully.dto.PropertyDto;
 import com.ampaiva.hostfully.utils.DtoMetadata;
 import com.ampaiva.hostfully.utils.DtoUtils;
 import com.ampaiva.hostfully.utils.PayloadBuilder;
@@ -11,7 +10,6 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import org.hamcrest.Matcher;
-import org.hamcrest.core.IsIterableContaining;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,7 +25,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
@@ -45,15 +42,11 @@ import static org.springframework.restdocs.restassured.RestAssuredRestDocumentat
 public abstract class BaseIntegrationTest {
 
     public static final String API = "/api/";
-    public static final String API_GUEST = "/api/guests";
-    public static final String API_PROPERTY = "/api/properties";
-    public static final String API_BLOCK = "/api/blocks";
-    public static final String API_BOOKING = "/api/bookings";
-    public static final String CANCEL = "/cancel";
-    public static final String REBOOK = "/rebook";
     private final Class<?> dtoClass;
     private final String dtoPlural;
+    private final String dtoSingular;
     protected RequestSpecification spec;
+
     @LocalServerPort
     int randomServerPort;
     @Value("${server.servlet.context-path}")
@@ -66,24 +59,14 @@ public abstract class BaseIntegrationTest {
     PayloadBuilder payloadBuilder;
     private List<DtoMetadata> listDtoMetadata;
 
-    BaseIntegrationTest(Class<?> dtoClass, String dtoPlural) {
+    BaseIntegrationTest(Class<?> dtoClass, String dtoPlural, String dtoSingular) {
         this.dtoClass = dtoClass;
         this.dtoPlural = dtoPlural;
+        this.dtoSingular = dtoSingular;
     }
 
-    static int getPropertyId() {
-        return given()
-                .contentType(ContentType.JSON)
-                .body("{ \"address\": \"Disney Road, 2024\", \"city\": \"Orlando\", \"state\": \"FL\", \"country\": \"USA\" }")
-                .when()
-                .post(API_PROPERTY)
-                .then()
-                .statusCode(HttpStatus.CREATED.value())
-                .extract()
-                .path("id");
-    }
 
-    protected static OperationRequestPreprocessor getPreprocessor() {
+    private OperationRequestPreprocessor getPreprocessor() {
         return preprocessRequest(modifyUris()
                 .scheme("https")
                 .host("com.ampaiva.hostfully")
@@ -95,6 +78,10 @@ public abstract class BaseIntegrationTest {
             this.listDtoMetadata = dtoUtils.getDtoMetadata(dtoClass);
         }
         return listDtoMetadata;
+    }
+
+    private String getSingularCamelCase() {
+        return dtoSingular.substring(0, 1).toUpperCase() + dtoSingular.substring(1);
     }
 
     @BeforeEach
@@ -153,7 +140,7 @@ public abstract class BaseIntegrationTest {
                 .then()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
                 .contentType(ContentType.TEXT)
-                .body(containsString("not-null property references a null or transient value : com.ampaiva.hostfully.model.Property."));
+                .body(containsString("not-null property references a null or transient value : com.ampaiva.hostfully.model." + getSingularCamelCase()));
     }
 
     @Test
@@ -225,8 +212,8 @@ public abstract class BaseIntegrationTest {
                 .put(API + dtoPlural + "/{id}", id)
                 .then()
                 .statusCode(HttpStatus.OK.value());
-                //TODO: Implement the matcher
-                //.body("", hasItems(hasEntries(fakeValues)));
+        //TODO: Implement the matcher
+        //.body("", hasItems(hasEntries(fakeValues)));
     }
 
 

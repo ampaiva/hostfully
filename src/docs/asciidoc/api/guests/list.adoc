@@ -1,0 +1,22 @@
+=== List all guests
+
+Returns a list of all guests.
+The guests are returned sorted by creation date, with the most recent guests appearing first.
+
+==== Parameters
+
+No parameters.
+
+==== Returns
+
+Returns a list with all guests.
+
+==== Example
+
+===== Request
+
+include::{snippets}/api/guests/get-all/http-request.adoc[]
+
+===== Response
+
+include::{snippets}/api/guests/get-all/http-response.adoc[]
