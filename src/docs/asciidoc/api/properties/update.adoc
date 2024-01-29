@@ -12,7 +12,8 @@ include::{snippets}/api/properties/put/200/path-parameters.adoc[]
 
 ==== Returns
 
-Returns no content in case of successful deletion.
+Returns the Property object after successful patch.
+Raises an error if create parameters are invalid (for example, request payload missing any field).
 
 if there is no Property with path parameter id, returns not found status with a proper error message in the response.
 

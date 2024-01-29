@@ -155,6 +155,10 @@ public abstract class BaseIntegrationTest {
         return getIdentifier("get", responseCode);
     }
 
+    String getPatchIdentifier(int responseCode) {
+        return getIdentifier("patch", responseCode);
+    }
+
     RestDocumentationFilter getDocument(String identifier) {
         return document(identifier, getPreprocessor());
     }
@@ -163,17 +167,21 @@ public abstract class BaseIntegrationTest {
         return document(identifier, getPreprocessor(), requestFields);
     }
 
-    private RestDocumentationFilter getDocument(String getIdentifier, PathParametersSnippet pathParametersSnippet) {
-        return document(getIdentifier, getPreprocessor(), pathParametersSnippet);
+    private RestDocumentationFilter getDocument(String getIdentifier, PathParametersSnippet pathParameters) {
+        return document(getIdentifier, getPreprocessor(), pathParameters);
     }
 
-    private RestDocumentationFilter getDocument(String getIdentifier, PathParametersSnippet pathParametersSnippet, ResponseFieldsSnippet responseFieldsSnippet) {
-        return document(getIdentifier, getPreprocessor(), pathParametersSnippet,
-                responseFieldsSnippet);
+    private RestDocumentationFilter getDocument(String identifier, PathParametersSnippet pathParametersSnippet, ResponseFieldsSnippet responseFields) {
+        return document(identifier, getPreprocessor(), pathParametersSnippet, responseFields);
     }
 
     RequestSpecification givenDoc(RestDocumentationFilter document) {
         return given(this.spec).filter(document);
+    }
+
+    RequestSpecification givenDoc(String identifier) {
+        return RequestSpecificationBuilder
+                .givenDoc(this.spec, getPreprocessor()).identifier(identifier).path(pathParameters(dtoUtils.generateIdParameter(getMetadata()))).doc();
     }
 
     RequestSpecification givenWithRequest(String identifier, RequestFieldsSnippet requestFields) {
@@ -220,6 +228,15 @@ public abstract class BaseIntegrationTest {
     private RequestSpecification givenGetWithPath(int responseCode) {
         return givenGet(responseCode, pathParameters(dtoUtils.generateIdParameter(getMetadata())));
     }
+
+    private RequestSpecification givenPatch(int responseCode, PathParametersSnippet pathParametersSnippet) {
+        return givenWithPath(getPatchIdentifier(responseCode), pathParametersSnippet);
+    }
+
+    RequestSpecification givenPatchWithPath(int responseCode) {
+        return givenPatch(responseCode, pathParameters(dtoUtils.generateIdParameter(getMetadata())));
+    }
+
 
     @Test
     public void testCreate() {
@@ -350,8 +367,7 @@ public abstract class BaseIntegrationTest {
         var fakeValues = payloadBuilder.generateCreateFakeValuesFilterRelations(getMetadata());
 
         // Update
-        givenDoc(document("api/" + dtoPlural + "/patch/" + HttpStatus.OK.value(), getPreprocessor(),
-                pathParameters(dtoUtils.generateIdParameter(getMetadata()))))
+        givenPatchWithPath(HttpStatus.OK.value())
                 .contentType(ContentType.JSON)
                 .body(payloadBuilder.generateCreatePayload(fakeValues))
                 .when()

@@ -1,0 +1,26 @@
+=== Canceling a Booking
+
+Bookings can be canceled via cancel endpoint.
+
+==== Parameters
+
+include::{snippets}/api/bookings/patch/200/cancel/path-parameters.adoc[]
+
+==== Returns
+
+Returns the Booking object after successful cancel.
+
+if there is no Booking with path parameter id, returns not found status with a proper error message in the response.
+
+==== Examples
+
+==== Request
+
+include::{snippets}/api/bookings/patch/200/cancel/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/api/bookings/patch/200/cancel/http-response.adoc[]
+
+
+

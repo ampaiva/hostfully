@@ -12,11 +12,20 @@ include::{snippets}/api/bookings/patch/404/path-parameters.adoc[]
 
 ==== Returns
 
-Returns no content in case of successful deletion.
+Returns the Booking object after successful booking patch.
+Raises an error if create parameters are invalid (for example, request payload missing any field).
 
 if there is no Booking with path parameter id, returns not found status with a proper error message in the response.
 
 ==== Examples
+
+==== Request
+
+include::{snippets}/api/bookings/patch/200/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/api/bookings/patch/200/http-response.adoc[]
 
 ==== Request
 

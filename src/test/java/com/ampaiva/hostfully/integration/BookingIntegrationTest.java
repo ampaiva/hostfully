@@ -161,6 +161,7 @@ public class BookingIntegrationTest extends BaseIntegrationTest {
 
     }
 
+
     @Test
     public void testCancelAndRebook() {
 
@@ -168,19 +169,19 @@ public class BookingIntegrationTest extends BaseIntegrationTest {
         int bookingId = getBookingId();
 
         // Cancel
-        given()
+        givenDoc(getPatchIdentifier(HttpStatus.OK.value()) + "/cancel")
                 .contentType(ContentType.JSON)
                 .when()
-                .patch(API + BOOKINGS + "/" + bookingId + CANCEL)
+                .patch(API + BOOKINGS + "/{id}" + CANCEL, bookingId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("canceled", equalTo(true));
 
         // Rebook
-        given()
+        givenDoc(getPatchIdentifier(HttpStatus.OK.value()) + "/rebook")
                 .contentType(ContentType.JSON)
                 .when()
-                .patch(API + BOOKINGS + "/" + bookingId + REBOOK)
+                .patch(API + BOOKINGS + "/{id}" + REBOOK, bookingId)
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("canceled", equalTo(false));

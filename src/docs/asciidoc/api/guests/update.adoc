@@ -12,7 +12,8 @@ include::{snippets}/api/guests/put/200/path-parameters.adoc[]
 
 ==== Returns
 
-Returns no content in case of successful deletion.
+Returns the Guest object after successful update.
+Raises an error if create parameters are invalid (for example, request payload missing any field).
 
 if there is no Guest with path parameter id, returns not found status with a proper error message in the response.
 

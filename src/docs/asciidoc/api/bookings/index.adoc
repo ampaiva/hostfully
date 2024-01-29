@@ -26,3 +26,7 @@ include::update.adoc[]
 include::patch.adoc[]
 
 include::delete.adoc[]
+
+include::cancel.adoc[]
+
+include::rebook.adoc[]
