@@ -31,6 +31,8 @@ public abstract class BaseService<T, U> {
     private static Object getConvertedValue(Field field, Object fieldValue) {
         if (field.getType() == LocalDate.class && fieldValue != null)
             fieldValue = LocalDate.parse(fieldValue.toString());
+        else if (field.getType() == Boolean.class && fieldValue != null)
+            fieldValue = Boolean.parseBoolean(fieldValue.toString());
         return fieldValue;
     }
 

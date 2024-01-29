@@ -10,6 +10,8 @@ import static io.restassured.RestAssured.given;
 
 public class BookingIntegrationTest extends BaseIntegrationTest {
 
+    public static final String CANCEL = "/cancel";
+    public static final String REBOOK = "/rebook";
     private static final String BOOKINGS = "bookings";
 
     BookingIntegrationTest() {
@@ -17,17 +19,7 @@ public class BookingIntegrationTest extends BaseIntegrationTest {
     }
 
     @Override
-    public void testGetNonExisting() {
-
-    }
-
-    @Override
     public void testCreateWithMissingNonNullableFields() {
-
-    }
-
-    @Override
-    public void testPatch() {
 
     }
 
@@ -48,7 +40,7 @@ public class BookingIntegrationTest extends BaseIntegrationTest {
                 .statusCode(HttpStatus.CREATED.value());
 
         // Conflict if there is a booking conflicting with the dates
-        givenCreate(HttpStatus.CONFLICT.value())
+        givenDoc(getDocument(getPostIdentifier(HttpStatus.CREATED.value())))
                 .contentType(ContentType.JSON)
                 .body("{ \"start\": \"2024-01-12\", \"end\": \"2024-01-14\", \"guest\": { \"id\": " + guestId + " }, \"property\": { \"id\": " + propertyId + " } }")
                 .when()
@@ -65,7 +57,7 @@ public class BookingIntegrationTest extends BaseIntegrationTest {
         int guestId = getGuestId();
 
         // Create
-        givenCreate(HttpStatus.BAD_REQUEST.value())
+        givenDoc(getDocument(getPostIdentifier(HttpStatus.BAD_REQUEST.value())))
                 .contentType(ContentType.JSON)
                 .body("{ \"start\": \"2024-01-19\", \"end\": \"2024-01-18\", \"guest\": { \"id\": " + guestId + " }, \"property\": { \"id\": " + propertyId + " } }")
                 .when()

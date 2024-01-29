@@ -11,12 +11,12 @@ import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
+import jakarta.annotation.PostConstruct;
 import org.hamcrest.Matcher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
@@ -24,6 +24,10 @@ import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.operation.preprocess.OperationRequestPreprocessor;
 import org.springframework.restdocs.payload.RequestFieldsSnippet;
+import org.springframework.restdocs.payload.ResponseFieldsSnippet;
+import org.springframework.restdocs.request.PathParametersSnippet;
+import org.springframework.restdocs.restassured.RestDocumentationFilter;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
@@ -42,6 +46,7 @@ import static org.springframework.restdocs.restassured.RestAssuredRestDocumentat
 
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 public abstract class BaseIntegrationTest {
 
     public static final String API = "/api/";
@@ -52,9 +57,6 @@ public abstract class BaseIntegrationTest {
 
     @LocalServerPort
     int randomServerPort;
-
-    @Value("${server.servlet.context-path}")
-    String contextPath;
 
     @Autowired
     DtoUtils dtoUtils;
@@ -71,6 +73,13 @@ public abstract class BaseIntegrationTest {
         this.dtoClass = dtoClass;
         this.dtoPlural = dtoPlural;
         this.dtoSingular = dtoSingular;
+    }
+
+    @PostConstruct
+    public void init() {
+        RestAssured.port = randomServerPort;
+        payloadBuilder.getPropertyId = this::getPropertyId;
+        payloadBuilder.getGuestId = this::getGuestId;
     }
 
 
@@ -98,17 +107,10 @@ public abstract class BaseIntegrationTest {
         this.spec = new RequestSpecBuilder()
                 .addFilter(documentationConfiguration(restDocumentation))
                 .build();
-
-        RestAssured.port = randomServerPort;
-        RestAssured.basePath = contextPath;
-
-        payloadBuilder.getPropertyId = this::getPropertyId;
-        payloadBuilder.getGuestId = this::getGuestId;
-
     }
 
     private int getId(String dtoPlural, List<DtoMetadata> dtoMetadata) {
-        return given()
+        return RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(payloadBuilder.generateCreatePayload(dtoMetadata))
                 .when()
@@ -131,21 +133,83 @@ public abstract class BaseIntegrationTest {
         return getId("guests", dtoUtils.getDtoMetadata(GuestDto.class));
     }
 
-    RequestSpecification givenCreate(int responseCode) {
-        return given(this.spec)
-                .filter(document("api/" + dtoPlural + "/post/" + responseCode, getPreprocessor()));
+    private String getIdentifierPrefix() {
+        return "api/" + dtoPlural;
+    }
+
+    private String getIdentifier(String method, int responseCode) {
+        return getIdentifierPrefix() + "/" + method + "/" + responseCode;
+    }
+
+    String getPostIdentifier(int responseCode) {
+        return getIdentifier("post", responseCode);
+    }
+
+    private String getGetIdentifier(int responseCode) {
+        return getIdentifier("get", responseCode);
+    }
+
+    RestDocumentationFilter getDocument(String identifier) {
+        return document(identifier, getPreprocessor());
+    }
+
+    private RestDocumentationFilter getDocument(String identifier, RequestFieldsSnippet requestFields) {
+        return document(identifier, getPreprocessor(), requestFields);
+    }
+
+    private RestDocumentationFilter getDocument(String getIdentifier, PathParametersSnippet pathParametersSnippet) {
+        return document(getIdentifier, getPreprocessor(), pathParametersSnippet);
+    }
+
+    private RestDocumentationFilter getDocument(String getIdentifier, PathParametersSnippet pathParametersSnippet, ResponseFieldsSnippet responseFieldsSnippet) {
+        return document(getIdentifier, getPreprocessor(), pathParametersSnippet,
+                responseFieldsSnippet);
+    }
+
+    RequestSpecification givenDoc(RestDocumentationFilter document) {
+        return given(this.spec).filter(document);
+    }
+
+    RequestSpecification givenWithRequest(String identifier, RequestFieldsSnippet requestFields) {
+        return givenDoc(getDocument(identifier, requestFields));
+    }
+
+    RequestSpecification givenWithPath(String identifier, PathParametersSnippet pathParameters) {
+        return givenDoc(getDocument(identifier, pathParameters));
+    }
+
+    RequestSpecification givenWithPathAndResponse(String identifier, PathParametersSnippet pathParameters, ResponseFieldsSnippet responseFields) {
+        return givenDoc(getDocument(identifier, pathParameters, responseFields));
     }
 
     RequestSpecification givenCreate(int responseCode, RequestFieldsSnippet requestFields) {
-        return given(this.spec)
-                .filter(document("api/" + dtoPlural + "/post/" + responseCode, getPreprocessor(),
-                        requestFields));
+        return givenWithRequest(getPostIdentifier(responseCode), requestFields);
+    }
+
+    RequestSpecification givenCreate(int responseCode) {
+        return givenCreate(responseCode, requestFields(dtoUtils.generateCreateFieldDescriptors(getMetadata())));
+    }
+
+    private RequestSpecification givenGet(int responseCode, PathParametersSnippet pathParametersSnippet) {
+        return givenWithPath(getGetIdentifier(responseCode), pathParametersSnippet);
+    }
+
+    private RequestSpecification givenGet(int responseCode, PathParametersSnippet pathParametersSnippet, ResponseFieldsSnippet responseFieldsSnippet) {
+        return givenWithPathAndResponse(getGetIdentifier(responseCode), pathParametersSnippet, responseFieldsSnippet);
+    }
+
+    private RequestSpecification givenGet(int responseCode) {
+        return givenGet(responseCode, pathParameters(dtoUtils.generateIdParameter(getMetadata())), responseFields(dtoUtils.generateGetFieldDescriptors(getMetadata())));
+    }
+
+    private RequestSpecification givenGetWithPath(int responseCode) {
+        return givenGet(responseCode, pathParameters(dtoUtils.generateIdParameter(getMetadata())));
     }
 
     @Test
     public void testCreate() {
         // Create
-        int id = givenCreate(HttpStatus.CREATED.value(), requestFields(dtoUtils.generateCreateFieldDescriptors(getMetadata())))
+        int id = givenCreate(HttpStatus.CREATED.value())
                 .contentType(ContentType.JSON)
                 .body(payloadBuilder.generateCreatePayload(getMetadata()))
                 .when()
@@ -177,10 +241,7 @@ public abstract class BaseIntegrationTest {
         int id = getId();
 
         // Get
-        given(this.spec)
-                .filter(document("api/" + dtoPlural + "/get/" + HttpStatus.OK.value(), getPreprocessor(),
-                        pathParameters(dtoUtils.generateIdParameter(getMetadata())),
-                        responseFields(dtoUtils.generateGetFieldDescriptors(getMetadata()))))
+        givenGet(HttpStatus.OK.value())
                 .contentType(ContentType.JSON)
                 .when()
                 .get(API + dtoPlural + "/{id}", id)
@@ -191,18 +252,16 @@ public abstract class BaseIntegrationTest {
 
     @Test
     public void testGetNonExisting() {
-        int nonExistingPropertyId = Integer.MAX_VALUE;
+        int nonExistingId = Integer.MAX_VALUE;
 
-        given(this.spec)
-                .filter(document("api/" + dtoPlural + "/get/" + HttpStatus.NOT_FOUND.value(), getPreprocessor(),
-                        pathParameters(dtoUtils.generateIdParameter(getMetadata()))))
+        givenGetWithPath(HttpStatus.NOT_FOUND.value())
                 .contentType(ContentType.JSON)
                 .when()
-                .get(API + dtoPlural + "/{id}", nonExistingPropertyId)
+                .get(API + dtoPlural + "/{id}", nonExistingId)
                 .then()
                 .statusCode(HttpStatus.NOT_FOUND.value())
                 .contentType(ContentType.TEXT)
-                .body(containsString("Object with id=" + nonExistingPropertyId + " not found"));
+                .body(containsString("Object with id=" + nonExistingId + " not found"));
     }
 
     @Test
@@ -211,8 +270,7 @@ public abstract class BaseIntegrationTest {
         int id = getId();
 
         // Get All
-        given(this.spec)
-                .filter(document("api/" + dtoPlural + "/get-all", getPreprocessor()))
+        givenDoc(document("api/" + dtoPlural + "/get-all", getPreprocessor()))
                 .contentType(ContentType.JSON)
                 .when()
                 .get(API + dtoPlural)
@@ -231,9 +289,8 @@ public abstract class BaseIntegrationTest {
         var fakeValues = payloadBuilder.generateCreateFakeValues(getMetadata());
 
         // Update
-        given(this.spec)
-                .filter(document("api/" + dtoPlural + "/put/" + HttpStatus.OK.value(), getPreprocessor(),
-                        pathParameters(dtoUtils.generateIdParameter(getMetadata()))))
+        givenDoc(document("api/" + dtoPlural + "/put/" + HttpStatus.OK.value(), getPreprocessor(),
+                pathParameters(dtoUtils.generateIdParameter(getMetadata()))))
                 .contentType(ContentType.JSON)
                 .body(payloadBuilder.generateCreatePayload(fakeValues))
                 .when()
@@ -258,9 +315,8 @@ public abstract class BaseIntegrationTest {
         int nonExistingId = Integer.MAX_VALUE;
 
         // Update
-        given(this.spec)
-                .filter(document("api/" + dtoPlural + "/put/" + HttpStatus.NOT_FOUND.value(), getPreprocessor(),
-                        pathParameters(dtoUtils.generateIdParameter(getMetadata()))))
+        givenDoc(document("api/" + dtoPlural + "/put/" + HttpStatus.NOT_FOUND.value(), getPreprocessor(),
+                pathParameters(dtoUtils.generateIdParameter(getMetadata()))))
                 .contentType(ContentType.JSON)
                 .body(payloadBuilder.generateCreatePayload(getMetadata()))
                 .when()
@@ -279,9 +335,8 @@ public abstract class BaseIntegrationTest {
         var fakeValues = payloadBuilder.generateCreateFakeValuesFilterRelations(getMetadata());
 
         // Update
-        given(this.spec)
-                .filter(document("api/" + dtoPlural + "/patch/" + HttpStatus.OK.value(), getPreprocessor(),
-                        pathParameters(dtoUtils.generateIdParameter(getMetadata()))))
+        givenDoc(document("api/" + dtoPlural + "/patch/" + HttpStatus.OK.value(), getPreprocessor(),
+                pathParameters(dtoUtils.generateIdParameter(getMetadata()))))
                 .contentType(ContentType.JSON)
                 .body(payloadBuilder.generateCreatePayload(fakeValues))
                 .when()
@@ -298,9 +353,8 @@ public abstract class BaseIntegrationTest {
         int nonExistingId = Integer.MAX_VALUE;
 
         // Update
-        given(this.spec)
-                .filter(document("api/" + dtoPlural + "/patch/" + HttpStatus.NOT_FOUND.value(), getPreprocessor(),
-                        pathParameters(dtoUtils.generateIdParameter(getMetadata()))))
+        givenDoc(document("api/" + dtoPlural + "/patch/" + HttpStatus.NOT_FOUND.value(), getPreprocessor(),
+                pathParameters(dtoUtils.generateIdParameter(getMetadata()))))
                 .contentType(ContentType.JSON)
                 .body(payloadBuilder.generateCreatePayload(getMetadata()))
                 .when()
@@ -317,9 +371,8 @@ public abstract class BaseIntegrationTest {
         int id = getId();
 
         // Delete
-        given(this.spec)
-                .filter(document("api/" + dtoPlural + "/delete/" + HttpStatus.NO_CONTENT.value(), getPreprocessor(),
-                        pathParameters(dtoUtils.generateIdParameter(getMetadata()))))
+        givenDoc(document("api/" + dtoPlural + "/delete/" + HttpStatus.NO_CONTENT.value(), getPreprocessor(),
+                pathParameters(dtoUtils.generateIdParameter(getMetadata()))))
                 .contentType(ContentType.JSON)
                 .when()
                 .delete(API + dtoPlural + "/{id}", id)
@@ -327,8 +380,8 @@ public abstract class BaseIntegrationTest {
                 .statusCode(HttpStatus.NO_CONTENT.value());
 
         // Retrieve Failed
-        given(this.spec).filter(document("api/" + dtoPlural + "/delete/" + HttpStatus.NOT_FOUND.value(), getPreprocessor(),
-                        pathParameters(dtoUtils.generateIdParameter(getMetadata()))))
+        givenDoc(document("api/" + dtoPlural + "/delete/" + HttpStatus.NOT_FOUND.value(), getPreprocessor(),
+                pathParameters(dtoUtils.generateIdParameter(getMetadata()))))
                 .contentType(ContentType.JSON)
                 .when()
                 .delete(API + dtoPlural + "/{id}", id)

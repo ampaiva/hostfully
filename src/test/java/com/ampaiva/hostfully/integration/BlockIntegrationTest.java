@@ -11,11 +11,6 @@ public class BlockIntegrationTest extends BaseIntegrationTest {
     }
 
     @Override
-    public void testGetNonExisting() {
-
-    }
-
-    @Override
     public void testCreateWithMissingNonNullableFields() {
 
     }
