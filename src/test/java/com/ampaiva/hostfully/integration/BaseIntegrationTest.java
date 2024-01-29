@@ -23,6 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.operation.preprocess.OperationRequestPreprocessor;
+import org.springframework.restdocs.payload.RequestFieldsSnippet;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
@@ -122,20 +123,29 @@ public abstract class BaseIntegrationTest {
         return getId(dtoPlural, getMetadata());
     }
 
-    private int getPropertyId() {
+    int getPropertyId() {
         return getId("properties", dtoUtils.getDtoMetadata(PropertyDto.class));
     }
 
-    private int getGuestId() {
+    int getGuestId() {
         return getId("guests", dtoUtils.getDtoMetadata(GuestDto.class));
+    }
+
+    RequestSpecification givenCreate(int responseCode) {
+        return given(this.spec)
+                .filter(document("api/" + dtoPlural + "/post/" + responseCode, getPreprocessor()));
+    }
+
+    RequestSpecification givenCreate(int responseCode, RequestFieldsSnippet requestFields) {
+        return given(this.spec)
+                .filter(document("api/" + dtoPlural + "/post/" + responseCode, getPreprocessor(),
+                        requestFields));
     }
 
     @Test
     public void testCreate() {
         // Create
-        int id = given(this.spec)
-                .filter(document("api/" + dtoPlural + "/post/" + HttpStatus.CREATED.value(), getPreprocessor(),
-                        requestFields(dtoUtils.generateCreateFieldDescriptors(getMetadata()))))
+        int id = givenCreate(HttpStatus.CREATED.value(), requestFields(dtoUtils.generateCreateFieldDescriptors(getMetadata())))
                 .contentType(ContentType.JSON)
                 .body(payloadBuilder.generateCreatePayload(getMetadata()))
                 .when()
@@ -150,9 +160,7 @@ public abstract class BaseIntegrationTest {
 
     @Test
     public void testCreateWithMissingNonNullableFields() {
-        given(this.spec)
-                .filter(document("api/" + dtoPlural + "/post/" + HttpStatus.BAD_REQUEST.value(), getPreprocessor(),
-                        requestFields(dtoUtils.generateMissingFieldDescriptors(getMetadata()))))
+        givenCreate(HttpStatus.BAD_REQUEST.value(), requestFields(dtoUtils.generateMissingFieldDescriptors(getMetadata())))
                 .contentType(ContentType.JSON)
                 .body(payloadBuilder.generateCreateMissingNonNullablePayload(getMetadata()))
                 .when()

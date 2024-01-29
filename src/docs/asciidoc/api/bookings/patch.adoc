@@ -18,7 +18,6 @@ if there is no Booking with path parameter id, returns not found status with a p
 
 ==== Examples
 
-
 ==== Request
 
 include::{snippets}/api/bookings/patch/404/http-request.adoc[]
