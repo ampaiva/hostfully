@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -96,6 +97,13 @@ public class DtoUtils {
         return generateFieldDescriptors(listDtoMetadata, "");
     }
 
+    public FieldDescriptor[] generateCreateFieldDescriptors(List<DtoMetadata> listDtoMetadata, Predicate<DtoMetadata> isNotId) {
+        var listWithoutId = listDtoMetadata.stream()
+                .filter(isNotId)
+                .toList();
+        return generateFieldDescriptorsOfId(listWithoutId, "");
+    }
+
     public FieldDescriptor[] generateCreateFieldDescriptors(List<DtoMetadata> listDtoMetadata) {
         var listWithoutId = listDtoMetadata.stream()
                 .filter(this::isNotId)
@@ -103,7 +111,7 @@ public class DtoUtils {
         return generateFieldDescriptorsOfId(listWithoutId, "");
     }
 
-    private boolean isNotId(DtoMetadata dtoMetadata) {
+    public boolean isNotId(DtoMetadata dtoMetadata) {
         return !isId(dtoMetadata);
     }
 

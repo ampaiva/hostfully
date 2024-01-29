@@ -21,11 +21,23 @@ include::{snippets}/api/bookings/post/201/http-response.adoc[]
 
 ===== Request
 
+Booking conflict
+
 include::{snippets}/api/bookings/post/409/http-request.adoc[]
 
 ===== Response
 
 include::{snippets}/api/bookings/post/409/http-response.adoc[]
+
+===== Request
+
+Block conflict
+
+include::{snippets}/api/bookings/post/409-2/http-request.adoc[]
+
+===== Response
+
+include::{snippets}/api/bookings/post/409-2/http-response.adoc[]
 
 ===== Request
 

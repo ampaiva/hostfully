@@ -2,9 +2,13 @@ package com.ampaiva.hostfully.integration;
 
 
 import com.ampaiva.hostfully.dto.BookingDto;
+import com.ampaiva.hostfully.utils.DtoMetadata;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
+import org.springframework.restdocs.payload.FieldDescriptor;
+
+import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
@@ -17,6 +21,22 @@ public class BookingIntegrationTest extends BaseIntegrationTest {
 
     BookingIntegrationTest() {
         super(BookingDto.class, BOOKINGS, "booking");
+    }
+
+    private boolean filterCreateFields(DtoMetadata dtoMetadata) {
+        return dtoUtils.isNotId(dtoMetadata) && !"canceled".equals(dtoMetadata.name());
+    }
+
+    @Override
+    FieldDescriptor[] getFieldDescriptors() {
+        return dtoUtils.generateCreateFieldDescriptors(getMetadata(), this::filterCreateFields);
+    }
+
+    @Override
+    String getCreatePayload() {
+        List<DtoMetadata> dtoMetadataList = getMetadata().stream()
+                .filter(m -> !"canceled".equals(m.name())).toList();
+        return payloadBuilder.generateCreatePayload(dtoMetadataList);
     }
 
     @Override
@@ -86,7 +106,7 @@ public class BookingIntegrationTest extends BaseIntegrationTest {
         int guestId = getGuestId();
 
         // Conflict if there is a block intersecting with the dates
-        given()
+        givenDoc(getDocument(getPostIdentifier(HttpStatus.CONFLICT.value()) + "-2"))
                 .contentType(ContentType.JSON)
                 .body("{ \"start\": \"2024-01-12\", \"end\": \"2024-01-14\", \"guest\": { \"id\": " + guestId + " }, \"property\": { \"id\": " + propertyId + " } }")
                 .when()

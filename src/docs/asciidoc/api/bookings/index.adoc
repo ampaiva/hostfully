@@ -3,8 +3,8 @@
 This is an object that represents a booking.
 The booking is a reservation of a property by a guest.
 
-It is not allowed to book if the date range intersects an existing block.
-See below a conflict example.
+It is not allowed to book if the date range intersects an existing block or an existing booking.
+See below the conflict examples.
 
 The start date must be before or equals the end date.
 See below a bad request example.

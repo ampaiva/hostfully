@@ -24,6 +24,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.operation.preprocess.OperationRequestPreprocessor;
+import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.payload.RequestFieldsSnippet;
 import org.springframework.restdocs.payload.ResponseFieldsSnippet;
 import org.springframework.restdocs.request.PathParametersSnippet;
@@ -91,7 +92,7 @@ public abstract class BaseIntegrationTest {
                 .removePort());
     }
 
-    private List<DtoMetadata> getMetadata() {
+    List<DtoMetadata> getMetadata() {
         if (listDtoMetadata == null) {
             this.listDtoMetadata = dtoUtils.getDtoMetadata(dtoClass);
         }
@@ -191,8 +192,17 @@ public abstract class BaseIntegrationTest {
         return givenWithRequest(getPostIdentifier(responseCode), requestFields);
     }
 
+    FieldDescriptor[] getFieldDescriptors() {
+        return dtoUtils.generateCreateFieldDescriptors(getMetadata());
+    }
+
+    String getCreatePayload() {
+        return payloadBuilder.generateCreatePayload(getMetadata());
+    }
+
+
     RequestSpecification givenCreate(int responseCode) {
-        return givenCreate(responseCode, requestFields(dtoUtils.generateCreateFieldDescriptors(getMetadata())));
+        return givenCreate(responseCode, requestFields(getFieldDescriptors()));
     }
 
     private RequestSpecification givenGet(int responseCode, PathParametersSnippet pathParametersSnippet) {
@@ -216,7 +226,7 @@ public abstract class BaseIntegrationTest {
         // Create
         int id = givenCreate(HttpStatus.CREATED.value())
                 .contentType(ContentType.JSON)
-                .body(payloadBuilder.generateCreatePayload(getMetadata()))
+                .body(getCreatePayload())
                 .when()
                 .post(API + dtoPlural)
                 .then()
@@ -323,7 +333,7 @@ public abstract class BaseIntegrationTest {
         givenDoc(document("api/" + dtoPlural + "/put/" + HttpStatus.NOT_FOUND.value(), getPreprocessor(),
                 pathParameters(dtoUtils.generateIdParameter(getMetadata()))))
                 .contentType(ContentType.JSON)
-                .body(payloadBuilder.generateCreatePayload(getMetadata()))
+                .body(getCreatePayload())
                 .when()
                 .put(API + dtoPlural + "/{id}", nonExistingId)
                 .then()
@@ -361,7 +371,7 @@ public abstract class BaseIntegrationTest {
         givenDoc(document("api/" + dtoPlural + "/patch/" + HttpStatus.NOT_FOUND.value(), getPreprocessor(),
                 pathParameters(dtoUtils.generateIdParameter(getMetadata()))))
                 .contentType(ContentType.JSON)
-                .body(payloadBuilder.generateCreatePayload(getMetadata()))
+                .body(getCreatePayload())
                 .when()
                 .patch(API + dtoPlural + "/{id}", nonExistingId)
                 .then()
