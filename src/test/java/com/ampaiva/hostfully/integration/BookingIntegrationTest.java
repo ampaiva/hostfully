@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
 
 public class BookingIntegrationTest extends BaseIntegrationTest {
 
@@ -21,6 +22,23 @@ public class BookingIntegrationTest extends BaseIntegrationTest {
     @Override
     public void testCreateWithMissingNonNullableFields() {
 
+    }
+
+    @Test
+    public void testInvalidDatesBooking() {
+
+        int propertyId = getPropertyId();
+
+        int guestId = getGuestId();
+
+        // Create
+        givenDoc(getDocument(getPostIdentifier(HttpStatus.BAD_REQUEST.value())))
+                .contentType(ContentType.JSON)
+                .body("{ \"start\": \"2024-01-19\", \"end\": \"2024-01-18\", \"guest\": { \"id\": " + guestId + " }, \"property\": { \"id\": " + propertyId + " } }")
+                .when()
+                .post(API + BOOKINGS)
+                .then()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
@@ -50,19 +68,102 @@ public class BookingIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    public void testInvalidDatesBooking() {
+    public void testConflictWithExistingBlock() {
 
+        int propertyId = getPropertyId();
+
+        // Block Dates
+        given()
+                .contentType(ContentType.JSON)
+                .body("{ \"start\": \"2024-01-13\", \"end\": \"2024-01-20\", \"property\": { \"id\": " + propertyId + " } }")
+                .when()
+                .post(API + "blocks")
+                .then()
+                .statusCode(HttpStatus.CREATED.value())
+                .extract()
+                .path("id");
+
+        int guestId = getGuestId();
+
+        // Conflict if there is a block intersecting with the dates
+        given()
+                .contentType(ContentType.JSON)
+                .body("{ \"start\": \"2024-01-12\", \"end\": \"2024-01-14\", \"guest\": { \"id\": " + guestId + " }, \"property\": { \"id\": " + propertyId + " } }")
+                .when()
+                .post(API + BOOKINGS)
+                .then()
+                .statusCode(HttpStatus.CONFLICT.value());
+    }
+
+    @Test
+    public void testBookWhenPreviousBookingWasCanceled() {
         int propertyId = getPropertyId();
 
         int guestId = getGuestId();
 
         // Create
-        givenDoc(getDocument(getPostIdentifier(HttpStatus.BAD_REQUEST.value())))
+        int bookingId = given()
                 .contentType(ContentType.JSON)
-                .body("{ \"start\": \"2024-01-19\", \"end\": \"2024-01-18\", \"guest\": { \"id\": " + guestId + " }, \"property\": { \"id\": " + propertyId + " } }")
+                .body("{ \"start\": \"2024-01-11\", \"end\": \"2024-01-19\", \"guest\": { \"id\": " + guestId + " }, \"property\": { \"id\": " + propertyId + " } }")
                 .when()
                 .post(API + BOOKINGS)
                 .then()
-                .statusCode(HttpStatus.BAD_REQUEST.value());
+                .statusCode(HttpStatus.CREATED.value())
+                .extract()
+                .path("id");
+
+        // Conflict if there is a booking conflicting with the dates
+        given()
+                .contentType(ContentType.JSON)
+                .body("{ \"start\": \"2024-01-12\", \"end\": \"2024-01-14\", \"guest\": { \"id\": " + getGuestId() + " }, \"property\": { \"id\": " + propertyId + " } }")
+                .when()
+                .post(API + BOOKINGS)
+                .then()
+                .statusCode(HttpStatus.CONFLICT.value());
+
+        // Cancel
+        given()
+                .contentType(ContentType.JSON)
+                .when()
+                .patch(API + BOOKINGS + "/" + bookingId + CANCEL)
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("canceled", equalTo(true));
+
+        // Successful Booking due to previous cancel
+        given()
+                .contentType(ContentType.JSON)
+                .body("{ \"start\": \"2024-01-12\", \"end\": \"2024-01-14\", \"guest\": { \"id\": " + getGuestId() + " }, \"property\": { \"id\": " + propertyId + " } }")
+                .when()
+                .post(API + BOOKINGS)
+                .then()
+                .statusCode(HttpStatus.CREATED.value());
+
+    }
+
+    @Test
+    public void testCancelAndRebook() {
+
+        // Create
+        int bookingId = getBookingId();
+
+        // Cancel
+        given()
+                .contentType(ContentType.JSON)
+                .when()
+                .patch(API + BOOKINGS + "/" + bookingId + CANCEL)
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("canceled", equalTo(true));
+
+        // Rebook
+        given()
+                .contentType(ContentType.JSON)
+                .when()
+                .patch(API + BOOKINGS + "/" + bookingId + REBOOK)
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("canceled", equalTo(false));
+
     }
 }

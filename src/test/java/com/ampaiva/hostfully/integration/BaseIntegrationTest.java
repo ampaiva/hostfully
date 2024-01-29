@@ -1,6 +1,7 @@
 package com.ampaiva.hostfully.integration;
 
 
+import com.ampaiva.hostfully.dto.BookingDto;
 import com.ampaiva.hostfully.dto.GuestDto;
 import com.ampaiva.hostfully.dto.PropertyDto;
 import com.ampaiva.hostfully.utils.DtoMetadata;
@@ -131,6 +132,10 @@ public abstract class BaseIntegrationTest {
 
     int getGuestId() {
         return getId("guests", dtoUtils.getDtoMetadata(GuestDto.class));
+    }
+
+    int getBookingId() {
+        return getId("bookings", dtoUtils.getDtoMetadata(BookingDto.class));
     }
 
     private String getIdentifierPrefix() {
