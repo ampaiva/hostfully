@@ -26,3 +26,11 @@ include::{snippets}/api/bookings/post/409/http-request.adoc[]
 ===== Response
 
 include::{snippets}/api/bookings/post/409/http-response.adoc[]
+
+===== Request
+
+include::{snippets}/api/bookings/post/400/http-request.adoc[]
+
+===== Response
+
+include::{snippets}/api/bookings/post/400/http-response.adoc[]

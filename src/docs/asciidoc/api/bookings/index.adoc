@@ -6,6 +6,9 @@ The booking is a reservation of a property by a guest.
 It is not allowed to book if the date range intersects an existing block.
 See below a conflict example.
 
+The start date must be before or equals the end date.
+See below a bad request example.
+
 === The Booking object
 
 ==== Attributes
