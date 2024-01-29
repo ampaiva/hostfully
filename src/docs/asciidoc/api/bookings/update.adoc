@@ -2,7 +2,7 @@
 
 Updates the specified booking by setting the values of the parameters passed.
 Any parameters not provided will be left unchanged.
-For example, if you pass the address parameter, that becomes the bookings’ address.
+For example, if you pass the start parameter, that becomes the bookings’ start date.
 
 This request accepts mostly the same arguments as the booking creation call.
 

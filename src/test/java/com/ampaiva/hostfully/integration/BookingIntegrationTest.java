@@ -40,7 +40,7 @@ public class BookingIntegrationTest extends BaseIntegrationTest {
                 .statusCode(HttpStatus.CREATED.value());
 
         // Conflict if there is a booking conflicting with the dates
-        givenDoc(getDocument(getPostIdentifier(HttpStatus.CREATED.value())))
+        givenDoc(getDocument(getPostIdentifier(HttpStatus.CONFLICT.value())))
                 .contentType(ContentType.JSON)
                 .body("{ \"start\": \"2024-01-12\", \"end\": \"2024-01-14\", \"guest\": { \"id\": " + guestId + " }, \"property\": { \"id\": " + propertyId + " } }")
                 .when()
