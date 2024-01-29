@@ -25,3 +25,4 @@ The table below lists only the ones that are being currently used.
 include::properties/index.adoc[]
 include::guests/index.adoc[]
 include::blocks/index.adoc[]
+include::bookings/index.adoc[]

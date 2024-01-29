@@ -1,0 +1,20 @@
+=== Create a booking
+
+==== Parameters
+
+include::{snippets}/api/bookings/post/201/request-fields.adoc[]
+
+==== Returns
+
+Returns the Booking object after successful booking creation.
+Raises an error if create parameters are invalid (for example, request payload missing any field).
+
+==== Examples
+
+===== Request
+
+include::{snippets}/api/bookings/post/201/http-request.adoc[]
+
+===== Response
+
+include::{snippets}/api/bookings/post/201/http-response.adoc[]

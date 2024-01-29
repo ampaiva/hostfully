@@ -1,6 +1,7 @@
 package com.ampaiva.hostfully.integration;
 
 
+import com.ampaiva.hostfully.dto.GuestDto;
 import com.ampaiva.hostfully.dto.PropertyDto;
 import com.ampaiva.hostfully.utils.DtoMetadata;
 import com.ampaiva.hostfully.utils.DtoUtils;
@@ -101,6 +102,7 @@ public abstract class BaseIntegrationTest {
         RestAssured.basePath = contextPath;
 
         payloadBuilder.getPropertyId = this::getPropertyId;
+        payloadBuilder.getGuestId = this::getGuestId;
 
     }
 
@@ -122,6 +124,10 @@ public abstract class BaseIntegrationTest {
 
     private int getPropertyId() {
         return getId("properties", dtoUtils.getDtoMetadata(PropertyDto.class));
+    }
+
+    private int getGuestId() {
+        return getId("guests", dtoUtils.getDtoMetadata(GuestDto.class));
     }
 
     @Test

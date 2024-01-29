@@ -1,0 +1,29 @@
+=== Patch a Booking
+
+Patches the specified booking by setting the values of the parameters passed.
+Any parameters not provided will be left unchanged.
+For example, if you pass the address parameter, that becomes the bookings’ address.
+
+This request accepts mostly the same arguments as the booking creation call.
+
+==== Parameters
+
+include::{snippets}/api/bookings/patch/404/path-parameters.adoc[]
+
+==== Returns
+
+Returns no content in case of successful deletion.
+
+if there is no Booking with path parameter id, returns not found status with a proper error message in the response.
+
+==== Examples
+
+
+==== Request
+
+include::{snippets}/api/bookings/patch/404/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/api/bookings/patch/404/http-response.adoc[]
+

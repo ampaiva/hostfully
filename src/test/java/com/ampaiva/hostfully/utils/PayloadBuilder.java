@@ -15,13 +15,16 @@ public class PayloadBuilder {
     private final Map<String, Supplier<String>> fieldGenerators = new HashMap<>();
 
     public Supplier<Integer> getPropertyId;
+    public Supplier<Integer> getGuestId;
 
     public PayloadBuilder(Faker faker) {
         fieldGenerators.put("address", () -> faker.address().streetAddress());
         fieldGenerators.put("city", () -> faker.address().city());
+        fieldGenerators.put("canceled", () -> "true");
         fieldGenerators.put("country", () -> faker.address().country());
         fieldGenerators.put("email", () -> faker.internet().emailAddress());
         fieldGenerators.put("end", () -> formatDate(faker.date().future(10, 7, TimeUnit.DAYS)));
+        fieldGenerators.put("guest", this::getGuest);
         fieldGenerators.put("name", () -> faker.name().fullName());
         fieldGenerators.put("phone", () -> faker.phoneNumber().phoneNumber());
         fieldGenerators.put("property", this::getProperty);
@@ -36,6 +39,10 @@ public class PayloadBuilder {
 
     private String getProperty() {
         return "{\"id\": " + getPropertyId.get() + "}";
+    }
+
+    private String getGuest() {
+        return "{\"id\": " + getGuestId.get() + "}";
     }
 
     private boolean isNotId(DtoMetadata m) {
@@ -59,7 +66,7 @@ public class PayloadBuilder {
     }
 
     private String quoteValue(String fieldName, String value) {
-        if ("property".equals(fieldName))
+        if ("property".equals(fieldName) || "guest".equals(fieldName))
             return value;
         return "\"" + value + "\"";
     }

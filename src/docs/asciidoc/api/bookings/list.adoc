@@ -1,0 +1,22 @@
+=== List all bookings
+
+Returns a list of all bookings.
+The bookings are returned sorted by creation date, with the most recent bookings appearing first.
+
+==== Parameters
+
+No parameters.
+
+==== Returns
+
+Returns a list with all bookings.
+
+==== Example
+
+===== Request
+
+include::{snippets}/api/bookings/get-all/http-request.adoc[]
+
+===== Response
+
+include::{snippets}/api/bookings/get-all/http-response.adoc[]

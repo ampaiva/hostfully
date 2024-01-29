@@ -1,0 +1,32 @@
+=== Delete a Booking
+
+Permanently deletes a booking.
+It cannot be undone.
+
+==== Parameters
+
+include::{snippets}/api/bookings/delete/204/path-parameters.adoc[]
+
+==== Returns
+
+Returns no content in case of successful deletion.
+
+if there is no Booking with path parameter id, returns not found status with a proper error message in the response.
+
+==== Examples
+
+==== Request
+
+include::{snippets}/api/bookings/delete/204/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/api/bookings/delete/204/http-response.adoc[]
+
+==== Request
+
+include::{snippets}/api/bookings/delete/404/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/api/bookings/delete/404/http-response.adoc[]
