@@ -1,0 +1,22 @@
+=== List all blocks
+
+Returns a list of all blocks.
+The blocks are returned sorted by creation date, with the most recent blocks appearing first.
+
+==== Parameters
+
+No parameters.
+
+==== Returns
+
+Returns a list with all blocks.
+
+==== Example
+
+===== Request
+
+include::{snippets}/api/blocks/get-all/http-request.adoc[]
+
+===== Response
+
+include::{snippets}/api/blocks/get-all/http-response.adoc[]

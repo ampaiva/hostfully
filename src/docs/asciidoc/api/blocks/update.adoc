@@ -1,0 +1,36 @@
+=== Update a Block
+
+Updates the specified block by setting the values of the parameters passed.
+Any parameters not provided will be left unchanged.
+For example, if you pass the address parameter, that becomes the blocks’ address.
+
+This request accepts mostly the same arguments as the block creation call.
+
+==== Parameters
+
+include::{snippets}/api/blocks/put/200/path-parameters.adoc[]
+
+==== Returns
+
+Returns no content in case of successful deletion.
+
+if there is no Block with path parameter id, returns not found status with a proper error message in the response.
+
+==== Examples
+
+==== Request
+
+include::{snippets}/api/blocks/put/200/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/api/blocks/put/200/http-response.adoc[]
+
+==== Request
+
+include::{snippets}/api/blocks/put/404/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/api/blocks/put/404/http-response.adoc[]
+

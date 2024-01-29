@@ -1,0 +1,23 @@
+=== Retrieve a Block
+
+Retrieves a block object.
+
+==== Parameters
+
+include::{snippets}/api/blocks/get/200/path-parameters.adoc[]
+
+==== Returns
+
+Returns the Block object with the id.
+
+if there is no Block with path parameter id, returns not found status with a proper error message in the response.
+
+==== Examples
+
+===== Request
+
+include::{snippets}/api/blocks/get/200/http-request.adoc[]
+
+===== Response
+
+include::{snippets}/api/blocks/get/200/http-response.adoc[]

@@ -1,6 +1,7 @@
 package com.ampaiva.hostfully.integration;
 
 
+import com.ampaiva.hostfully.dto.PropertyDto;
 import com.ampaiva.hostfully.utils.DtoMetadata;
 import com.ampaiva.hostfully.utils.DtoUtils;
 import com.ampaiva.hostfully.utils.PayloadBuilder;
@@ -49,14 +50,19 @@ public abstract class BaseIntegrationTest {
 
     @LocalServerPort
     int randomServerPort;
+
     @Value("${server.servlet.context-path}")
     String contextPath;
+
     @Autowired
     DtoUtils dtoUtils;
+
     @Autowired
     Faker faker;
+
     @Autowired
     PayloadBuilder payloadBuilder;
+
     private List<DtoMetadata> listDtoMetadata;
 
     BaseIntegrationTest(Class<?> dtoClass, String dtoPlural, String dtoSingular) {
@@ -84,23 +90,24 @@ public abstract class BaseIntegrationTest {
         return dtoSingular.substring(0, 1).toUpperCase() + dtoSingular.substring(1);
     }
 
+
     @BeforeEach
     void setUp(RestDocumentationContextProvider restDocumentation) {
         this.spec = new RequestSpecBuilder()
                 .addFilter(documentationConfiguration(restDocumentation))
                 .build();
-    }
 
-    @BeforeEach
-    public void setUp() {
         RestAssured.port = randomServerPort;
         RestAssured.basePath = contextPath;
+
+        payloadBuilder.getPropertyId = this::getPropertyId;
+
     }
 
-    private int getId() {
+    private int getId(String dtoPlural, List<DtoMetadata> dtoMetadata) {
         return given()
                 .contentType(ContentType.JSON)
-                .body(payloadBuilder.generateCreatePayload(getMetadata()))
+                .body(payloadBuilder.generateCreatePayload(dtoMetadata))
                 .when()
                 .post(API + dtoPlural)
                 .then()
@@ -109,6 +116,13 @@ public abstract class BaseIntegrationTest {
                 .path("id");
     }
 
+    private int getId() {
+        return getId(dtoPlural, getMetadata());
+    }
+
+    private int getPropertyId() {
+        return getId("properties", dtoUtils.getDtoMetadata(PropertyDto.class));
+    }
 
     @Test
     public void testCreate() {
@@ -248,7 +262,7 @@ public abstract class BaseIntegrationTest {
         // Create
         int id = getId();
 
-        var fakeValues = payloadBuilder.generateCreateFakeValues(getMetadata());
+        var fakeValues = payloadBuilder.generateCreateFakeValuesFilterRelations(getMetadata());
 
         // Update
         given(this.spec)

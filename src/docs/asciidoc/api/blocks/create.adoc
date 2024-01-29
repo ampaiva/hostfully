@@ -1,0 +1,20 @@
+=== Create a block
+
+==== Parameters
+
+include::{snippets}/api/blocks/post/201/request-fields.adoc[]
+
+==== Returns
+
+Returns the Block object after successful block creation.
+Raises an error if create parameters are invalid (for example, request payload missing any field).
+
+==== Examples
+
+===== Request
+
+include::{snippets}/api/blocks/post/201/http-request.adoc[]
+
+===== Response
+
+include::{snippets}/api/blocks/post/201/http-response.adoc[]
