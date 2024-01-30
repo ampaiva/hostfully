@@ -18,3 +18,31 @@ include::{snippets}/api/blocks/post/201/http-request.adoc[]
 ===== Response
 
 include::{snippets}/api/blocks/post/201/http-response.adoc[]
+
+===== Request
+
+Booking conflict
+
+include::{snippets}/api/blocks/post/409/http-request.adoc[]
+
+===== Response
+
+include::{snippets}/api/blocks/post/409/http-response.adoc[]
+
+===== Request
+
+Block conflict
+
+include::{snippets}/api/blocks/post/409-2/http-request.adoc[]
+
+===== Response
+
+include::{snippets}/api/blocks/post/409-2/http-response.adoc[]
+
+===== Request
+
+include::{snippets}/api/blocks/post/400/http-request.adoc[]
+
+===== Response
+
+include::{snippets}/api/blocks/post/400/http-response.adoc[]

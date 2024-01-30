@@ -45,7 +45,7 @@ public class BookingIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    public void testInvalidDatesBooking() {
+    public void testInvalidBookingDates() {
 
         int propertyId = getPropertyId();
 
@@ -62,7 +62,7 @@ public class BookingIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    public void testConflictWithIntersectingBooking() {
+    public void testConflictWithExistingBooking() {
 
         int guestId = getGuestId();
 
