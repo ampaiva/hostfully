@@ -13,8 +13,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Release
-        uses: TheLogicalNights/GitHub-Actions-Release-Demo@v1
+      - name: GitHub Actions Release Demo
+        uses: TheLogicalNights/GitHub-Actions-Release-Demo@v2.0.23
+
         with:
           api_token: ${{ secrets.GITHUB_TOKEN }}
           tag_name: v1.0.0
