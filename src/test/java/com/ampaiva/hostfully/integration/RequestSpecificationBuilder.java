@@ -13,6 +13,7 @@ public class RequestSpecificationBuilder {
     private final RequestSpecification spec;
     private final OperationRequestPreprocessor preprocessor;
     private final StringBuilder identifierBuilder = new StringBuilder();
+
     private RequestSpecificationBuilder(RequestSpecification spec, OperationRequestPreprocessor preprocessor) {
         this.spec = spec;
         this.preprocessor = preprocessor;

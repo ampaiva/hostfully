@@ -57,6 +57,7 @@ tasks.named('test') {
 }
 
 tasks.named('asciidoctor') {
+	attributes 'kroki-server-url': 'https://kroki.io', 'imagesdir': 'images'
 	inputs.dir snippetsDir
 	configurations 'asciidoctorExt'
 	dependsOn test

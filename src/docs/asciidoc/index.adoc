@@ -24,6 +24,9 @@ This API allows the proper management of the before mentioned four entities: **P
 
 IMPORTANT: (*) The API was designed for internal usage only, mainly for Front-end integration or internal services.
 Therefore, entity IDs are returned in the GET, POST, PUT, and PATCH responses.
-If the API needs an extesion to be external exposed, it should be refactored to return UUID instead.
+If the API needs an extension to be external exposed, it should be refactored to return UUID instead.
+
+include::architecture/architecture.adoc[]
 
 include::api/api.adoc[]
+

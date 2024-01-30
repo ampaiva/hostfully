@@ -1,0 +1,138 @@
+POST
+
+[![](https://mermaid.ink/img/pako:eNp9k8FO4zAQhl_F8omVgLQpFMiBS0FaaRWBmh5zce1JYm1ie-1JpKrqu2MnJdC07MnO_N_8Gc_Ye8q1AJpQB_9aUBxeJCsta3JFiGEWJZeGKSQrwhxZ1RIUTqUsSBnYDuxZFtq6T9QKra7rcyLr-Ge65DBV06ClzJjzxDUYHdSwOona7nIVmNXN83OWkPe3bEMiZmS01fqvVKULIuMoO4ZAsgHOPBxqTMhvpkQNQ5oNrXB4khCo3t6vY5JjHVz9usB9I_0Bj6BAfcp66VhGxz2ZJgT1q0KJu3M2Hcj00xF6LoQETKHBLjTm-OcBPjUM8oCH3c1_fb_Yb5W-oL5oPK3UH-XnMsdWrsEZrRxM0LFFfTeH0a4BW6v8lC5mfA0g6939aDebdxLPZuTtz9Q9V_SaNmAbJoV_A_ug5xQraCCnid8KKFhbY05zdfAoa1FnO8VpgraFa9oa4X2OT4YmBavdGH0V4VaOwVozAf5zT3FnwoMrpUNvybUqZBnira19uEI0LomiIN-WEqt2e8t1EzkpKn_9q-5pGS3j5SOLF7B8WLD7xULw7fzpsYjv5oV4mM1jRg-HwwfcgE7k?type=png)](https://mermaid.live/edit#pako:eNp9k8FO4zAQhl_F8omVgLQpFMiBS0FaaRWBmh5zce1JYm1ie-1JpKrqu2MnJdC07MnO_N_8Gc_Ye8q1AJpQB_9aUBxeJCsta3JFiGEWJZeGKSQrwhxZ1RIUTqUsSBnYDuxZFtq6T9QKra7rcyLr-Ge65DBV06ClzJjzxDUYHdSwOona7nIVmNXN83OWkPe3bEMiZmS01fqvVKULIuMoO4ZAsgHOPBxqTMhvpkQNQ5oNrXB4khCo3t6vY5JjHVz9usB9I_0Bj6BAfcp66VhGxz2ZJgT1q0KJu3M2Hcj00xF6LoQETKHBLjTm-OcBPjUM8oCH3c1_fb_Yb5W-oL5oPK3UH-XnMsdWrsEZrRxM0LFFfTeH0a4BW6v8lC5mfA0g6939aDebdxLPZuTtz9Q9V_SaNmAbJoV_A_ug5xQraCCnid8KKFhbY05zdfAoa1FnO8VpgraFa9oa4X2OT4YmBavdGH0V4VaOwVozAf5zT3FnwoMrpUNvybUqZBnira19uEI0LomiIN-WEqt2e8t1EzkpKn_9q-5pGS3j5SOLF7B8WLD7xULw7fzpsYjv5oV4mM1jRg-HwwfcgE7k)
+
+GET ALL
+
+sequenceDiagram
+  participant C as Client
+  participant S as Server
+  participant Ctrl as Controller
+  participant Svc as Service
+  participant M as Mapper
+  participant Repo as Repository
+
+  C->>S: GET /api/bookings
+  activate S
+
+  S->>Ctrl: Handle GET request
+  activate Ctrl
+  Ctrl->>Ctrl: getAll()
+  activate Ctrl
+
+  Ctrl->>Svc: getAll()
+  activate Svc
+
+  Svc->>Repo: findAll()
+  activate Repo
+
+  Repo-->>Svc: entities[]
+  deactivate Repo
+
+  loop for entity: enities
+    Svc->>M: toDto(entity)
+    activate M
+
+    M->>Svc: dto
+    deactivate M
+  end
+
+  Svc-->>Ctrl: Response
+  deactivate Svc
+
+  Ctrl-->>S: Return response
+  deactivate Ctrl
+
+  S-->>C: HTTP 200 OK
+  deactivate S
+
+GET
+
+sequenceDiagram
+  participant C as Client
+  participant S as Server
+  participant Ctrl as Controller
+  participant Svc as Service
+  participant M as Mapper
+  participant Repo as Repository
+
+  C->>S: GET /api/bookings/1
+  activate S
+
+  S->>Ctrl: Handle GET request
+  activate Ctrl
+  Ctrl->>Ctrl: getById()
+  activate Ctrl
+
+  Ctrl->>Svc: getById()
+  activate Svc
+
+  Svc->>Repo: findById()
+  activate Repo
+
+  Repo-->>Svc: entities
+  deactivate Repo
+
+    Svc->>M: toDto(entity)
+    activate M
+
+    M->>Svc: dto
+    deactivate M
+
+  Svc-->>Ctrl: Response
+  deactivate Svc
+
+  Ctrl-->>S: Return response
+  deactivate Ctrl
+
+  S-->>C: HTTP 200 OK
+  deactivate S
+
+DELETE
+
+sequenceDiagram
+  participant C as Client
+  participant S as Server
+  participant Ctrl as Controller
+  participant Svc as Service
+  participant M as Mapper
+  participant Repo as Repository
+
+  C->>S: DELETE /api/bookings/1
+  activate S
+
+  S->>Ctrl: Handle DELETE request
+  activate Ctrl
+  Ctrl->>Ctrl: delete()
+  activate Ctrl
+
+  Ctrl->>Svc: delete(1)
+  activate Svc
+
+  Svc->>Repo: findById(1)
+  activate Repo
+
+  Repo-->>Svc: entity
+  deactivate Repo
+
+
+  Svc->>Repo: delete(entity)
+  activate Repo
+
+  Repo-->>Svc: entity
+  deactivate Repo
+
+    Svc->>M: toDto(entity)
+    activate M
+
+    M->>Svc: dto
+    deactivate M
+
+  Svc-->>Ctrl: Response
+  deactivate Svc
+
+  Ctrl-->>S: Return response
+  deactivate Ctrl
+
+  S-->>C: HTTP 204 OK
+  deactivate S
