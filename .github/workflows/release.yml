@@ -3,7 +3,7 @@ name: Release Workflow
 on:
   push:
     branches:
-      - gh-pages
+      - temp # gh-pages
 
 jobs:
   release:
