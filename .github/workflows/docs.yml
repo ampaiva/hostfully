@@ -20,7 +20,7 @@ jobs:
           distribution: 'adopt'
 
       - name: Build docs
-        run: build
+        run: ./gradlew asciidoc
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
