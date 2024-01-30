@@ -329,8 +329,6 @@ public abstract class BaseIntegrationTest {
                 .put(API + dtoPlural + "/{id}", id)
                 .then()
                 .statusCode(HttpStatus.OK.value());
-        //TODO: Implement the matcher
-        //.body("", hasItems(hasEntries(fakeValues)));
     }
 
 
@@ -374,8 +372,6 @@ public abstract class BaseIntegrationTest {
                 .patch(API + dtoPlural + "/{id}", id)
                 .then()
                 .statusCode(HttpStatus.OK.value());
-        //TODO: Implement the matcher
-        //.body("", hasItems(hasEntries(fakeValues)));
     }
 
     @Test
