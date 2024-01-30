@@ -16,7 +16,7 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v2
         with:
-          java-version: '11' # Use the Java version you need
+          java-version: '21'
           distribution: 'adopt'
 
       - name: Build docs
