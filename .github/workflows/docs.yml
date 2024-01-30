@@ -20,7 +20,7 @@ jobs:
           distribution: 'adopt'
 
       - name: Build docs
-        run: asciidoctor
+        run: build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
