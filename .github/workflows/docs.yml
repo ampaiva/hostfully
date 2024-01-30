@@ -20,10 +20,10 @@ jobs:
           distribution: 'adopt'
 
       - name: Build docs
-        run: ./gradlew clean # asciidoctor
+        run: asciidoctor
 
-#      - name: Deploy to GitHub Pages
-#        uses: peaceiris/actions-gh-pages@v3
-#        with:
-#          github_token: ${{ secrets.GITHUB_TOKEN }}
-#          publish_dir: build/docs/asciidoc
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: build/docs/asciidoc
