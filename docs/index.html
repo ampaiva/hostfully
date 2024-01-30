@@ -940,9 +940,9 @@ Raises an error if create parameters are invalid (for example, request payload m
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/properties HTTP/1.1
 Content-Type: application/json
 Host: com.ampaiva.hostfully
-Content-Length: 105
+Content-Length: 95
 
-{"address":"41755 Keturah Inlet","city":"Monahanfurt","state":"Oklahoma","country":"Antigua and Barbuda"}</code></pre>
+{"address":"250 Keith Greens","city":"East Darrick","state":"Mississippi","country":"Slovenia"}</code></pre>
 </div>
 </div>
 </div>
@@ -953,12 +953,12 @@ Content-Length: 105
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Tue, 30 Jan 2024 05:29:17 GMT
+Date: Tue, 30 Jan 2024 13:53:20 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 112
+Content-Length: 102
 
-{"id":3,"address":"41755 Keturah Inlet","city":"Monahanfurt","state":"Oklahoma","country":"Antigua and Barbuda"}</code></pre>
+{"id":3,"address":"250 Keith Greens","city":"East Darrick","state":"Mississippi","country":"Slovenia"}</code></pre>
 </div>
 </div>
 </div>
@@ -982,7 +982,7 @@ Content-Length: 2
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 101
-Date: Tue, 30 Jan 2024 05:29:17 GMT
+Date: Tue, 30 Jan 2024 13:53:20 GMT
 Connection: close
 
 not-null property references a null or transient value : com.ampaiva.hostfully.model.Property.address</code></pre>
@@ -1046,12 +1046,12 @@ Host: com.ampaiva.hostfully</code></pre>
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Tue, 30 Jan 2024 05:29:17 GMT
+Date: Tue, 30 Jan 2024 13:53:20 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 98
+Content-Length: 120
 
-{"id":2,"address":"539 Mitzie Flat","city":"Sawaynton","state":"Wisconsin","country":"Montserrat"}</code></pre>
+{"id":2,"address":"0974 Josette Ferry","city":"Lake Wilbertborough","state":"Arkansas","country":"United Arab Emirates"}</code></pre>
 </div>
 </div>
 </div>
@@ -1072,7 +1072,7 @@ Host: com.ampaiva.hostfully</code></pre>
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 35
-Date: Tue, 30 Jan 2024 05:29:17 GMT
+Date: Tue, 30 Jan 2024 13:53:20 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 
@@ -1119,12 +1119,12 @@ Host: com.ampaiva.hostfully</code></pre>
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Tue, 30 Jan 2024 05:29:17 GMT
+Date: Tue, 30 Jan 2024 13:53:20 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 433
+Content-Length: 431
 
-[{"id":1,"address":"0619 Cameron Ways","city":"Augustineport","state":"Oklahoma","country":"Cyprus"},{"id":2,"address":"539 Mitzie Flat","city":"Sawaynton","state":"Wisconsin","country":"Montserrat"},{"id":3,"address":"41755 Keturah Inlet","city":"Monahanfurt","state":"Oklahoma","country":"Antigua and Barbuda"},{"id":5,"address":"76351 Kris Land","city":"Stephanbury","state":"Kansas","country":"Lao People's Democratic Republic"}]</code></pre>
+[{"id":1,"address":"88929 Matt Trafficway","city":"Lake Darren","state":"Oklahoma","country":"Taiwan"},{"id":2,"address":"0974 Josette Ferry","city":"Lake Wilbertborough","state":"Arkansas","country":"United Arab Emirates"},{"id":3,"address":"250 Keith Greens","city":"East Darrick","state":"Mississippi","country":"Slovenia"},{"id":5,"address":"299 Conrad Prairie","city":"Lake Williammouth","state":"Hawaii","country":"Austria"}]</code></pre>
 </div>
 </div>
 </div>
@@ -1183,9 +1183,9 @@ Raises an error if create parameters are invalid (for example, request payload m
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /api/properties/6 HTTP/1.1
 Content-Type: application/json
 Host: com.ampaiva.hostfully
-Content-Length: 91
+Content-Length: 93
 
-{"address":"38744 Senger Mission","city":"DuBuqueside","state":"Wyoming","country":"China"}</code></pre>
+{"address":"507 Treutel Islands","city":"Port Jettie","state":"Colorado","country":"Romania"}</code></pre>
 </div>
 </div>
 </div>
@@ -1196,12 +1196,12 @@ Content-Length: 91
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Tue, 30 Jan 2024 05:29:17 GMT
+Date: Tue, 30 Jan 2024 13:53:20 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 98
+Content-Length: 100
 
-{"id":6,"address":"38744 Senger Mission","city":"DuBuqueside","state":"Wyoming","country":"China"}</code></pre>
+{"id":6,"address":"507 Treutel Islands","city":"Port Jettie","state":"Colorado","country":"Romania"}</code></pre>
 </div>
 </div>
 </div>
@@ -1212,9 +1212,9 @@ Content-Length: 98
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /api/properties/2147483647 HTTP/1.1
 Content-Type: application/json
 Host: com.ampaiva.hostfully
-Content-Length: 96
+Content-Length: 90
 
-{"address":"73488 Hoppe Stravenue","city":"South Vickey","state":"Tennessee","country":"Angola"}</code></pre>
+{"address":"85063 Brakus Meadows","city":"Corwinmouth","state":"Utah","country":"Lebanon"}</code></pre>
 </div>
 </div>
 </div>
@@ -1225,7 +1225,7 @@ Content-Length: 96
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 35
-Date: Tue, 30 Jan 2024 05:29:17 GMT
+Date: Tue, 30 Jan 2024 13:53:20 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 
@@ -1287,9 +1287,9 @@ Raises an error if create parameters are invalid (for example, request payload m
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/properties/1 HTTP/1.1
 Content-Type: application/json
 Host: com.ampaiva.hostfully
-Content-Length: 92
+Content-Length: 94
 
-{"address":"0619 Cameron Ways","city":"Augustineport","state":"Oklahoma","country":"Cyprus"}</code></pre>
+{"address":"88929 Matt Trafficway","city":"Lake Darren","state":"Oklahoma","country":"Taiwan"}</code></pre>
 </div>
 </div>
 </div>
@@ -1300,12 +1300,12 @@ Content-Length: 92
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Tue, 30 Jan 2024 05:29:17 GMT
+Date: Tue, 30 Jan 2024 13:53:20 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 99
+Content-Length: 101
 
-{"id":1,"address":"0619 Cameron Ways","city":"Augustineport","state":"Oklahoma","country":"Cyprus"}</code></pre>
+{"id":1,"address":"88929 Matt Trafficway","city":"Lake Darren","state":"Oklahoma","country":"Taiwan"}</code></pre>
 </div>
 </div>
 </div>
@@ -1316,9 +1316,9 @@ Content-Length: 99
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/properties/2147483647 HTTP/1.1
 Content-Type: application/json
 Host: com.ampaiva.hostfully
-Content-Length: 95
+Content-Length: 102
 
-{"address":"0489 Olson Shore","city":"East Carolynechester","state":"Nevada","country":"Ghana"}</code></pre>
+{"address":"806 Kreiger Ridges","city":"Lake Angeliquestad","state":"Washington","country":"Ethiopia"}</code></pre>
 </div>
 </div>
 </div>
@@ -1329,7 +1329,7 @@ Content-Length: 95
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 35
-Date: Tue, 30 Jan 2024 05:29:17 GMT
+Date: Tue, 30 Jan 2024 13:53:20 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 
@@ -1394,7 +1394,7 @@ Host: com.ampaiva.hostfully</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content
-Date: Tue, 30 Jan 2024 05:29:17 GMT
+Date: Tue, 30 Jan 2024 13:53:20 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive</code></pre>
 </div>
@@ -1417,7 +1417,7 @@ Host: com.ampaiva.hostfully</code></pre>
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 26
-Date: Tue, 30 Jan 2024 05:29:17 GMT
+Date: Tue, 30 Jan 2024 13:53:20 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 
@@ -1569,9 +1569,9 @@ Raises an error if create parameters are invalid (for example, request payload m
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/guests HTTP/1.1
 Content-Type: application/json
 Host: com.ampaiva.hostfully
-Content-Length: 178
+Content-Length: 173
 
-{"name":"Miss Kendrick Mayer","email":"dwight.walter@gmail.com","phone":"1-012-543-2201 x0717","address":"4946 Walton Lane","city":"South Frida","state":"Ohio","country":"Samoa"}</code></pre>
+{"name":"Ms. Carlota Feeney","email":"king.wyman@yahoo.com","phone":"645.804.1856 x064","address":"6558 Lowe Square","city":"East Dione","state":"Nevada","country":"Tuvalu"}</code></pre>
 </div>
 </div>
 </div>
@@ -1582,12 +1582,12 @@ Content-Length: 178
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Tue, 30 Jan 2024 05:29:15 GMT
+Date: Tue, 30 Jan 2024 13:53:18 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 185
+Content-Length: 180
 
-{"id":3,"name":"Miss Kendrick Mayer","email":"dwight.walter@gmail.com","phone":"1-012-543-2201 x0717","address":"4946 Walton Lane","city":"South Frida","state":"Ohio","country":"Samoa"}</code></pre>
+{"id":3,"name":"Ms. Carlota Feeney","email":"king.wyman@yahoo.com","phone":"645.804.1856 x064","address":"6558 Lowe Square","city":"East Dione","state":"Nevada","country":"Tuvalu"}</code></pre>
 </div>
 </div>
 </div>
@@ -1598,9 +1598,9 @@ Content-Length: 185
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/guests HTTP/1.1
 Content-Type: application/json
 Host: com.ampaiva.hostfully
-Content-Length: 24
+Content-Length: 26
 
-{"phone":"461.967.0209"}</code></pre>
+{"phone":"1-789-778-6466"}</code></pre>
 </div>
 </div>
 </div>
@@ -1611,7 +1611,7 @@ Content-Length: 24
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 98
-Date: Tue, 30 Jan 2024 05:29:15 GMT
+Date: Tue, 30 Jan 2024 13:53:18 GMT
 Connection: close
 
 not-null property references a null or transient value : com.ampaiva.hostfully.model.Guest.address</code></pre>
@@ -1675,12 +1675,12 @@ Host: com.ampaiva.hostfully</code></pre>
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Tue, 30 Jan 2024 05:29:15 GMT
+Date: Tue, 30 Jan 2024 13:53:18 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 201
+Content-Length: 210
 
-{"id":2,"name":"Abram Daniel","email":"refugio.walter@gmail.com","phone":"(680) 632-4635","address":"2309 Rebeca Crossroad","city":"Port Hanna","state":"Hawaii","country":"Falkland Islands (Malvinas)"}</code></pre>
+{"id":2,"name":"Theresa Raynor Sr.","email":"dylan.jacobson@gmail.com","phone":"735.975.2638 x51363","address":"74060 Laurence Viaduct","city":"North Georgiannaville","state":"Wyoming","country":"Sierra Leone"}</code></pre>
 </div>
 </div>
 </div>
@@ -1701,7 +1701,7 @@ Host: com.ampaiva.hostfully</code></pre>
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 35
-Date: Tue, 30 Jan 2024 05:29:14 GMT
+Date: Tue, 30 Jan 2024 13:53:18 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 
@@ -1748,12 +1748,12 @@ Host: com.ampaiva.hostfully</code></pre>
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Tue, 30 Jan 2024 05:29:15 GMT
+Date: Tue, 30 Jan 2024 13:53:18 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 807
+Content-Length: 756
 
-[{"id":1,"name":"Rudy Metz","email":"troy.bechtelar@hotmail.com","phone":"(585) 182-0195","address":"84789 Darryl Tunnel","city":"Binsport","state":"Nebraska","country":"Antarctica (the territory South of 60 deg S)"},{"id":2,"name":"Abram Daniel","email":"refugio.walter@gmail.com","phone":"(680) 632-4635","address":"2309 Rebeca Crossroad","city":"Port Hanna","state":"Hawaii","country":"Falkland Islands (Malvinas)"},{"id":3,"name":"Miss Kendrick Mayer","email":"dwight.walter@gmail.com","phone":"1-012-543-2201 x0717","address":"4946 Walton Lane","city":"South Frida","state":"Ohio","country":"Samoa"},{"id":5,"name":"Alvin King III","email":"jonas.champlin@gmail.com","phone":"1-696-653-8829","address":"81866 Klein Corner","city":"Hicklemouth","state":"Missouri","country":"Bouvet Island (Bouvetoya)"}]</code></pre>
+[{"id":1,"name":"William Herman","email":"kendall.ohara@gmail.com","phone":"776.482.1879 x336","address":"91558 Irvin Rapids","city":"Walshton","state":"New Jersey","country":"Yemen"},{"id":2,"name":"Theresa Raynor Sr.","email":"dylan.jacobson@gmail.com","phone":"735.975.2638 x51363","address":"74060 Laurence Viaduct","city":"North Georgiannaville","state":"Wyoming","country":"Sierra Leone"},{"id":3,"name":"Ms. Carlota Feeney","email":"king.wyman@yahoo.com","phone":"645.804.1856 x064","address":"6558 Lowe Square","city":"East Dione","state":"Nevada","country":"Tuvalu"},{"id":5,"name":"Jerrold Kemmer","email":"forrest.padberg@yahoo.com","phone":"070-287-2172","address":"443 Lee Well","city":"Greenholtmouth","state":"Louisiana","country":"France"}]</code></pre>
 </div>
 </div>
 </div>
@@ -1812,9 +1812,9 @@ Raises an error if create parameters are invalid (for example, request payload m
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /api/guests/6 HTTP/1.1
 Content-Type: application/json
 Host: com.ampaiva.hostfully
-Content-Length: 184
+Content-Length: 188
 
-{"name":"Tisha Miller Jr.","email":"davina.goldner@hotmail.com","phone":"750.723.5575","address":"054 Robel Meadow","city":"North Collette","state":"Minnesota","country":"Philippines"}</code></pre>
+{"name":"Dr. Alfred Olson","email":"quinn.hermiston@hotmail.com","phone":"400-376-1463 x3488","address":"0631 Wm Expressway","city":"East Danyel","state":"New Hampshire","country":"Yemen"}</code></pre>
 </div>
 </div>
 </div>
@@ -1825,12 +1825,12 @@ Content-Length: 184
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Tue, 30 Jan 2024 05:29:15 GMT
+Date: Tue, 30 Jan 2024 13:53:18 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 191
+Content-Length: 195
 
-{"id":6,"name":"Tisha Miller Jr.","email":"davina.goldner@hotmail.com","phone":"750.723.5575","address":"054 Robel Meadow","city":"North Collette","state":"Minnesota","country":"Philippines"}</code></pre>
+{"id":6,"name":"Dr. Alfred Olson","email":"quinn.hermiston@hotmail.com","phone":"400-376-1463 x3488","address":"0631 Wm Expressway","city":"East Danyel","state":"New Hampshire","country":"Yemen"}</code></pre>
 </div>
 </div>
 </div>
@@ -1841,9 +1841,9 @@ Content-Length: 191
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /api/guests/2147483647 HTTP/1.1
 Content-Type: application/json
 Host: com.ampaiva.hostfully
-Content-Length: 192
+Content-Length: 186
 
-{"name":"Lyman Connelly","email":"larry.hayes@gmail.com","phone":"942.005.6223 x3722","address":"1536 Daisy Junctions","city":"Alexanderport","state":"Vermont","country":"Antigua and Barbuda"}</code></pre>
+{"name":"Mrs. Stacy Bartoletti","email":"elsie.macgyver@yahoo.com","phone":"264-108-1208 x902","address":"662 Steuber Tunnel","city":"Peterville","state":"Missouri","country":"Zimbabwe"}</code></pre>
 </div>
 </div>
 </div>
@@ -1854,7 +1854,7 @@ Content-Length: 192
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 35
-Date: Tue, 30 Jan 2024 05:29:15 GMT
+Date: Tue, 30 Jan 2024 13:53:18 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 
@@ -1916,9 +1916,9 @@ Raises an error if create parameters are invalid (for example, request payload m
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/guests/1 HTTP/1.1
 Content-Type: application/json
 Host: com.ampaiva.hostfully
-Content-Length: 208
+Content-Length: 175
 
-{"name":"Rudy Metz","email":"troy.bechtelar@hotmail.com","phone":"(585) 182-0195","address":"84789 Darryl Tunnel","city":"Binsport","state":"Nebraska","country":"Antarctica (the territory South of 60 deg S)"}</code></pre>
+{"name":"William Herman","email":"kendall.ohara@gmail.com","phone":"776.482.1879 x336","address":"91558 Irvin Rapids","city":"Walshton","state":"New Jersey","country":"Yemen"}</code></pre>
 </div>
 </div>
 </div>
@@ -1929,12 +1929,12 @@ Content-Length: 208
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Tue, 30 Jan 2024 05:29:14 GMT
+Date: Tue, 30 Jan 2024 13:53:18 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 215
+Content-Length: 182
 
-{"id":1,"name":"Rudy Metz","email":"troy.bechtelar@hotmail.com","phone":"(585) 182-0195","address":"84789 Darryl Tunnel","city":"Binsport","state":"Nebraska","country":"Antarctica (the territory South of 60 deg S)"}</code></pre>
+{"id":1,"name":"William Herman","email":"kendall.ohara@gmail.com","phone":"776.482.1879 x336","address":"91558 Irvin Rapids","city":"Walshton","state":"New Jersey","country":"Yemen"}</code></pre>
 </div>
 </div>
 </div>
@@ -1945,9 +1945,9 @@ Content-Length: 215
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/guests/2147483647 HTTP/1.1
 Content-Type: application/json
 Host: com.ampaiva.hostfully
-Content-Length: 190
+Content-Length: 172
 
-{"name":"Arlinda Fritsch DVM","email":"bart.harber@hotmail.com","phone":"1-880-190-0786","address":"74209 Okuneva Locks","city":"Heathburgh","state":"Maine","country":"Syrian Arab Republic"}</code></pre>
+{"name":"Lianne Bradtke","email":"casey.auer@hotmail.com","phone":"380.328.2944 x062","address":"4301 Lea Mount","city":"Staciemouth","state":"New York","country":"Belize"}</code></pre>
 </div>
 </div>
 </div>
@@ -1958,7 +1958,7 @@ Content-Length: 190
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 35
-Date: Tue, 30 Jan 2024 05:29:14 GMT
+Date: Tue, 30 Jan 2024 13:53:18 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 
@@ -2023,7 +2023,7 @@ Host: com.ampaiva.hostfully</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content
-Date: Tue, 30 Jan 2024 05:29:15 GMT
+Date: Tue, 30 Jan 2024 13:53:18 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive</code></pre>
 </div>
@@ -2046,7 +2046,7 @@ Host: com.ampaiva.hostfully</code></pre>
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 26
-Date: Tue, 30 Jan 2024 05:29:15 GMT
+Date: Tue, 30 Jan 2024 13:53:18 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 
@@ -2063,6 +2063,14 @@ Object with id=4 not found</code></pre>
 <div class="paragraph">
 <p>This is an object that represents a block.
 The block prevents a property of being booked within a date range.</p>
+</div>
+<div class="paragraph">
+<p>It is not allowed to block if the date range intersects an existing block or an existing booking.
+See below the conflict examples.</p>
+</div>
+<div class="paragraph">
+<p>The start date must be before or equals the end date.
+See below a bad request example.</p>
 </div>
 <div class="sect2">
 <h3 id="_the_block_object"><a class="link" href="#_the_block_object">The Block object</a></h3>
@@ -2190,7 +2198,7 @@ Content-Type: application/json
 Host: com.ampaiva.hostfully
 Content-Length: 62
 
-{"start":"2024-02-04","end":"2024-02-06","property":{"id": 4}}</code></pre>
+{"start":"2024-02-04","end":"2024-02-07","property":{"id": 4}}</code></pre>
 </div>
 </div>
 </div>
@@ -2201,12 +2209,101 @@ Content-Length: 62
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Tue, 30 Jan 2024 05:29:10 GMT
+Date: Tue, 30 Jan 2024 13:53:16 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 160
+Content-Length: 158
 
-{"id":3,"start":"2024-02-04","end":"2024-02-06","property":{"id":4,"address":"855 Wintheiser Forks","city":"Soilafurt","state":"Maine","country":"Isle of Man"}}</code></pre>
+{"id":3,"start":"2024-02-04","end":"2024-02-07","property":{"id":4,"address":"9090 Olson Forest","city":"West Talitha","state":"Montana","country":"Iceland"}}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_request_24"><a class="link" href="#_request_24">Request</a></h5>
+<div class="paragraph">
+<p>Booking conflict</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/blocks HTTP/1.1
+Content-Type: application/json
+Host: com.ampaiva.hostfully
+Content-Length: 72
+
+{ "start": "2024-01-12", "end": "2024-01-14", "property": { "id": 12 } }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_response_24"><a class="link" href="#_response_24">Response</a></h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 409 Conflict
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 70
+Date: Tue, 30 Jan 2024 13:53:16 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+There are bookings for this property between 2024-01-12 and 2024-01-14</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_request_25"><a class="link" href="#_request_25">Request</a></h5>
+<div class="paragraph">
+<p>Block conflict</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/blocks HTTP/1.1
+Content-Type: application/json
+Host: com.ampaiva.hostfully
+Content-Length: 72
+
+{ "start": "2024-01-12", "end": "2024-01-14", "property": { "id": 10 } }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_response_25"><a class="link" href="#_response_25">Response</a></h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 409 Conflict
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 68
+Date: Tue, 30 Jan 2024 13:53:16 GMT
+Keep-Alive: timeout=60
+Connection: keep-alive
+
+There are blocks for this property between 2024-01-12 and 2024-01-14</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_request_26"><a class="link" href="#_request_26">Request</a></h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/blocks HTTP/1.1
+Content-Type: application/json
+Host: com.ampaiva.hostfully
+Content-Length: 72
+
+{ "start": "2024-01-19", "end": "2024-01-18", "property": { "id": 11 } }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_response_26"><a class="link" href="#_response_26">Response</a></h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 77
+Date: Tue, 30 Jan 2024 13:53:16 GMT
+Connection: close
+
+Start date (2024-01-19) should be less than or equal to end date (2024-01-18)</code></pre>
 </div>
 </div>
 </div>
@@ -2251,7 +2348,7 @@ Content-Length: 160
 <div class="sect3">
 <h4 id="_examples_12"><a class="link" href="#_examples_12">Examples</a></h4>
 <div class="sect4">
-<h5 id="_request_24"><a class="link" href="#_request_24">Request</a></h5>
+<h5 id="_request_27"><a class="link" href="#_request_27">Request</a></h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/blocks/2 HTTP/1.1
@@ -2261,18 +2358,18 @@ Host: com.ampaiva.hostfully</code></pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_response_24"><a class="link" href="#_response_24">Response</a></h5>
+<h5 id="_response_27"><a class="link" href="#_response_27">Response</a></h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Tue, 30 Jan 2024 05:29:10 GMT
+Date: Tue, 30 Jan 2024 13:53:15 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 161
+Content-Length: 169
 
-{"id":2,"start":"2024-02-03","end":"2024-02-06","property":{"id":3,"address":"57447 Stroman Drives","city":"Bradtketon","state":"Texas","country":"Puerto Rico"}}</code></pre>
+{"id":2,"start":"2024-02-04","end":"2024-02-07","property":{"id":3,"address":"4526 Schultz Plains","city":"South Peggy","state":"North Dakota","country":"Turkmenistan"}}</code></pre>
 </div>
 </div>
 </div>
@@ -2299,7 +2396,7 @@ The blocks are returned sorted by creation date, with the most recent blocks app
 <div class="sect3">
 <h4 id="_example_3"><a class="link" href="#_example_3">Example</a></h4>
 <div class="sect4">
-<h5 id="_request_25"><a class="link" href="#_request_25">Request</a></h5>
+<h5 id="_request_28"><a class="link" href="#_request_28">Request</a></h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/blocks HTTP/1.1
@@ -2309,18 +2406,18 @@ Host: com.ampaiva.hostfully</code></pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_response_25"><a class="link" href="#_response_25">Response</a></h5>
+<h5 id="_response_28"><a class="link" href="#_response_28">Response</a></h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Tue, 30 Jan 2024 05:29:10 GMT
+Date: Tue, 30 Jan 2024 13:53:16 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 636
+Content-Length: 663
 
-[{"id":1,"start":"2024-02-04","end":"2024-02-07","property":{"id":2,"address":"3149 Rau Passage","city":"Reinaldoville","state":"Idaho","country":"Latvia"}},{"id":2,"start":"2024-02-03","end":"2024-02-06","property":{"id":3,"address":"57447 Stroman Drives","city":"Bradtketon","state":"Texas","country":"Puerto Rico"}},{"id":3,"start":"2024-02-04","end":"2024-02-06","property":{"id":4,"address":"855 Wintheiser Forks","city":"Soilafurt","state":"Maine","country":"Isle of Man"}},{"id":5,"start":"2024-02-05","end":"2024-02-07","property":{"id":6,"address":"360 Wyman Mall","city":"East Tamica","state":"Missouri","country":"Denmark"}}]</code></pre>
+[{"id":1,"start":"2024-02-05","end":"2024-02-06","property":{"id":2,"address":"345 Palma Forest","city":"Emanuelfort","state":"Oregon","country":"Virgin Islands, U.S."}},{"id":2,"start":"2024-02-04","end":"2024-02-07","property":{"id":3,"address":"4526 Schultz Plains","city":"South Peggy","state":"North Dakota","country":"Turkmenistan"}},{"id":3,"start":"2024-02-04","end":"2024-02-07","property":{"id":4,"address":"9090 Olson Forest","city":"West Talitha","state":"Montana","country":"Iceland"}},{"id":5,"start":"2024-02-03","end":"2024-02-08","property":{"id":6,"address":"219 Fermin Parkway","city":"Lawerencemouth","state":"Tennessee","country":"Iceland"}}]</code></pre>
 </div>
 </div>
 </div>
@@ -2373,7 +2470,7 @@ Raises an error if create parameters are invalid (for example, request payload m
 
 </div>
 <div class="sect3">
-<h4 id="_request_26"><a class="link" href="#_request_26">Request</a></h4>
+<h4 id="_request_29"><a class="link" href="#_request_29">Request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /api/blocks/6 HTTP/1.1
@@ -2381,28 +2478,28 @@ Content-Type: application/json
 Host: com.ampaiva.hostfully
 Content-Length: 62
 
-{"start":"2024-02-04","end":"2024-02-06","property":{"id": 9}}</code></pre>
+{"start":"2024-02-04","end":"2024-02-08","property":{"id": 9}}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_26"><a class="link" href="#_response_26">Response</a></h4>
+<h4 id="_response_29"><a class="link" href="#_response_29">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Tue, 30 Jan 2024 05:29:10 GMT
+Date: Tue, 30 Jan 2024 13:53:16 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 Content-Length: 123
 
-{"id":6,"start":"2024-02-04","end":"2024-02-06","property":{"id":9,"address":null,"city":null,"state":null,"country":null}}</code></pre>
+{"id":6,"start":"2024-02-04","end":"2024-02-08","property":{"id":9,"address":null,"city":null,"state":null,"country":null}}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_request_27"><a class="link" href="#_request_27">Request</a></h4>
+<h4 id="_request_30"><a class="link" href="#_request_30">Request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /api/blocks/2147483647 HTTP/1.1
@@ -2410,18 +2507,18 @@ Content-Type: application/json
 Host: com.ampaiva.hostfully
 Content-Length: 62
 
-{"start":"2024-02-04","end":"2024-02-06","property":{"id": 7}}</code></pre>
+{"start":"2024-02-04","end":"2024-02-08","property":{"id": 7}}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_27"><a class="link" href="#_response_27">Response</a></h4>
+<h4 id="_response_30"><a class="link" href="#_response_30">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 35
-Date: Tue, 30 Jan 2024 05:29:10 GMT
+Date: Tue, 30 Jan 2024 13:53:16 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 
@@ -2477,7 +2574,7 @@ Raises an error if create parameters are invalid (for example, request payload m
 
 </div>
 <div class="sect3">
-<h4 id="_request_28"><a class="link" href="#_request_28">Request</a></h4>
+<h4 id="_request_31"><a class="link" href="#_request_31">Request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/blocks/1 HTTP/1.1
@@ -2485,28 +2582,28 @@ Content-Type: application/json
 Host: com.ampaiva.hostfully
 Content-Length: 41
 
-{"start":"2024-02-04","end":"2024-02-07"}</code></pre>
+{"start":"2024-02-05","end":"2024-02-06"}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_28"><a class="link" href="#_response_28">Response</a></h4>
+<h4 id="_response_31"><a class="link" href="#_response_31">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Tue, 30 Jan 2024 05:29:10 GMT
+Date: Tue, 30 Jan 2024 13:53:15 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 155
+Content-Length: 168
 
-{"id":1,"start":"2024-02-04","end":"2024-02-07","property":{"id":2,"address":"3149 Rau Passage","city":"Reinaldoville","state":"Idaho","country":"Latvia"}}</code></pre>
+{"id":1,"start":"2024-02-05","end":"2024-02-06","property":{"id":2,"address":"345 Palma Forest","city":"Emanuelfort","state":"Oregon","country":"Virgin Islands, U.S."}}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_request_29"><a class="link" href="#_request_29">Request</a></h4>
+<h4 id="_request_32"><a class="link" href="#_request_32">Request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/blocks/2147483647 HTTP/1.1
@@ -2514,18 +2611,18 @@ Content-Type: application/json
 Host: com.ampaiva.hostfully
 Content-Length: 62
 
-{"start":"2024-02-03","end":"2024-02-08","property":{"id": 1}}</code></pre>
+{"start":"2024-02-04","end":"2024-02-07","property":{"id": 1}}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_29"><a class="link" href="#_response_29">Response</a></h4>
+<h4 id="_response_32"><a class="link" href="#_response_32">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 35
-Date: Tue, 30 Jan 2024 05:29:10 GMT
+Date: Tue, 30 Jan 2024 13:53:15 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 
@@ -2576,7 +2673,7 @@ It cannot be undone.</p>
 
 </div>
 <div class="sect3">
-<h4 id="_request_30"><a class="link" href="#_request_30">Request</a></h4>
+<h4 id="_request_33"><a class="link" href="#_request_33">Request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/blocks/4 HTTP/1.1
@@ -2586,18 +2683,18 @@ Host: com.ampaiva.hostfully</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_30"><a class="link" href="#_response_30">Response</a></h4>
+<h4 id="_response_33"><a class="link" href="#_response_33">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content
-Date: Tue, 30 Jan 2024 05:29:10 GMT
+Date: Tue, 30 Jan 2024 13:53:16 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_request_31"><a class="link" href="#_request_31">Request</a></h4>
+<h4 id="_request_34"><a class="link" href="#_request_34">Request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/blocks/4 HTTP/1.1
@@ -2607,13 +2704,13 @@ Host: com.ampaiva.hostfully</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_31"><a class="link" href="#_response_31">Response</a></h4>
+<h4 id="_response_34"><a class="link" href="#_response_34">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 26
-Date: Tue, 30 Jan 2024 05:29:10 GMT
+Date: Tue, 30 Jan 2024 13:53:16 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 
@@ -2817,7 +2914,7 @@ Raises an error if create parameters are invalid (for example, request payload m
 <div class="sect3">
 <h4 id="_examples_16"><a class="link" href="#_examples_16">Examples</a></h4>
 <div class="sect4">
-<h5 id="_request_32"><a class="link" href="#_request_32">Request</a></h5>
+<h5 id="_request_35"><a class="link" href="#_request_35">Request</a></h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/bookings HTTP/1.1
@@ -2825,28 +2922,28 @@ Content-Type: application/json
 Host: com.ampaiva.hostfully
 Content-Length: 80
 
-{"start":"2024-02-03","end":"2024-02-08","guest":{"id": 4},"property":{"id": 4}}</code></pre>
+{"start":"2024-02-04","end":"2024-02-07","guest":{"id": 4},"property":{"id": 4}}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_response_32"><a class="link" href="#_response_32">Response</a></h5>
+<h5 id="_response_35"><a class="link" href="#_response_35">Response</a></h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Tue, 30 Jan 2024 05:29:12 GMT
+Date: Tue, 30 Jan 2024 13:53:17 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 385
+Content-Length: 370
 
-{"id":3,"start":"2024-02-03","end":"2024-02-08","canceled":false,"guest":{"id":4,"name":"Edgardo Farrell Jr.","email":"bradley.stehr@hotmail.com","phone":"995.618.5986","address":"99545 Tory Streets","city":"Port Heribertoport","state":"Maryland","country":"Uruguay"},"property":{"id":4,"address":"42827 Brittny Ville","city":"South Synthiaton","state":"Kentucky","country":"Romania"}}</code></pre>
+{"id":3,"start":"2024-02-04","end":"2024-02-07","canceled":false,"guest":{"id":4,"name":"Gregorio Spinka","email":"columbus.schultz@gmail.com","phone":"274.309.7313","address":"3551 Stracke Manor","city":"Powlowskiland","state":"Alabama","country":"Saint Helena"},"property":{"id":4,"address":"197 Noel Knolls","city":"North Albertina","state":"Utah","country":"Macao"}}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_request_33"><a class="link" href="#_request_33">Request</a></h5>
+<h5 id="_request_36"><a class="link" href="#_request_36">Request</a></h5>
 <div class="paragraph">
 <p>Booking conflict</p>
 </div>
@@ -2857,18 +2954,18 @@ Content-Type: application/json
 Host: com.ampaiva.hostfully
 Content-Length: 95
 
-{ "start": "2024-01-12", "end": "2024-01-14", "guest": { "id": 11 }, "property": { "id": 11 } }</code></pre>
+{ "start": "2024-01-12", "end": "2024-01-14", "guest": { "id": 16 }, "property": { "id": 14 } }</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_response_33"><a class="link" href="#_response_33">Response</a></h5>
+<h5 id="_response_36"><a class="link" href="#_response_36">Response</a></h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 409 Conflict
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 70
-Date: Tue, 30 Jan 2024 05:29:13 GMT
+Date: Tue, 30 Jan 2024 13:53:18 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 
@@ -2877,7 +2974,7 @@ There are bookings for this property between 2024-01-12 and 2024-01-14</code></p
 </div>
 </div>
 <div class="sect4">
-<h5 id="_request_34"><a class="link" href="#_request_34">Request</a></h5>
+<h5 id="_request_37"><a class="link" href="#_request_37">Request</a></h5>
 <div class="paragraph">
 <p>Block conflict</p>
 </div>
@@ -2888,18 +2985,18 @@ Content-Type: application/json
 Host: com.ampaiva.hostfully
 Content-Length: 95
 
-{ "start": "2024-01-12", "end": "2024-01-14", "guest": { "id": 12 }, "property": { "id": 12 } }</code></pre>
+{ "start": "2024-01-12", "end": "2024-01-14", "guest": { "id": 10 }, "property": { "id": 10 } }</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_response_34"><a class="link" href="#_response_34">Response</a></h5>
+<h5 id="_response_37"><a class="link" href="#_response_37">Response</a></h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 409 Conflict
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 68
-Date: Tue, 30 Jan 2024 05:29:13 GMT
+Date: Tue, 30 Jan 2024 13:53:17 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 
@@ -2908,7 +3005,7 @@ There are blocks for this property between 2024-01-12 and 2024-01-14</code></pre
 </div>
 </div>
 <div class="sect4">
-<h5 id="_request_35"><a class="link" href="#_request_35">Request</a></h5>
+<h5 id="_request_38"><a class="link" href="#_request_38">Request</a></h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/bookings HTTP/1.1
@@ -2916,18 +3013,18 @@ Content-Type: application/json
 Host: com.ampaiva.hostfully
 Content-Length: 95
 
-{ "start": "2024-01-19", "end": "2024-01-18", "guest": { "id": 10 }, "property": { "id": 10 } }</code></pre>
+{ "start": "2024-01-19", "end": "2024-01-18", "guest": { "id": 12 }, "property": { "id": 12 } }</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_response_35"><a class="link" href="#_response_35">Response</a></h5>
+<h5 id="_response_38"><a class="link" href="#_response_38">Response</a></h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 77
-Date: Tue, 30 Jan 2024 05:29:13 GMT
+Date: Tue, 30 Jan 2024 13:53:17 GMT
 Connection: close
 
 Start date (2024-01-19) should be less than or equal to end date (2024-01-18)</code></pre>
@@ -2975,7 +3072,7 @@ Start date (2024-01-19) should be less than or equal to end date (2024-01-18)</c
 <div class="sect3">
 <h4 id="_examples_17"><a class="link" href="#_examples_17">Examples</a></h4>
 <div class="sect4">
-<h5 id="_request_36"><a class="link" href="#_request_36">Request</a></h5>
+<h5 id="_request_39"><a class="link" href="#_request_39">Request</a></h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/bookings/2 HTTP/1.1
@@ -2985,18 +3082,18 @@ Host: com.ampaiva.hostfully</code></pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_response_36"><a class="link" href="#_response_36">Response</a></h5>
+<h5 id="_response_39"><a class="link" href="#_response_39">Response</a></h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Tue, 30 Jan 2024 05:29:12 GMT
+Date: Tue, 30 Jan 2024 13:53:17 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 378
+Content-Length: 385
 
-{"id":2,"start":"2024-02-03","end":"2024-02-07","canceled":true,"guest":{"id":3,"name":"Aiko Mayert","email":"corrie.keeling@yahoo.com","phone":"326.831.6107 x1319","address":"522 Sharron Underpass","city":"Port Claytonton","state":"Georgia","country":"Bulgaria"},"property":{"id":3,"address":"785 Blanda Spurs","city":"Wisozkmouth","state":"Utah","country":"Saint Barthelemy"}}</code></pre>
+{"id":2,"start":"2024-02-03","end":"2024-02-06","canceled":true,"guest":{"id":3,"name":"Jamison Denesik","email":"darcey.dubuque@hotmail.com","phone":"820.249.0032 x13659","address":"5890 Emmy Walk","city":"Quyenfort","state":"South Carolina","country":"Bolivia"},"property":{"id":3,"address":"32391 Georgianne Pike","city":"North Joey","state":"North Carolina","country":"Gibraltar"}}</code></pre>
 </div>
 </div>
 </div>
@@ -3023,7 +3120,7 @@ The bookings are returned sorted by creation date, with the most recent bookings
 <div class="sect3">
 <h4 id="_example_4"><a class="link" href="#_example_4">Example</a></h4>
 <div class="sect4">
-<h5 id="_request_37"><a class="link" href="#_request_37">Request</a></h5>
+<h5 id="_request_40"><a class="link" href="#_request_40">Request</a></h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/bookings HTTP/1.1
@@ -3033,18 +3130,18 @@ Host: com.ampaiva.hostfully</code></pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_response_37"><a class="link" href="#_response_37">Response</a></h5>
+<h5 id="_response_40"><a class="link" href="#_response_40">Response</a></h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Tue, 30 Jan 2024 05:29:13 GMT
+Date: Tue, 30 Jan 2024 13:53:17 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 1517
+Content-Length: 1496
 
-[{"id":1,"start":"2024-02-03","end":"2024-02-07","canceled":true,"guest":{"id":2,"name":"Gabriel O'Conner","email":"brunilda.schroeder@gmail.com","phone":"1-288-667-8168","address":"5167 Bechtelar Stravenue","city":"West Robertburgh","state":"North Dakota","country":"Morocco"},"property":{"id":2,"address":"2918 Emile Run","city":"Lefflerville","state":"Utah","country":"Indonesia"}},{"id":2,"start":"2024-02-03","end":"2024-02-07","canceled":true,"guest":{"id":3,"name":"Aiko Mayert","email":"corrie.keeling@yahoo.com","phone":"326.831.6107 x1319","address":"522 Sharron Underpass","city":"Port Claytonton","state":"Georgia","country":"Bulgaria"},"property":{"id":3,"address":"785 Blanda Spurs","city":"Wisozkmouth","state":"Utah","country":"Saint Barthelemy"}},{"id":3,"start":"2024-02-03","end":"2024-02-08","canceled":false,"guest":{"id":4,"name":"Edgardo Farrell Jr.","email":"bradley.stehr@hotmail.com","phone":"995.618.5986","address":"99545 Tory Streets","city":"Port Heribertoport","state":"Maryland","country":"Uruguay"},"property":{"id":4,"address":"42827 Brittny Ville","city":"South Synthiaton","state":"Kentucky","country":"Romania"}},{"id":5,"start":"2024-02-04","end":"2024-02-08","canceled":true,"guest":{"id":6,"name":"Crissy Ratke","email":"lucius.johnson@yahoo.com","phone":"1-076-999-8853","address":"6495 Terra Summit","city":"Gaylordton","state":"Utah","country":"Nauru"},"property":{"id":6,"address":"2719 Wiley Trail","city":"Heathcoteborough","state":"Massachusetts","country":"Honduras"}}]</code></pre>
+[{"id":1,"start":"2024-02-04","end":"2024-02-06","canceled":true,"guest":{"id":2,"name":"Miss Kent Block","email":"wen.oberbrunner@yahoo.com","phone":"(202) 764-4930 x130","address":"7081 Boyle Coves","city":"Hellermouth","state":"Maine","country":"Hong Kong"},"property":{"id":2,"address":"9616 Hoppe Views","city":"Marksview","state":"Ohio","country":"Malta"}},{"id":2,"start":"2024-02-03","end":"2024-02-06","canceled":true,"guest":{"id":3,"name":"Jamison Denesik","email":"darcey.dubuque@hotmail.com","phone":"820.249.0032 x13659","address":"5890 Emmy Walk","city":"Quyenfort","state":"South Carolina","country":"Bolivia"},"property":{"id":3,"address":"32391 Georgianne Pike","city":"North Joey","state":"North Carolina","country":"Gibraltar"}},{"id":3,"start":"2024-02-04","end":"2024-02-07","canceled":false,"guest":{"id":4,"name":"Gregorio Spinka","email":"columbus.schultz@gmail.com","phone":"274.309.7313","address":"3551 Stracke Manor","city":"Powlowskiland","state":"Alabama","country":"Saint Helena"},"property":{"id":4,"address":"197 Noel Knolls","city":"North Albertina","state":"Utah","country":"Macao"}},{"id":5,"start":"2024-02-03","end":"2024-02-07","canceled":true,"guest":{"id":6,"name":"Shanita Waelchi","email":"maggie.collier@hotmail.com","phone":"1-715-882-6834 x0277","address":"19181 Shields Route","city":"Junieside","state":"Alaska","country":"South Africa"},"property":{"id":6,"address":"615 Hermina Brooks","city":"Mireillemouth","state":"Oregon","country":"Chad"}}]</code></pre>
 </div>
 </div>
 </div>
@@ -3097,7 +3194,7 @@ Raises an error if create parameters are invalid (for example, request payload m
 
 </div>
 <div class="sect3">
-<h4 id="_request_38"><a class="link" href="#_request_38">Request</a></h4>
+<h4 id="_request_41"><a class="link" href="#_request_41">Request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /api/bookings/6 HTTP/1.1
@@ -3105,28 +3202,28 @@ Content-Type: application/json
 Host: com.ampaiva.hostfully
 Content-Length: 98
 
-{"start":"2024-02-04","end":"2024-02-06","canceled":"true","guest":{"id": 9},"property":{"id": 9}}</code></pre>
+{"start":"2024-02-03","end":"2024-02-09","canceled":"true","guest":{"id": 9},"property":{"id": 9}}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_38"><a class="link" href="#_response_38">Response</a></h4>
+<h4 id="_response_41"><a class="link" href="#_response_41">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Tue, 30 Jan 2024 05:29:13 GMT
+Date: Tue, 30 Jan 2024 13:53:17 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 Content-Length: 249
 
-{"id":6,"start":"2024-02-04","end":"2024-02-06","canceled":true,"guest":{"id":9,"name":null,"email":null,"phone":null,"address":null,"city":null,"state":null,"country":null},"property":{"id":9,"address":null,"city":null,"state":null,"country":null}}</code></pre>
+{"id":6,"start":"2024-02-03","end":"2024-02-09","canceled":true,"guest":{"id":9,"name":null,"email":null,"phone":null,"address":null,"city":null,"state":null,"country":null},"property":{"id":9,"address":null,"city":null,"state":null,"country":null}}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_request_39"><a class="link" href="#_request_39">Request</a></h4>
+<h4 id="_request_42"><a class="link" href="#_request_42">Request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /api/bookings/2147483647 HTTP/1.1
@@ -3134,18 +3231,18 @@ Content-Type: application/json
 Host: com.ampaiva.hostfully
 Content-Length: 80
 
-{"start":"2024-02-04","end":"2024-02-06","guest":{"id": 7},"property":{"id": 7}}</code></pre>
+{"start":"2024-02-03","end":"2024-02-06","guest":{"id": 7},"property":{"id": 7}}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_39"><a class="link" href="#_response_39">Response</a></h4>
+<h4 id="_response_42"><a class="link" href="#_response_42">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 35
-Date: Tue, 30 Jan 2024 05:29:13 GMT
+Date: Tue, 30 Jan 2024 13:53:17 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 
@@ -3201,7 +3298,7 @@ Raises an error if create parameters are invalid (for example, request payload m
 
 </div>
 <div class="sect3">
-<h4 id="_request_40"><a class="link" href="#_request_40">Request</a></h4>
+<h4 id="_request_43"><a class="link" href="#_request_43">Request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/bookings/1 HTTP/1.1
@@ -3209,28 +3306,28 @@ Content-Type: application/json
 Host: com.ampaiva.hostfully
 Content-Length: 59
 
-{"start":"2024-02-03","end":"2024-02-07","canceled":"true"}</code></pre>
+{"start":"2024-02-04","end":"2024-02-06","canceled":"true"}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_40"><a class="link" href="#_response_40">Response</a></h4>
+<h4 id="_response_43"><a class="link" href="#_response_43">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Tue, 30 Jan 2024 05:29:12 GMT
+Date: Tue, 30 Jan 2024 13:53:17 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 383
+Content-Length: 361
 
-{"id":1,"start":"2024-02-03","end":"2024-02-07","canceled":true,"guest":{"id":2,"name":"Gabriel O'Conner","email":"brunilda.schroeder@gmail.com","phone":"1-288-667-8168","address":"5167 Bechtelar Stravenue","city":"West Robertburgh","state":"North Dakota","country":"Morocco"},"property":{"id":2,"address":"2918 Emile Run","city":"Lefflerville","state":"Utah","country":"Indonesia"}}</code></pre>
+{"id":1,"start":"2024-02-04","end":"2024-02-06","canceled":true,"guest":{"id":2,"name":"Miss Kent Block","email":"wen.oberbrunner@yahoo.com","phone":"(202) 764-4930 x130","address":"7081 Boyle Coves","city":"Hellermouth","state":"Maine","country":"Hong Kong"},"property":{"id":2,"address":"9616 Hoppe Views","city":"Marksview","state":"Ohio","country":"Malta"}}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_request_41"><a class="link" href="#_request_41">Request</a></h4>
+<h4 id="_request_44"><a class="link" href="#_request_44">Request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/bookings/2147483647 HTTP/1.1
@@ -3238,18 +3335,18 @@ Content-Type: application/json
 Host: com.ampaiva.hostfully
 Content-Length: 80
 
-{"start":"2024-02-03","end":"2024-02-08","guest":{"id": 1},"property":{"id": 1}}</code></pre>
+{"start":"2024-02-05","end":"2024-02-08","guest":{"id": 1},"property":{"id": 1}}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_41"><a class="link" href="#_response_41">Response</a></h4>
+<h4 id="_response_44"><a class="link" href="#_response_44">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 35
-Date: Tue, 30 Jan 2024 05:29:12 GMT
+Date: Tue, 30 Jan 2024 13:53:17 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 
@@ -3300,7 +3397,7 @@ It cannot be undone.</p>
 
 </div>
 <div class="sect3">
-<h4 id="_request_42"><a class="link" href="#_request_42">Request</a></h4>
+<h4 id="_request_45"><a class="link" href="#_request_45">Request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/bookings/4 HTTP/1.1
@@ -3310,18 +3407,18 @@ Host: com.ampaiva.hostfully</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_42"><a class="link" href="#_response_42">Response</a></h4>
+<h4 id="_response_45"><a class="link" href="#_response_45">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content
-Date: Tue, 30 Jan 2024 05:29:13 GMT
+Date: Tue, 30 Jan 2024 13:53:17 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_request_43"><a class="link" href="#_request_43">Request</a></h4>
+<h4 id="_request_46"><a class="link" href="#_request_46">Request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/bookings/4 HTTP/1.1
@@ -3331,13 +3428,13 @@ Host: com.ampaiva.hostfully</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_43"><a class="link" href="#_response_43">Response</a></h4>
+<h4 id="_response_46"><a class="link" href="#_response_46">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 26
-Date: Tue, 30 Jan 2024 05:29:13 GMT
+Date: Tue, 30 Jan 2024 13:53:17 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
 
@@ -3387,28 +3484,28 @@ Object with id=4 not found</code></pre>
 
 </div>
 <div class="sect3">
-<h4 id="_request_44"><a class="link" href="#_request_44">Request</a></h4>
+<h4 id="_request_47"><a class="link" href="#_request_47">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/bookings/8/cancel HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/bookings/7/cancel HTTP/1.1
 Content-Type: application/json
 Host: com.ampaiva.hostfully</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_44"><a class="link" href="#_response_44">Response</a></h4>
+<h4 id="_response_47"><a class="link" href="#_response_47">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Tue, 30 Jan 2024 05:29:13 GMT
+Date: Tue, 30 Jan 2024 13:53:17 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 400
+Content-Length: 375
 
-{"id":8,"start":"2024-02-04","end":"2024-02-06","canceled":true,"guest":{"id":13,"name":"Yuki Bayer","email":"magen.turcotte@gmail.com","phone":"1-994-842-6383","address":"51521 Bruna Valleys","city":"North Timothy","state":"Connecticut","country":"South Georgia and the South Sandwich Islands"},"property":{"id":13,"address":"1453 Gerry Walks","city":"Hauckbury","state":"Hawaii","country":"Macao"}}</code></pre>
+{"id":7,"start":"2024-02-05","end":"2024-02-07","canceled":true,"guest":{"id":11,"name":"Miranda Borer DVM","email":"maryln.douglas@gmail.com","phone":"203-515-8354 x560","address":"213 Orval Trail","city":"Monahanmouth","state":"Georgia","country":"Colombia"},"property":{"id":11,"address":"88609 Murphy Plaza","city":"North Cedric","state":"New York","country":"Ethiopia"}}</code></pre>
 </div>
 </div>
 </div>
@@ -3456,28 +3553,28 @@ If there is a booking or a block intersecting with the booking, an error is rais
 
 </div>
 <div class="sect3">
-<h4 id="_request_45"><a class="link" href="#_request_45">Request</a></h4>
+<h4 id="_request_48"><a class="link" href="#_request_48">Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/bookings/8/rebook HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/bookings/7/rebook HTTP/1.1
 Content-Type: application/json
 Host: com.ampaiva.hostfully</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_45"><a class="link" href="#_response_45">Response</a></h4>
+<h4 id="_response_48"><a class="link" href="#_response_48">Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
 Transfer-Encoding: chunked
-Date: Tue, 30 Jan 2024 05:29:13 GMT
+Date: Tue, 30 Jan 2024 13:53:17 GMT
 Keep-Alive: timeout=60
 Connection: keep-alive
-Content-Length: 401
+Content-Length: 376
 
-{"id":8,"start":"2024-02-04","end":"2024-02-06","canceled":false,"guest":{"id":13,"name":"Yuki Bayer","email":"magen.turcotte@gmail.com","phone":"1-994-842-6383","address":"51521 Bruna Valleys","city":"North Timothy","state":"Connecticut","country":"South Georgia and the South Sandwich Islands"},"property":{"id":13,"address":"1453 Gerry Walks","city":"Hauckbury","state":"Hawaii","country":"Macao"}}</code></pre>
+{"id":7,"start":"2024-02-05","end":"2024-02-07","canceled":false,"guest":{"id":11,"name":"Miranda Borer DVM","email":"maryln.douglas@gmail.com","phone":"203-515-8354 x560","address":"213 Orval Trail","city":"Monahanmouth","state":"Georgia","country":"Colombia"},"property":{"id":11,"address":"88609 Murphy Plaza","city":"North Cedric","state":"New York","country":"Ethiopia"}}</code></pre>
 </div>
 </div>
 </div>

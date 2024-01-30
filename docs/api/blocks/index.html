@@ -447,6 +447,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>This is an object that represents a block.
 The block prevents a property of being booked within a date range.</p>
 </div>
+<div class="paragraph">
+<p>It is not allowed to block if the date range intersects an existing block or an existing booking.
+See below the conflict examples.</p>
+</div>
+<div class="paragraph">
+<p>The start date must be before or equals the end date.
+See below a bad request example.</p>
+</div>
 <div class="sect2">
 <h3 id="_the_block_object">The Block object</h3>
 <div class="sect3">
@@ -538,7 +546,7 @@ The block prevents a property of being booked within a date range.</p>
 <div id="footer">
 <div id="footer-text">
 Version 1.0.0<br>
-Last updated 2024-01-30 02:25:44 -0300
+Last updated 2024-01-30 10:49:31 -0300
 </div>
 </div>
 </body>

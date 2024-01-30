@@ -70,3 +70,11 @@ bootJar {
 		into 'static/docs'
 	}
 }
+
+tasks.register('copyDocs', Copy) {
+	from 'build/docs/asciidoc'
+	into 'docs'
+}
+
+build.finalizedBy(copyDocs)
+
