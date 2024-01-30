@@ -1,0 +1,28 @@
+=== Rebooking a Booking
+
+Bookings can be rebooked via rebook endpoint.
+However, the same constraints apply.
+If there is a booking or a block intersecting with the booking, an error is raised.
+
+==== Parameters
+
+include::{snippets}/api/bookings/patch/200/rebook/path-parameters.adoc[]
+
+==== Returns
+
+Returns the Booking object after successful rebook.
+
+if there is no Booking with path parameter id, returns not found status with a proper error message in the response.
+
+==== Examples
+
+==== Request
+
+include::{snippets}/api/bookings/patch/200/rebook/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/api/bookings/patch/200/rebook/http-response.adoc[]
+
+
+

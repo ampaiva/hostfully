@@ -1,0 +1,32 @@
+=== Delete a Guest
+
+Permanently deletes a guest.
+It cannot be undone.
+
+==== Parameters
+
+include::{snippets}/api/guests/delete/204/path-parameters.adoc[]
+
+==== Returns
+
+Returns no content in case of successful deletion.
+
+if there is no Guest with path parameter id, returns not found status with a proper error message in the response.
+
+==== Examples
+
+==== Request
+
+include::{snippets}/api/guests/delete/204/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/api/guests/delete/204/http-response.adoc[]
+
+==== Request
+
+include::{snippets}/api/guests/delete/404/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/api/guests/delete/404/http-response.adoc[]

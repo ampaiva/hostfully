@@ -1,0 +1,31 @@
+=== Retrieve a Property
+
+Retrieves a property object.
+
+==== Parameters
+
+include::{snippets}/api/properties/get/200/path-parameters.adoc[]
+
+==== Returns
+
+Returns the Property object with the id.
+
+if there is no Property with path parameter id, returns not found status with a proper error message in the response.
+
+==== Examples
+
+===== Request
+
+include::{snippets}/api/properties/get/200/http-request.adoc[]
+
+===== Response
+
+include::{snippets}/api/properties/get/200/http-response.adoc[]
+
+===== Request
+
+include::{snippets}/api/properties/get/404/http-request.adoc[]
+
+===== Response
+
+include::{snippets}/api/properties/get/404/http-response.adoc[]

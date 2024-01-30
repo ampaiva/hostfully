@@ -1,0 +1,37 @@
+=== Patch a Guest
+
+Patches the specified guest by setting the values of the parameters passed.
+Any parameters not provided will be left unchanged.
+For example, if you pass the address parameter, that becomes the guests’ address.
+
+This request accepts mostly the same arguments as the guest creation call.
+
+==== Parameters
+
+include::{snippets}/api/guests/patch/200/path-parameters.adoc[]
+
+==== Returns
+
+Returns the Guest object after successful patch.
+Raises an error if create parameters are invalid (for example, request payload missing any field).
+
+if there is no Guest with path parameter id, returns not found status with a proper error message in the response.
+
+==== Examples
+
+==== Request
+
+include::{snippets}/api/guests/patch/200/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/api/guests/patch/200/http-response.adoc[]
+
+==== Request
+
+include::{snippets}/api/guests/patch/404/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/api/guests/patch/404/http-response.adoc[]
+

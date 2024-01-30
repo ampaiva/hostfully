@@ -1,8 +1,9 @@
 package com.ampaiva.hostfully.service;
 
-import com.ampaiva.hostfully.exception.PatchException;
+import com.ampaiva.hostfully.exception.BadRequestException;
 import com.ampaiva.hostfully.mapper.BaseMapper;
 import org.springframework.beans.BeanUtils;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +31,8 @@ public abstract class BaseService<T, U> {
     private static Object getConvertedValue(Field field, Object fieldValue) {
         if (field.getType() == LocalDate.class && fieldValue != null)
             fieldValue = LocalDate.parse(fieldValue.toString());
+        else if (field.getType() == Boolean.class && fieldValue != null)
+            fieldValue = Boolean.parseBoolean(fieldValue.toString());
         return fieldValue;
     }
 
@@ -44,7 +47,11 @@ public abstract class BaseService<T, U> {
     }
 
     public T save(T dto) {
-        return toDto(entityRepository.save(toEntity(dto)));
+        try {
+            return toDto(entityRepository.save(toEntity(dto)));
+        } catch (DataIntegrityViolationException ex) {
+            throw new BadRequestException(ex.getMessage());
+        }
     }
 
     public Optional<T> update(Long id, T updatedDto) {
@@ -67,7 +74,7 @@ public abstract class BaseService<T, U> {
         try {
             entity = applyPatch(entity, updates);
         } catch (Exception e) {
-            throw new PatchException("Error applying patch: " + e.getMessage());
+            throw new BadRequestException("Error applying patch: " + e.getMessage());
         }
         return entity;
     }
@@ -81,7 +88,7 @@ public abstract class BaseService<T, U> {
                 if (value != null)
                     updates.put(field.getName(), value);
             } catch (IllegalAccessException e) {
-                throw new PatchException("Error applying patch: " + e.getMessage());
+                throw new BadRequestException("Error applying patch: " + e.getMessage());
             }
         }
         return applyPatch(entity, updates);
@@ -101,7 +108,7 @@ public abstract class BaseService<T, U> {
 
                 field.set(entity, fieldValue);
             } catch (NoSuchFieldException | IllegalAccessException e) {
-                throw new PatchException("Error applying patch: " + e.getMessage());
+                throw new BadRequestException("Error applying patch: " + e.getMessage());
             }
         }
         return entity;

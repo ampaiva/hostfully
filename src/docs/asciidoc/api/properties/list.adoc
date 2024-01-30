@@ -1,0 +1,22 @@
+=== List all properties
+
+Returns a list of all properties.
+The properties are returned sorted by creation date, with the most recent properties appearing first.
+
+==== Parameters
+
+No parameters.
+
+==== Returns
+
+Returns a list with all properties.
+
+==== Example
+
+===== Request
+
+include::{snippets}/api/properties/get-all/http-request.adoc[]
+
+===== Response
+
+include::{snippets}/api/properties/get-all/http-response.adoc[]

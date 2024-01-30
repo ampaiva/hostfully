@@ -1,0 +1,24 @@
+=== Retrieve a Booking
+
+Retrieves a booking object.
+
+==== Parameters
+
+include::{snippets}/api/bookings/get/200/path-parameters.adoc[]
+
+==== Returns
+
+Returns the Booking object with the id.
+
+if there is no Booking with path parameter id, returns not found status with a proper error message in the response.
+
+==== Examples
+
+===== Request
+
+include::{snippets}/api/bookings/get/200/http-request.adoc[]
+
+===== Response
+
+include::{snippets}/api/bookings/get/200/http-response.adoc[]
+

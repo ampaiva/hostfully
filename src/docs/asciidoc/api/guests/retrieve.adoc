@@ -1,0 +1,31 @@
+=== Retrieve a Guest
+
+Retrieves a guest object.
+
+==== Parameters
+
+include::{snippets}/api/guests/get/200/path-parameters.adoc[]
+
+==== Returns
+
+Returns the Guest object with the id.
+
+if there is no Guest with path parameter id, returns not found status with a proper error message in the response.
+
+==== Examples
+
+===== Request
+
+include::{snippets}/api/guests/get/200/http-request.adoc[]
+
+===== Response
+
+include::{snippets}/api/guests/get/200/http-response.adoc[]
+
+===== Request
+
+include::{snippets}/api/guests/get/404/http-request.adoc[]
+
+===== Response
+
+include::{snippets}/api/guests/get/404/http-response.adoc[]

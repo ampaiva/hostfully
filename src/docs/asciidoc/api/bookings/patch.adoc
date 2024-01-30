@@ -1,0 +1,37 @@
+=== Patch a Booking
+
+Patches the specified booking by setting the values of the parameters passed.
+Any parameters not provided will be left unchanged.
+For example, if you pass the start parameter, that becomes the bookings’ start date.
+
+This request accepts mostly the same arguments as the booking creation call.
+
+==== Parameters
+
+include::{snippets}/api/bookings/patch/404/path-parameters.adoc[]
+
+==== Returns
+
+Returns the Booking object after successful booking patch.
+Raises an error if create parameters are invalid (for example, request payload missing any field).
+
+if there is no Booking with path parameter id, returns not found status with a proper error message in the response.
+
+==== Examples
+
+==== Request
+
+include::{snippets}/api/bookings/patch/200/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/api/bookings/patch/200/http-response.adoc[]
+
+==== Request
+
+include::{snippets}/api/bookings/patch/404/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/api/bookings/patch/404/http-response.adoc[]
+

@@ -1,0 +1,22 @@
+== Guest
+
+This is an object that represents a guest.
+The guest books a property.
+
+=== The Guest object
+
+==== Attributes
+
+include::{snippets}/api/guests/get/200/response-fields.adoc[]
+
+include::create.adoc[]
+
+include::retrieve.adoc[]
+
+include::list.adoc[]
+
+include::update.adoc[]
+
+include::patch.adoc[]
+
+include::delete.adoc[]

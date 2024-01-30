@@ -1,0 +1,28 @@
+=== Create a property
+
+==== Parameters
+
+include::{snippets}/api/properties/post/201/request-fields.adoc[]
+
+==== Returns
+
+Returns the Property object after successful property creation.
+Raises an error if create parameters are invalid (for example, request payload missing any field).
+
+==== Examples
+
+===== Request
+
+include::{snippets}/api/properties/post/201/http-request.adoc[]
+
+===== Response
+
+include::{snippets}/api/properties/post/201/http-response.adoc[]
+
+===== Request
+
+include::{snippets}/api/properties/post/400/http-request.adoc[]
+
+===== Response
+
+include::{snippets}/api/properties/post/400/http-response.adoc[]

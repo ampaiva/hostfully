@@ -1,6 +1,7 @@
 package com.ampaiva.hostfully.controller;
 
 import com.ampaiva.hostfully.service.DtoService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,15 +18,20 @@ public abstract class BaseController<T> {
     }
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<T>> getAll() {
         return new ResponseEntity<>(dtoService.getAll(), HttpStatus.OK);
     }
 
+    @Operation(summary = "Get an entity by its id")
     @GetMapping("/{id}")
-    public ResponseEntity<T> getById(@PathVariable Long id) {
-        Optional<T> optionalEntity = dtoService.getById(id);
-        return optionalEntity.map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<?> getById(@PathVariable Long id) {
+        Optional<T> optionalDto = dtoService.getById(id);
+        if (optionalDto.isEmpty()) {
+            return new ResponseEntity<>("Object with id=" + id + " not found", HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(optionalDto, HttpStatus.OK);
     }
 
     @PostMapping
@@ -37,7 +43,7 @@ public abstract class BaseController<T> {
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody T updatedEntity) {
         Optional<T> optionalDto = dtoService.update(id, updatedEntity);
         if (optionalDto.isEmpty()) {
-            return new ResponseEntity<>("id not found: " + id, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Object with id=" + id + " not found", HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<>(optionalDto, HttpStatus.OK);
@@ -48,7 +54,7 @@ public abstract class BaseController<T> {
         Optional<T> optionalDto = dtoService.patch(id, updates);
 
         if (optionalDto.isEmpty()) {
-            return new ResponseEntity<>("id not found: " + id, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Object with id=" + id + " not found", HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<>(optionalDto.get(), HttpStatus.OK);
@@ -57,7 +63,8 @@ public abstract class BaseController<T> {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         Optional<T> deletedDto = dtoService.delete(id);
-        return deletedDto.map(t -> new ResponseEntity<>(HttpStatus.NO_CONTENT)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return deletedDto.map(t -> new ResponseEntity<>(HttpStatus.NO_CONTENT))
+                .orElseGet(() -> new ResponseEntity<>("Object with id=" + id + " not found", HttpStatus.NOT_FOUND));
 
     }
 }

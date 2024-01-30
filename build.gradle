@@ -2,10 +2,12 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.1'
 	id 'io.spring.dependency-management' version '1.1.4'
+	id "org.asciidoctor.jvm.convert" version "4.0.1"
+	id 'com.github.ben-manes.versions' version '0.51.0'
 }
 
 group = 'com.ampaiva'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0'
 
 java {
 	sourceCompatibility = '21'
@@ -15,19 +17,56 @@ repositories {
 	mavenCentral()
 }
 
+configurations {
+	asciidoctorExt
+}
+
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+	asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor:3.0.1'
+
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.2.2'
+	implementation 'org.springframework.boot:spring-boot-starter-web:3.2.2'
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'
-	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
-	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.junit.jupiter:junit-jupiter-api'
-	testImplementation 'io.rest-assured:rest-assured'
-	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
-	runtimeOnly 'com.h2database:h2'
+	implementation 'org.mapstruct:mapstruct:1.6.0.Beta1'
+
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.0.Beta1'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test:3.2.2'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.1'
+	testImplementation 'io.rest-assured:rest-assured:5.4.0'
+	testImplementation ('com.github.javafaker:javafaker:1.0.2') {
+		exclude group: 'org.yaml', module: 'snakeyaml'
+	}
+	testImplementation 'org.yaml:snakeyaml:2.2'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.1'
+	testImplementation 'org.springframework.restdocs:spring-restdocs-restassured:3.0.1'
+
+	runtimeOnly 'com.h2database:h2:2.2.224'
+}
+
+ext {
+	snippetsDir = file('build/generated-snippets')
+}
+
+test {
+	outputs.dir snippetsDir
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+tasks.named('asciidoctor') {
+	attributes 'kroki-server-url': 'https://kroki.io', 'imagesdir': 'images'
+	inputs.dir snippetsDir
+	configurations 'asciidoctorExt'
+	dependsOn test
+	asciidoctor.baseDirFollowsSourceDir()
+}
+
+bootJar {
+	dependsOn asciidoctor
+	from ("${asciidoctor.outputDir}/html5") {
+		into 'static/docs'
+	}
 }

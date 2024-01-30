@@ -1,7 +1,7 @@
 package com.ampaiva.hostfully.service;
 
 import com.ampaiva.hostfully.dto.BlockDto;
-import com.ampaiva.hostfully.exception.PatchException;
+import com.ampaiva.hostfully.exception.BadRequestException;
 import com.ampaiva.hostfully.mapper.BlockMapper;
 import com.ampaiva.hostfully.model.Block;
 import com.ampaiva.hostfully.repository.BlockRepository;
@@ -28,6 +28,6 @@ public class BlockService extends BaseService<BlockDto, Block> implements DtoSer
 
     private void checkValidDates(Block block) {
         if (block.getStart().isAfter(block.getEnd()))
-            throw new PatchException("Start date (" + block.getStart() + ") should be less than or equal to end date (" + block.getEnd() + ")");
+            throw new BadRequestException("Start date (" + block.getStart() + ") should be less than or equal to end date (" + block.getEnd() + ")");
     }
 }
